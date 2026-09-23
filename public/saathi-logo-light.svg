@@ -1,0 +1,55 @@
+<svg width="400" height="280" viewBox="0 0 400 280" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="grad-r-front" x1="180" y1="30" x2="330" y2="160" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#8C4D68" />
+      <stop offset="35%" stop-color="#783F57" />
+      <stop offset="70%" stop-color="#5B3A4A" />
+      <stop offset="100%" stop-color="#432635" />
+    </linearGradient>
+
+    <linearGradient id="grad-l-face" x1="60" y1="25" x2="195" y2="165" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#432439" />
+      <stop offset="40%" stop-color="#563047" />
+      <stop offset="80%" stop-color="#48273B" />
+      <stop offset="100%" stop-color="#301726" />
+    </linearGradient>
+
+    <linearGradient id="grad-s-inner" x1="90" y1="30" x2="175" y2="130" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#2D1525" />
+      <stop offset="50%" stop-color="#401F34" />
+      <stop offset="100%" stop-color="#250F1E" />
+    </linearGradient>
+
+    <linearGradient id="grad-r-inner" x1="210" y1="50" x2="310" y2="145" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#482637" />
+      <stop offset="50%" stop-color="#361A28" />
+      <stop offset="100%" stop-color="#4D2B3B" />
+    </linearGradient>
+
+    <radialGradient id="grad-dot" cx="32%" cy="30%" r="70%">
+      <stop offset="0%" stop-color="#A85C7E" />
+      <stop offset="40%" stop-color="#7E425D" />
+      <stop offset="80%" stop-color="#5B3A4A" />
+      <stop offset="100%" stop-color="#2F1624" />
+    </radialGradient>
+
+    <filter id="shadow" x="-10%" y="-10%" width="125%" height="125%">
+      <feDropShadow dx="0" dy="5" stdDeviation="6" flood-color="#4E354F" flood-opacity="0.2" />
+    </filter>
+  </defs>
+
+  <!-- 3D Ribbon Mark -->
+  <g transform="translate(60, 10)" filter="url(#shadow)">
+    <path d="M98 42C74 38 48 50 38 72C28 94 36 122 58 136C78 148 108 146 128 126C112 110 96 86 98 58C98 52 98 46 98 42Z" fill="url(#grad-s-inner)" />
+    <path d="M136 116C156 136 186 148 214 144C242 140 264 118 262 90C260 68 244 52 222 46C200 40 178 52 164 68C182 82 206 96 226 96C236 96 244 88 242 78C240 70 232 64 222 64C204 64 186 78 174 94C162 108 148 114 136 116Z" fill="url(#grad-r-inner)" />
+    <path d="M102 38C82 34 54 44 40 64C24 88 28 120 48 138C68 156 102 158 126 140C144 126 158 106 172 88C154 74 136 58 118 46C112 42 108 40 102 38ZM74 62C88 64 100 74 106 88C110 98 106 110 98 118C88 128 72 128 60 120C48 112 44 96 50 82C54 72 64 64 74 62Z" fill="url(#grad-l-face)" />
+    <path d="M112 146C134 136 154 116 174 92C192 70 212 50 238 52C264 54 280 78 276 104C270 132 244 154 214 156C182 158 152 144 130 124C148 106 170 86 198 72C214 64 232 64 244 74C254 84 252 98 244 108C232 122 210 128 194 124C176 120 156 108 140 92L112 146Z" fill="url(#grad-r-front)" />
+    <circle cx="242" cy="36" r="19" fill="url(#grad-dot)" />
+  </g>
+
+  <!-- Typography: Saathi -->
+  <text x="200" y="222" text-anchor="middle" font-family="'Plus Jakarta Sans', system-ui, sans-serif" font-size="52" font-weight="800" fill="#4E354F" letter-spacing="-0.03em">Saathi</text>
+
+  <!-- Tagline: SIMPLER 2 GATHER -->
+  <text x="200" y="254" text-anchor="middle" font-family="'Plus Jakarta Sans', system-ui, sans-serif" font-size="14" font-weight="600" fill="#5B3A4A" letter-spacing="0.35em">SIMPLER 2 GATHER</text>
+</svg>
