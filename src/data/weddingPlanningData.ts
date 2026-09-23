@@ -28,6 +28,7 @@ export interface WeddingSubCategory {
   description: string;
   badge?: string;
   isActive: boolean;
+  itemCount?: string;
   image?: string;
   imageUrl?: string;
 }
@@ -65,19 +66,14 @@ export const MASTER_WEDDINGS_CATEGORY: MasterCategory = {
       id: 'sub-photography',
       code: 'A2',
       name: 'Photography & Videography',
-<<<<<<< HEAD
       title: 'Photography & Videography',
       slug: 'photography',
-      description: 'Candid visual storytellers, cinematic documentary teams, drone pilots, and heirloom portraiture specialists.',
-      badge: 'Coming Soon',
-      isActive: false,
-      image: unsplash('photo-1537633552985-df8429e8048b', 800),
-      imageUrl: unsplash('photo-1537633552985-df8429e8048b', 800),
-=======
       description: 'Professional photography services to preserve your most memorable moments.',
+      badge: 'Active Flow',
       isActive: true,
       itemCount: '3 Curated Formats',
->>>>>>> b486629 (Updated photography section and website content)
+      image: unsplash('photo-1537633552985-df8429e8048b', 800),
+      imageUrl: unsplash('photo-1537633552985-df8429e8048b', 800),
     },
     {
       id: 'sub-entertainment',
@@ -86,7 +82,9 @@ export const MASTER_WEDDINGS_CATEGORY: MasterCategory = {
       title: 'Music & Entertainment',
       slug: 'entertainment',
       description: 'Concert DJs, live Sufi & Bollywood ensembles, folk troupes, celebrity anchors, and concert sound production.',
+      badge: 'Active Flow',
       isActive: true,
+      itemCount: '6 Dedicated Services',
       image: unsplash('photo-1470225620780-dba8ba36b745', 800),
       imageUrl: unsplash('photo-1470225620780-dba8ba36b745', 800),
     },
@@ -353,10 +351,241 @@ export const A3_SERVICES: ServiceItem[] = [
 ];
 
 /* ==========================================================================
-   A3 MOCK PROFESSIONALS (18 total: 3 per service by primary offering)
+   MASTER MOCK PROFESSIONALS (A1 Active Professionals + A3 Mock Demo Data)
    ========================================================================== */
 export const MOCK_PROFESSIONALS: Professional[] = [
-  /* ------------------------------- DJs ------------------------------- */
+  /* ----------------------- A1 Wedding Planners ----------------------- */
+  {
+    id: 'pro-aura-weddings',
+    name: 'Kavya & Rohan Singhal',
+    brandName: 'Aura Bespoke Wedding Curators',
+    tagline: 'Curating royal, heritage, and destination weddings with architectural precision.',
+    businessType: 'Boutique Planning Studio',
+    avatarUrl: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=400&q=80',
+    coverImageUrl: 'https://images.unsplash.com/photo-1519741497674-611481863552?auto=format&fit=crop&w=1200&q=80',
+    location: 'Mumbai & Udaipur',
+    citiesServed: ['Mumbai', 'Udaipur', 'Jaipur', 'Goa', 'Delhi NCR'],
+    rating: 4.9,
+    reviewCount: 48,
+    experienceYears: 9,
+    eventsCompleted: 110,
+    startingPrice: '₹5,00,000',
+    priceRange: '₹5L - ₹20L',
+    priceModel: 'Comprehensive Project Fee',
+    servicesOffered: ['wedding-planning', 'event-planning', 'wedding-coordination'],
+    about:
+      'Founded by design-forward duo Kavya and Rohan Singhal, Aura Bespoke has orchestrated some of western India’s most visually breathtaking heritage and palace weddings. We combine royal Rajasthani hospitality traditions with Swiss-like backstage logistical precision to ensure your once-in-a-lifetime milestone is as effortless as it is unforgettable.',
+    specialties: ['Palace Destination Weddings', 'Royal Rajasthani Hospitality', 'Luxury Sangeet Productions', 'Multi-day Logistics'],
+    availability: 'Accepting bookings for Q4 2026 & 2027 seasons',
+    verified: true,
+    portfolio: [
+      {
+        id: 'port-1',
+        title: 'The Jagmandir Royal Union',
+        category: 'Destination Wedding',
+        location: 'Udaipur, Rajasthan',
+        imageUrl: 'https://images.unsplash.com/photo-1519741497674-611481863552?auto=format&fit=crop&w=800&q=80',
+        description: 'A 3-day imperial celebration on Lake Pichola featuring 280 international guests, custom floating mandap, and royal hospitality protocol.',
+        tags: ['Heritage', 'Destination', 'Palace Wedding'],
+      },
+      {
+        id: 'port-2',
+        title: 'Sunset Beach Symphony',
+        category: 'Coastal Wedding',
+        location: 'South Goa',
+        imageUrl: 'https://images.unsplash.com/photo-1465495976277-4387d4b0b4c6?auto=format&fit=crop&w=800&q=80',
+        description: 'Earthy bohemian coastal wedding with sustainable botanical installations, sundowner sangeet, and private fireworks permit coordination.',
+        tags: ['Beach', 'Sundowner', 'Bohemian'],
+      },
+      {
+        id: 'port-3',
+        title: 'Classical Haveli Sangeet Extravaganza',
+        category: 'Pre-Wedding Event',
+        location: 'Jaipur, Rajasthan',
+        imageUrl: 'https://images.unsplash.com/photo-1511285560929-80b456fea0bc?auto=format&fit=crop&w=800&q=80',
+        description: 'Immersive Sufi sangeet with custom glass stage over heritage stepwell, candlelit courtyard illumination, and Michelin-curated dining flow.',
+        tags: ['Sangeet', 'Heritage', 'Lighting Design'],
+      },
+    ],
+    reviews: [
+      {
+        id: 'rev-1',
+        authorName: 'Priyamvada & Kabir Mehta',
+        rating: 5,
+        date: 'February 2026',
+        eventType: '3-Day Destination Wedding in Udaipur',
+        location: 'Mumbai, India',
+        comment:
+          'Kavya and Rohan made our wedding feel like poetry in motion. Handling 300 guests across 4 separate heritage venues with zero delays is pure magic. Their vendor connections saved us both immense time and stress.',
+        verified: true,
+      },
+      {
+        id: 'rev-2',
+        authorName: 'Dr. Siddharth Nambiar',
+        rating: 4.8,
+        date: 'January 2026',
+        eventType: 'Sangeet & Reception',
+        location: 'Delhi, India',
+        comment:
+          'Superb attention to detail on sound cues and stage transitions. The team was calm, composed, and extremely courteous with all elder family members throughout.',
+        verified: true,
+      },
+    ],
+  },
+  {
+    id: 'pro-vedic-heritage',
+    name: 'Pt. Devang Shastri & Ananya Rao',
+    brandName: 'Vedic Heritage Traditional Celebrations',
+    tagline: 'Harmonizing sacred authentic rituals with seamless contemporary event management.',
+    businessType: 'Ceremony & Coordination Agency',
+    avatarUrl: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=400&q=80',
+    coverImageUrl: 'https://images.unsplash.com/photo-1544717305-2782549b5136?auto=format&fit=crop&w=1200&q=80',
+    location: 'Bengaluru & Chennai',
+    citiesServed: ['Bengaluru', 'Chennai', 'Hyderabad', 'Mysuru', 'Coimbatore'],
+    rating: 4.95,
+    reviewCount: 62,
+    experienceYears: 12,
+    eventsCompleted: 180,
+    startingPrice: '₹1,20,000',
+    priceRange: '₹1.2L - ₹6L',
+    priceModel: 'Per Ceremony / Weekend Package',
+    servicesOffered: ['wedding-coordination', 'wedding-planning'],
+    about:
+      'Vedic Heritage specializes in authentic regional Vedic traditions, South Indian temple weddings, and multi-cultural ceremonial harmony. Co-founded by Sanskrit scholar Pt. Devang and seasoned event producer Ananya Rao, we ensure Vedic rituals are conducted with spiritual precision while guest logistics remain effortless and punctual.',
+    specialties: ['Vedic Sacred Timelines', 'South Indian Muhurtham', 'Multi-Cultural Ceremonies', 'Day-of Coordination'],
+    availability: 'Booking Muhurtham dates for 2026-2027',
+    verified: true,
+    portfolio: [
+      {
+        id: 'port-4',
+        title: 'Morning Muhurtham at Bangalore Palace',
+        category: 'Traditional Muhurtham',
+        location: 'Bengaluru, Karnataka',
+        imageUrl: 'https://images.unsplash.com/photo-1544717305-2782549b5136?auto=format&fit=crop&w=800&q=80',
+        description: 'Traditional dawn ceremony with live Carnatic nadhaswaram ensemble, fragrant jasmine courtyard pathways, and synchronized ritual timing.',
+        tags: ['Traditional', 'South Indian', 'Vedic'],
+      },
+      {
+        id: 'port-5',
+        title: 'Fusion Gujarati-Tamil Union',
+        category: 'Cross-Cultural Wedding',
+        location: 'Hyderabad, Telangana',
+        imageUrl: 'https://images.unsplash.com/photo-1606800052052-a08af7148866?auto=format&fit=crop&w=800&q=80',
+        description: 'Bi-lingual ceremonial booklets, dual-priest synchronization, and customized lunch service transitions catering to two rich cultural heritages.',
+        tags: ['Cross-Cultural', 'Fusion', 'Coordination'],
+      },
+    ],
+    reviews: [
+      {
+        id: 'rev-3',
+        authorName: 'Divya & Ashwin Ramanathan',
+        rating: 5,
+        date: 'December 2025',
+        eventType: 'Traditional South Indian Wedding',
+        location: 'Bengaluru, India',
+        comment:
+          'Our parents were extremely particular about sacred timings. Pt. Devang and Ananya balanced our modern lifestyle with sacred traditions flawlessly. Truly priceless peace of mind.',
+        verified: true,
+      },
+    ],
+  },
+  {
+    id: 'pro-nakshatra-events',
+    name: 'Tarun Varma',
+    brandName: 'Nakshatra Signature Celebrations',
+    tagline: 'High-octane entertainment choreography, cocktail productions, and sangeet planning.',
+    businessType: 'Event Planning & Production Studio',
+    avatarUrl: 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=400&q=80',
+    coverImageUrl: 'https://images.unsplash.com/photo-1492684223066-81342ee5ff30?auto=format&fit=crop&w=1200&q=80',
+    location: 'Delhi NCR & Chandigarh',
+    citiesServed: ['Delhi NCR', 'Chandigarh', 'Ludhiana', 'Kolkata', 'Jim Corbett'],
+    rating: 4.85,
+    reviewCount: 39,
+    experienceYears: 7,
+    eventsCompleted: 92,
+    startingPrice: '₹2,50,000',
+    priceRange: '₹2.5L - ₹10L',
+    priceModel: 'Per Event Production Fee',
+    servicesOffered: ['event-planning', 'wedding-planning'],
+    about:
+      'Nakshatra Signature is known across Northern India for showstopping Sangeet evenings, celebrity artist handling, cinematic entrance staging, and high-energy pre-wedding events. Tarun Varma brings Bollywood-grade stage production values to private family celebrations.',
+    specialties: ['Sangeet & Cocktail Productions', 'Celebrity Artist Procurement', 'Concert-grade Lighting', 'Bespoke Bar Experiences'],
+    availability: 'Accepting bookings for winter wedding season',
+    verified: true,
+    portfolio: [
+      {
+        id: 'port-6',
+        title: 'The Grand Starlight Sangeet',
+        category: 'Sangeet Production',
+        location: 'Gurugram, NCR',
+        imageUrl: 'https://images.unsplash.com/photo-1492684223066-81342ee5ff30?auto=format&fit=crop&w=800&q=80',
+        description: '360-degree LED stage with pyrotechnic entrance choreography, international live band, and 450 dancing guests.',
+        tags: ['Sangeet', 'LED Production', 'Stage Design'],
+      },
+    ],
+    reviews: [
+      {
+        id: 'rev-4',
+        authorName: 'Manav & Tanya Khurana',
+        rating: 4.9,
+        date: 'January 2026',
+        eventType: 'Sangeet & Cocktail Soiree',
+        location: 'New Delhi, India',
+        comment:
+          'Tarun delivered an experience that felt like an award show! Sound was immaculate, lighting was moody and elegant, and our family performances were rehearsed to perfection.',
+        verified: true,
+      },
+    ],
+  },
+  {
+    id: 'pro-samarpan-coordination',
+    name: 'Meera Deshmukh',
+    brandName: 'Samarpan Wedding Management',
+    tagline: 'Calm, precise, and discreet on-site day-of wedding management and logistics.',
+    businessType: 'Coordination Specialist',
+    avatarUrl: 'https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&w=400&q=80',
+    coverImageUrl: 'https://images.unsplash.com/photo-1511795409834-ef04bbd61622?auto=format&fit=crop&w=1200&q=80',
+    location: 'Pune & Mumbai',
+    citiesServed: ['Pune', 'Mumbai', 'Nashik', 'Mahabaleshwar', 'Lonavala'],
+    rating: 4.92,
+    reviewCount: 54,
+    experienceYears: 8,
+    eventsCompleted: 135,
+    startingPrice: '₹85,000',
+    priceRange: '₹85K - ₹3L',
+    priceModel: 'Fixed Day-Rate',
+    servicesOffered: ['wedding-coordination', 'event-planning'],
+    about:
+      'With over 130 weddings managed across Maharashtra, Meera Deshmukh and her all-women crew specialize in taking the stress off families during D-day. From shadow assistance for the bride and mother to vendor scheduling, timing cue control, and hospitality troubleshooting, Samarpan ensures flawless execution.',
+    specialties: ['Day-of Coordination', 'Bridal Shadow Assistance', 'Vendor Timing Enforcement', 'Hospitality Desk Management'],
+    availability: 'Accepting bookings for 2026-2027 calendar',
+    verified: true,
+    portfolio: [
+      {
+        id: 'port-7',
+        title: 'Fort JadhavGADH Maratha Wedding',
+        category: 'Heritage Coordination',
+        location: 'Pune, Maharashtra',
+        imageUrl: 'https://images.unsplash.com/photo-1511795409834-ef04bbd61622?auto=format&fit=crop&w=800&q=80',
+        description: 'Complete day-of execution for traditional Maharashtrian rituals with 400 attendees across multiple fort terraces.',
+        tags: ['Day-of Coordination', 'Heritage', 'Logistics'],
+      },
+    ],
+    reviews: [
+      {
+        id: 'rev-5',
+        authorName: 'Neha & Aditya Joshi',
+        rating: 5,
+        date: 'March 2026',
+        eventType: 'Wedding Day Coordination',
+        location: 'Pune, India',
+        comment:
+          'Hiring Meera was the single best decision we made. She solved three vendor emergencies before we even realized they happened. My parents could actually sit back and enjoy our wedding ceremony.',
+        verified: true,
+      },
+    ],
+  },
+  /* ------------------------------- A3 Mock Demo Data (DJs) ------------------------------- */
   {
     id: 'pro-rhythm-riot',
     name: 'DJ Kabir Malhotra',
@@ -379,7 +608,7 @@ export const MOCK_PROFESSIONALS: Professional[] = [
       'Kabir Malhotra has spent a decade headlining Mumbai’s sangeet floors and beach-side cocktail nights. Rhythm Riot brings a concert-grade PA, intelligent lighting, and a crowd-reading approach that moves seamlessly from Bollywood classics to Punjabi anthems and progressive house. Every booking includes a music consultation, a curated do-not-play list, and a dedicated sound engineer.',
     specialties: ['Bollywood & Punjabi Sets', 'Sangeet Dance Floors', 'Beach & Poolside Cocktails', 'Live Sax & Dhol Add-ons'],
     availability: 'Accepting bookings for the 2026-27 wedding season',
-    verified: true,
+    verified: false,
     portfolio: [
       {
         id: 'a3-port-rhythm-1',
@@ -410,7 +639,7 @@ export const MOCK_PROFESSIONALS: Professional[] = [
         location: 'Mumbai, India',
         comment:
           'Kabir had our grandparents and our college friends dancing side by side. The transitions between songs were flawless and the sound was clean even at the back of the lawn.',
-        verified: true,
+        verified: false,
       },
     ],
   },
@@ -436,7 +665,7 @@ export const MOCK_PROFESSIONALS: Professional[] = [
       'Simran Ahluwalia is one of North India’s few women wedding DJs headlining sangeets and reception nights. Her sets combine Punjabi bhangra, Bollywood retro, and contemporary club sounds, often paired with a live dhol player for baraat and entrance moments. Sonic Saga travels with its own sound and lighting kit for lawns, farmhouses, and banquet halls.',
     specialties: ['Punjabi & Bhangra Nights', 'Dhol + DJ Fusion', 'Baraat Sound Systems', 'Farmhouse Lawn Setups'],
     availability: 'Limited winter 2026 dates available',
-    verified: true,
+    verified: false,
     portfolio: [
       {
         id: 'a3-port-sonic-1',
@@ -467,7 +696,7 @@ export const MOCK_PROFESSIONALS: Professional[] = [
         location: 'Delhi, India',
         comment:
           'Simran read the crowd perfectly. When the floor slowed she flipped to a retro Bollywood block and had our parents up. Her dhol player was a highlight of our baraat.',
-        verified: true,
+        verified: false,
       },
     ],
   },
@@ -493,7 +722,7 @@ export const MOCK_PROFESSIONALS: Professional[] = [
       'SouthBeat Collective is a Bengaluru-based DJ crew specialising in Tamil, Telugu, Kannada, and Malayalam dance sets mixed with EDM and Bollywood. They handle receptions, sangeets, and after-parties across the southern states, and can also supply LED walls and truss lighting for complete dance-floor production.',
     specialties: ['Kollywood & Tollywood Sets', 'Reception After-Parties', 'Multilingual Guest Lists', 'LED Dance-Floor Packages'],
     availability: 'Accepting bookings for 2026-27 Muhurtham season',
-    verified: true,
+    verified: false,
     portfolio: [
       {
         id: 'a3-port-southbeat-1',
@@ -524,7 +753,7 @@ export const MOCK_PROFESSIONALS: Professional[] = [
         location: 'Bengaluru, India',
         comment:
           'Naveen balanced Tamil hits for our relatives with EDM for our friends. The LED floor looked stunning and the whole crew was on time.',
-        verified: true,
+        verified: false,
       },
     ],
   },
@@ -552,7 +781,7 @@ export const MOCK_PROFESSIONALS: Professional[] = [
       'Led by vocalist Imran Qadri, Sufi Sarai Ensemble brings the intimacy of a mehfil to palace courtyards and haveli lawns. Their six-piece lineup of harmonium, tabla, dholak, guitar, and two vocalists moves from Kun Faya Kun style Sufi to lively qawwali and Bollywood unplugged, ideal for pre-wedding evenings and sundowner ceremonies.',
     specialties: ['Sufi Nights & Qawwali', 'Haveli & Palace Performances', 'Bollywood Unplugged', 'Mehfil-style Seating Sets'],
     availability: 'Booking heritage venues for Q4 2026 & 2027',
-    verified: true,
+    verified: false,
     portfolio: [
       {
         id: 'a3-port-sufi-1',
@@ -583,7 +812,7 @@ export const MOCK_PROFESSIONALS: Professional[] = [
         location: 'Udaipur, India',
         comment:
           'The whole courtyard went silent when Imran began the first qawwali. Guests are still talking about it. Professional, punctual, and beautifully attuned to the setting.',
-        verified: true,
+        verified: false,
       },
     ],
   },
@@ -609,7 +838,7 @@ export const MOCK_PROFESSIONALS: Professional[] = [
       'Monsoon Raga Fusion reimagines Bengali classics, Rabindrasangeet, and Baul folk with contemporary rock and jazz textures, then pivots into Hindi film favourites for the reception floor. Their seven-member band travels with a complete backline and is popular for Bengali weddings, bou-bhaat receptions, and cultural evenings.',
     specialties: ['Rabindrasangeet Fusion', 'Bengali Wedding Receptions', 'Baul & Folk Sets', 'Hindi Film Medleys'],
     availability: 'Booking 2026-27 Bengali wedding season',
-    verified: true,
+    verified: false,
     portfolio: [
       {
         id: 'a3-port-monsoon-1',
@@ -640,7 +869,7 @@ export const MOCK_PROFESSIONALS: Professional[] = [
         location: 'Kolkata, India',
         comment:
           'They perfectly balanced classic Bengali songs for our elders with upbeat Hindi tracks for our friends. The vocals were superb and the band was very courteous.',
-        verified: true,
+        verified: false,
       },
     ],
   },
@@ -666,7 +895,7 @@ export const MOCK_PROFESSIONALS: Professional[] = [
       'Royal Baraat Brass is a family-run ensemble that has led baraat processions across Punjab and Delhi for fifteen years. The troupe combines a uniformed brass band, two dhol players, and a shehnai artist to create a grand welcome, and can extend into a live reception set with Punjabi and Bollywood favourites.',
     specialties: ['Baraat Processions', 'Brass Band & Dhol', 'Shehnai Welcome Music', 'Punjabi Folk Medleys'],
     availability: 'Booked-out weekends filling fast for winter 2026',
-    verified: true,
+    verified: false,
     portfolio: [
       {
         id: 'a3-port-baraat-1',
@@ -697,7 +926,7 @@ export const MOCK_PROFESSIONALS: Professional[] = [
         location: 'Amritsar, India',
         comment:
           'The band arrived early, played in perfect sync with our dhol boys, and kept the baraat lively for the entire route. Exactly the traditional feel we wanted.',
-        verified: true,
+        verified: false,
       },
     ],
   },
@@ -725,7 +954,7 @@ export const MOCK_PROFESSIONALS: Professional[] = [
       'Meher Kaur has performed at sangeet nights, jaago ceremonies, and receptions across North India. She blends Punjabi folk, Sufi, and Bollywood sets with an easy rapport, often inviting couples and family members on stage. She performs with her own three-piece accompaniment or with backing tracks.',
     specialties: ['Punjabi Folk & Jaago', 'Sufi & Bollywood', 'Couple Song Dedications', 'Family Jamming Sessions'],
     availability: 'Accepting bookings for winter 2026 & spring 2027',
-    verified: true,
+    verified: false,
     portfolio: [
       {
         id: 'a3-port-meher-1',
@@ -756,7 +985,7 @@ export const MOCK_PROFESSIONALS: Professional[] = [
         location: 'Chandigarh, India',
         comment:
           'Meher’s voice gave us goosebumps and she made our families feel part of the show. She also sang our custom song for the couple entry, which was unforgettable.',
-        verified: true,
+        verified: false,
       },
     ],
   },
@@ -782,7 +1011,7 @@ export const MOCK_PROFESSIONALS: Professional[] = [
       'Aarav Sen is a trained vocalist known for velvety renditions of romantic Hindi film classics and Bengali modern songs. He performs with backing tracks or a live acoustic trio, and specialises in personalised couple tribute songs that weave the pair’s story into a familiar melody.',
     specialties: ['Romantic Bollywood Classics', 'Bengali Modern Songs', 'Custom Couple Tribute Songs', 'Acoustic Trio Sets'],
     availability: 'Open for 2026-27 season, limited December dates',
-    verified: true,
+    verified: false,
     portfolio: [
       {
         id: 'a3-port-aarav-1',
@@ -813,7 +1042,7 @@ export const MOCK_PROFESSIONALS: Professional[] = [
         location: 'Kolkata, India',
         comment:
           'Aarav wrote a beautiful tribute song for our story and performed it live. Our guests were emotional. He was easy to work with and very organised.',
-        verified: true,
+        verified: false,
       },
     ],
   },
@@ -839,7 +1068,7 @@ export const MOCK_PROFESSIONALS: Professional[] = [
       'Lakshmi Iyer is a trained Carnatic vocalist who performs traditional kritis for Muhurtham mornings and contemporary film-fusion sets for sangeets. She works with violin, mridangam, and keyboard accompanists and adapts repertoire to the ritual sequence of Tamil, Telugu, and Malayali weddings.',
     specialties: ['Carnatic Muhurtham Music', 'Film-Fusion Sangeet Sets', 'Violin & Mridangam Ensemble', 'Multilingual Repertoire'],
     availability: 'Accepting Muhurtham dates for 2026-27',
-    verified: true,
+    verified: false,
     portfolio: [
       {
         id: 'a3-port-lakshmi-1',
@@ -870,7 +1099,7 @@ export const MOCK_PROFESSIONALS: Professional[] = [
         location: 'Chennai, India',
         comment:
           'Our parents were delighted by the authentic renditions and the flawless timing with the ritual. Lakshmi’s sangeet fusion set later was a big hit with our friends.',
-        verified: true,
+        verified: false,
       },
     ],
   },
@@ -898,7 +1127,7 @@ export const MOCK_PROFESSIONALS: Professional[] = [
       'Nritya Natraj is a Mumbai-based dance company that choreographs family sangeet performances and fields a professional Bollywood dance crew for opening acts and entrances. The team runs group rehearsals, trains reluctant dancers with patient step-by-step coaching, and stages high-impact showcase numbers.',
     specialties: ['Sangeet Choreography', 'Family Dance Training', 'Bollywood Dance Crew', 'Grand Entrance Acts'],
     availability: 'Taking choreography bookings 3+ months ahead',
-    verified: true,
+    verified: false,
     portfolio: [
       {
         id: 'a3-port-nritya-1',
@@ -929,7 +1158,7 @@ export const MOCK_PROFESSIONALS: Professional[] = [
         location: 'Mumbai, India',
         comment:
           'Ritika and Sameer made even our two-left-feet uncles look great. Their crew’s entrance number set the tone for the whole evening.',
-        verified: true,
+        verified: false,
       },
     ],
   },
@@ -955,7 +1184,7 @@ export const MOCK_PROFESSIONALS: Professional[] = [
       'Rajwada Folk Ensemble is a ten-member troupe of Kalbelia dancers, Manganiyar singers, and Kathputli puppeteers who perform at palace weddings and destination celebrations. The troupe supplies authentic costumes, instruments, and a coordinator for welcome ceremonies, dinner entertainment, and sangeet interludes.',
     specialties: ['Kalbelia & Ghoomar', 'Manganiyar Folk Music', 'Kathputli Puppetry', 'Palace Welcome Ceremonies'],
     availability: 'Available for destination weddings across Rajasthan',
-    verified: true,
+    verified: false,
     portfolio: [
       {
         id: 'a3-port-rajwada-1',
@@ -986,7 +1215,7 @@ export const MOCK_PROFESSIONALS: Professional[] = [
         location: 'Jodhpur, India',
         comment:
           'Our international guests were spellbound. The troupe was authentic, wonderfully costumed, and worked patiently with our planner on timing.',
-        verified: true,
+        verified: false,
       },
     ],
   },
@@ -1012,7 +1241,7 @@ export const MOCK_PROFESSIONALS: Professional[] = [
       'Flame & Fusion is a team of fire performers, LED glow dancers, aerial silk artists, and stilt walkers who add spectacle to entrances, cocktail hours, and after-parties. They follow strict on-site safety protocols, carry their own safety marshals and extinguishers, and coordinate permissions with the venue.',
     specialties: ['Fire & LED Shows', 'Aerial Silk Acts', 'Entrance Spectacles', 'Roaming Cocktail Performers'],
     availability: 'Booking beach and lawn weddings, winter 2026-27',
-    verified: true,
+    verified: false,
     portfolio: [
       {
         id: 'a3-port-flame-1',
@@ -1043,7 +1272,7 @@ export const MOCK_PROFESSIONALS: Professional[] = [
         location: 'Gurugram, India',
         comment:
           'The fire entrance was breathtaking and the team was very safety-conscious. The aerial acts made the cocktail hour feel like a festival.',
-        verified: true,
+        verified: false,
       },
     ],
   },
@@ -1071,7 +1300,7 @@ export const MOCK_PROFESSIONALS: Professional[] = [
       'Riya Kapoor has hosted more than 450 weddings, sangeets, and receptions with polished Hindi-English hosting. She scripts the run-of-show with the family, leads games and couple quizzes, and keeps transitions between performances tight, while being sensitive to rituals and elder guests.',
     specialties: ['Sangeet Hosting', 'Couple Games & Quizzes', 'Hindi-English Bilingual', 'Run-of-Show Scripting'],
     availability: 'Accepting bookings for the 2026-27 season',
-    verified: true,
+    verified: false,
     portfolio: [
       {
         id: 'a3-port-riya-1',
@@ -1102,7 +1331,7 @@ export const MOCK_PROFESSIONALS: Professional[] = [
         location: 'New Delhi, India',
         comment:
           'Riya made the whole evening flow. She included every family member gracefully, and her humour landed with all age groups.',
-        verified: true,
+        verified: false,
       },
     ],
   },
@@ -1128,7 +1357,7 @@ export const MOCK_PROFESSIONALS: Professional[] = [
       'Vikram Nair is fluent in Malayalam, Tamil, English, and Hindi, and specialises in weddings with mixed-language guest lists. He hosts receptions, engagement ceremonies, and sangeets, working closely with families on ritual-sensitive scripting and lively guest engagement.',
     specialties: ['Malayalam-English Hosting', 'Multilingual Guest Lists', 'Engagement Ceremonies', 'Reception Programme Flow'],
     availability: 'Taking bookings for 2026-27 season',
-    verified: true,
+    verified: false,
     portfolio: [
       {
         id: 'a3-port-vikram-1',
@@ -1159,7 +1388,7 @@ export const MOCK_PROFESSIONALS: Professional[] = [
         location: 'Kochi, India',
         comment:
           'Vikram switched between Malayalam and English so well that both sides of the family felt included. Extremely professional and warm.',
-        verified: true,
+        verified: false,
       },
     ],
   },
@@ -1185,7 +1414,7 @@ export const MOCK_PROFESSIONALS: Professional[] = [
       'Tanmoy Ghosh hosts Bengali and multilingual weddings, bou-bhaat receptions, and cultural evenings with a natural, conversational style. He works with bands and DJs to time performances, builds gentle humour into family segments, and keeps every function on schedule.',
     specialties: ['Bengali-Hindi Hosting', 'Bou-Bhaat Receptions', 'Cultural Programmes', 'Live Band Coordination'],
     availability: 'Available for 2026-27 wedding season',
-    verified: true,
+    verified: false,
     portfolio: [
       {
         id: 'a3-port-tanmoy-1',
@@ -1216,7 +1445,7 @@ export const MOCK_PROFESSIONALS: Professional[] = [
         location: 'Kolkata, India',
         comment:
           'Tanmoy hosted with great charm and kept everyone engaged, from grandparents to cousins. The programme ran precisely on time.',
-        verified: true,
+        verified: false,
       },
     ],
   },
@@ -1244,7 +1473,7 @@ export const MOCK_PROFESSIONALS: Professional[] = [
       'Lumina Stage & Sound is a technical production house delivering line-array sound, LED walls, intelligent lighting, and truss staging for large sangeets and receptions. Their on-ground crew includes a front-of-house engineer, lighting designer, and generator backup for every event.',
     specialties: ['LED Wall & Stage Design', 'Line-Array Concert Sound', 'Intelligent Lighting', 'Live-Stream & IMAG Support'],
     availability: 'Booking large productions for the 2026-27 season',
-    verified: true,
+    verified: false,
     portfolio: [
       {
         id: 'a3-port-lumina-1',
@@ -1275,7 +1504,7 @@ export const MOCK_PROFESSIONALS: Professional[] = [
         location: 'Pune, India',
         comment:
           'The LED stage looked like a concert set. Sound was crisp everywhere and the crew handled last-minute changes calmly.',
-        verified: true,
+        verified: false,
       },
     ],
   },
@@ -1301,7 +1530,7 @@ export const MOCK_PROFESSIONALS: Professional[] = [
       'Royal Stagecraft Productions designs and executes stage, lighting, and sound for palace weddings across Rajasthan. The team is experienced in heritage venue restrictions, cabling around historic architecture, and creating dramatic architectural lighting that complements the palace backdrop.',
     specialties: ['Heritage Venue Production', 'Architectural Lighting', 'Custom Stage Design', 'Generator & Power Backup'],
     availability: 'Booking Q4 2026 & 2027 destination weddings',
-    verified: true,
+    verified: false,
     portfolio: [
       {
         id: 'a3-port-royal-1',
@@ -1332,7 +1561,7 @@ export const MOCK_PROFESSIONALS: Professional[] = [
         location: 'Udaipur, India',
         comment:
           'They understood the palace’s constraints and still delivered a spectacular stage. Sound and lighting were superb and the crew was discreet.',
-        verified: true,
+        verified: false,
       },
     ],
   },
@@ -1358,7 +1587,7 @@ export const MOCK_PROFESSIONALS: Professional[] = [
       'Eastern Live Events delivers end-to-end technical production for weddings and celebrations across eastern India, covering staging, LED screens, sound, lighting, and generator support. The team coordinates directly with bands, DJs, and hosts to ensure smooth cues and reliable performance.',
     specialties: ['Stage & Truss Design', 'LED Screens & IMAG', 'Sound & Lighting Rigs', 'Band & DJ Backline Support'],
     availability: 'Accepting bookings for 2026-27 wedding season',
-    verified: true,
+    verified: false,
     portfolio: [
       {
         id: 'a3-port-eastern-1',
@@ -1389,7 +1618,7 @@ export const MOCK_PROFESSIONALS: Professional[] = [
         location: 'Kolkata, India',
         comment:
           'Reliable crew, clean sound, and excellent coordination with our band. They solved a venue power issue before it became a problem.',
-        verified: true,
+        verified: false,
       },
     ],
   },
@@ -1555,6 +1784,11 @@ export const A3_ENTERTAINMENT_DETAILS: Record<string, EntertainmentDetails> = {
 };
 
 /* ==========================================================================
+   COMBINED SERVICES (A1 + A3)
+   ========================================================================== */
+export const ALL_SERVICES: ServiceItem[] = [...A1_SERVICES, ...A3_SERVICES];
+
+/* ==========================================================================
    HELPER FUNCTIONS
    ========================================================================== */
 export const getProfessionalsByService = (serviceSlug?: string): Professional[] => {
@@ -1567,7 +1801,7 @@ export const getProfessionalById = (id: string): Professional | undefined => {
 };
 
 export const getServiceBySlug = (slug: string): ServiceItem | undefined => {
-  return A3_SERVICES.find((srv) => srv.slug === slug);
+  return ALL_SERVICES.find((srv) => srv.slug === slug);
 };
 
 export const getEntertainmentDetailsById = (id: string): EntertainmentDetails | undefined => {

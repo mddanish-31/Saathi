@@ -16,6 +16,9 @@ html {
   font-size: 16px;
   scroll-behavior: smooth;
   -webkit-text-size-adjust: 100%;
+  width: 100%;
+  max-width: 100vw;
+  overflow-x: hidden;
 }
 
 body {
@@ -26,6 +29,8 @@ body {
   font-weight: 400;
   letter-spacing: var(--tracking-normal);
   min-height: 100vh;
+  width: 100%;
+  max-width: 100vw;
   overflow-x: hidden;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
@@ -124,6 +129,54 @@ img, svg {
   clip: rect(0, 0, 0, 0);
   white-space: nowrap;
   border-width: 0;
+}
+
+/* ==========================================================================
+   NAVBAR RESPONSIVE VISIBILITY (992px Breakpoint)
+   ========================================================================== */
+@media (min-width: 992px) {
+  .saathi-desktop-nav {
+    display: flex !important;
+  }
+  .saathi-desktop-actions {
+    display: flex !important;
+  }
+  .saathi-mobile-actions {
+    display: none !important;
+  }
+}
+
+@media (max-width: 991px) {
+  .saathi-desktop-nav {
+    display: none !important;
+  }
+  .saathi-desktop-actions {
+    display: none !important;
+  }
+  .saathi-mobile-actions {
+    display: flex !important;
+  }
+}
+
+/* ==========================================================================
+   RESPONSIVE UTILITIES & OVERFLOW PROTECTION
+   ========================================================================== */
+.saathi-app-root {
+  width: 100%;
+  max-width: 100vw;
+  overflow-x: hidden;
+}
+
+/* Tab strips smooth scroll without overflowing page */
+.saathi-tab-strip {
+  display: flex;
+  overflow-x: auto;
+  white-space: nowrap;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+}
+.saathi-tab-strip::-webkit-scrollbar {
+  display: none;
 }
 
 /* ==========================================================================

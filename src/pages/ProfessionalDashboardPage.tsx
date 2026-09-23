@@ -81,7 +81,7 @@ export const ProfessionalDashboardPage: React.FC<ProfessionalDashboardPageProps>
         <div
           style={{
             display: 'grid',
-            gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))',
+            gridTemplateColumns: 'repeat(auto-fit, minmax(180px, 1fr))',
             gap: 'var(--space-4)',
             marginBottom: 'var(--space-8)',
           }}

@@ -61,7 +61,8 @@ export const WeddingsEventsPage: React.FC<WeddingsEventsPageProps> = ({ onNaviga
             {MASTER_WEDDINGS_CATEGORY.subCategories.map((sub) => {
               const isA1 = sub.slug === 'planning';
               const isPhotography = sub.slug === 'photography';
-              const isFeatured = isA1 || isPhotography;
+              const isEntertainment = sub.slug === 'entertainment';
+              const isFeatured = isA1 || isPhotography || isEntertainment;
 
               return (
                 <div
@@ -72,6 +73,8 @@ export const WeddingsEventsPage: React.FC<WeddingsEventsPageProps> = ({ onNaviga
                       onNavigate('/categories/weddings-events/planning');
                     } else if (isPhotography) {
                       onNavigate('/categories/weddings-events/photography');
+                    } else if (isEntertainment) {
+                      onNavigate('/categories/weddings-events/entertainment');
                     } else {
                       onNavigate(`/categories/weddings-events/${sub.slug}`);
                     }
@@ -124,7 +127,7 @@ export const WeddingsEventsPage: React.FC<WeddingsEventsPageProps> = ({ onNaviga
                         style={{
                           fontSize: 'var(--text-xs)',
                           fontWeight: 700,
-                          color: isA1 ? 'var(--saathi-maroon)' : 'var(--text-muted)',
+                          color: isFeatured ? 'var(--saathi-maroon)' : 'var(--text-muted)',
                         }}
                       >
                         {sub.code}
@@ -200,6 +203,22 @@ export const WeddingsEventsPage: React.FC<WeddingsEventsPageProps> = ({ onNaviga
                       }}
                     >
                       <span>Explore Photography</span>
+                      <ArrowRight size={14} />
+                    </div>
+                  ) : isEntertainment ? (
+                    <div
+                      style={{
+                        display: 'flex',
+                        alignItems: 'center',
+                        gap: '6px',
+                        fontSize: 'var(--text-xs)',
+                        fontWeight: 600,
+                        color: 'var(--saathi-maroon)',
+                        paddingTop: 'var(--space-2)',
+                        borderTop: '1px solid var(--border-subtle)',
+                      }}
+                    >
+                      <span>Explore Music & Entertainment</span>
                       <ArrowRight size={14} />
                     </div>
                   ) : (

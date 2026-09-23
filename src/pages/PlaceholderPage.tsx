@@ -1,10 +1,8 @@
 import React from 'react';
-import { ArrowLeft } from 'lucide-react';
-import { Navbar } from '../components/layout/Navbar';
-import { Footer } from '../components/layout/Footer';
+import { ArrowLeft, Clock } from 'lucide-react';
 import { Container } from '../components/ui/Container';
-import { SectionHeading } from '../components/ui/SectionHeading';
 import { Button } from '../components/ui/Button';
+import { Badge } from '../components/ui/Badge';
 
 interface PlaceholderPageProps {
   title: string;
@@ -16,26 +14,22 @@ interface PlaceholderPageProps {
 
 export const PlaceholderPage: React.FC<PlaceholderPageProps> = ({
   title,
-  description,
+  description = 'This specialized vertical is currently in preparation and will be released in an upcoming Saathi platform phase.',
   showBackButton = true,
   onNavigate,
   className = '',
 }) => {
-  const currentPath = typeof window !== 'undefined' ? window.location.pathname : '/';
-
-  const handleNavigate = (path: string) => {
+  const handleBackToHome = () => {
     if (onNavigate) {
-      onNavigate(path);
+      onNavigate('/');
     } else if (typeof window !== 'undefined') {
-      window.history.pushState({}, '', path);
+      window.history.pushState({}, '', '/');
       window.dispatchEvent(new PopStateEvent('popstate'));
       window.scrollTo({ top: 0, behavior: 'smooth' });
     }
   };
 
-  const handleBackToHome = () => {
-    handleNavigate('/');
-  };
+  const displayTitle = title.replace(/\s*\(Coming Soon\)\s*/gi, '').trim();
 
   return (
     <div
@@ -43,58 +37,77 @@ export const PlaceholderPage: React.FC<PlaceholderPageProps> = ({
       style={{
         display: 'flex',
         flexDirection: 'column',
-        minHeight: '100vh',
+        alignItems: 'center',
+        justifyContent: 'center',
+        minHeight: 'calc(100vh - 200px)',
+        padding: 'clamp(var(--space-12), 8vw, var(--space-24)) var(--space-4)',
         backgroundColor: 'var(--bg-app)',
         color: 'var(--text-primary)',
       }}
     >
-      <Navbar currentPath={currentPath} onNavigate={handleNavigate} />
+      <Container narrow>
+        <div
+          className="animate-slide-up"
+          style={{
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'center',
+            justifyContent: 'center',
+            textAlign: 'center',
+            margin: '0 auto',
+            maxWidth: '680px',
+            backgroundColor: 'var(--bg-surface)',
+            borderRadius: 'var(--radius-xl)',
+            border: '1px solid var(--border-subtle)',
+            padding: 'clamp(var(--space-8), 5vw, var(--space-12))',
+            boxShadow: 'var(--shadow-md)',
+          }}
+        >
+          <div style={{ marginBottom: 'var(--space-4)' }}>
+            <Badge variant="brand" icon={<Clock size={14} />}>
+              Coming Soon
+            </Badge>
+          </div>
 
-      <main
-        style={{
-          flex: '1 0 auto',
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'center',
-          padding: 'clamp(var(--space-12), 8vw, var(--space-24)) var(--space-4)',
-        }}
-      >
-        <Container narrow>
-          <div
-            className="animate-slide-up"
+          <h1
             style={{
-              display: 'flex',
-              flexDirection: 'column',
-              alignItems: 'center',
-              justifyContent: 'center',
-              textAlign: 'center',
-              margin: '0 auto',
-              maxWidth: '680px',
+              fontFamily: 'var(--font-serif)',
+              fontSize: 'clamp(1.75rem, 3.5vw, 2.5rem)',
+              fontWeight: 600,
+              color: 'var(--text-headings)',
+              marginBottom: 'var(--space-3)',
+              lineHeight: 1.2,
             }}
           >
-            <SectionHeading
-              title={title}
-              subtitle={description}
-              align="center"
-            />
+            {displayTitle}
+          </h1>
 
-            {showBackButton && (
-              <div>
-                <Button
-                  variant="outline"
-                  size="md"
-                  leftIcon={<ArrowLeft size={16} />}
-                  onClick={handleBackToHome}
-                >
-                  Back to Home
-                </Button>
-              </div>
-            )}
-          </div>
-        </Container>
-      </main>
+          <p
+            style={{
+              fontSize: 'clamp(0.95rem, 1.5vw, 1.1rem)',
+              color: 'var(--text-secondary)',
+              lineHeight: 'var(--leading-relaxed)',
+              marginBottom: 'var(--space-8)',
+              maxWidth: '540px',
+            }}
+          >
+            {description}
+          </p>
 
-      <Footer onNavigate={handleNavigate} />
+          {showBackButton && (
+            <div>
+              <Button
+                variant="outline"
+                size="md"
+                leftIcon={<ArrowLeft size={16} />}
+                onClick={handleBackToHome}
+              >
+                Back to Home
+              </Button>
+            </div>
+          )}
+        </div>
+      </Container>
     </div>
   );
 };

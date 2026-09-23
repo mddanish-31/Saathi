@@ -17,7 +17,7 @@ import { Button } from '../ui/Button';
 import { Container } from '../ui/Container';
 import { PortfolioGallery } from './PortfolioGallery';
 import { ReviewSection } from './ReviewSection';
-import { A1_SERVICES } from '../../data/weddingPlanningData';
+import { ALL_SERVICES, getEntertainmentDetailsById } from '../../data/weddingPlanningData';
 
 interface ProfessionalProfileProps {
   professional: Professional;
@@ -43,9 +43,11 @@ export const ProfessionalProfile: React.FC<ProfessionalProfileProps> = ({
     }
   };
 
-  const matchedServices = A1_SERVICES.filter((srv) =>
+  const matchedServices = ALL_SERVICES.filter((srv) =>
     professional.servicesOffered.includes(srv.slug)
   );
+
+  const entertainmentDetails = getEntertainmentDetailsById(professional.id);
 
   return (
     <div className={`saathi-professional-profile ${className}`}>
@@ -417,6 +419,166 @@ export const ProfessionalProfile: React.FC<ProfessionalProfileProps> = ({
                     ))}
                   </div>
                 </div>
+
+                {/* Entertainment Performance & Technical Specifications (When available for A3 professionals) */}
+                {entertainmentDetails && (
+                  <div
+                    style={{
+                      backgroundColor: 'var(--bg-surface)',
+                      padding: 'var(--space-6)',
+                      borderRadius: 'var(--radius-lg)',
+                      border: '1px solid var(--border-subtle)',
+                    }}
+                  >
+                    <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: 'var(--space-4)' }}>
+                      <Sparkles size={18} color="var(--saathi-maroon)" />
+                      <h3
+                        style={{
+                          fontFamily: 'var(--font-serif)',
+                          fontSize: 'var(--text-xl)',
+                          color: 'var(--text-headings)',
+                        }}
+                      >
+                        Performance & Technical Specifications
+                      </h3>
+                    </div>
+
+                    <div
+                      style={{
+                        display: 'grid',
+                        gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))',
+                        gap: 'var(--space-4)',
+                        marginBottom: 'var(--space-5)',
+                      }}
+                    >
+                      <div
+                        style={{
+                          padding: 'var(--space-4)',
+                          backgroundColor: 'var(--bg-surface-soft)',
+                          borderRadius: 'var(--radius-md)',
+                          border: '1px solid var(--border-subtle)',
+                        }}
+                      >
+                        <div style={{ fontSize: '0.7rem', textTransform: 'uppercase', letterSpacing: '0.04em', color: 'var(--text-muted)', marginBottom: '4px' }}>
+                          Performance Format
+                        </div>
+                        <div style={{ fontSize: 'var(--text-sm)', fontWeight: 600, color: 'var(--text-headings)' }}>
+                          {entertainmentDetails.performanceType}
+                        </div>
+                      </div>
+
+                      <div
+                        style={{
+                          padding: 'var(--space-4)',
+                          backgroundColor: 'var(--bg-surface-soft)',
+                          borderRadius: 'var(--radius-md)',
+                          border: '1px solid var(--border-subtle)',
+                        }}
+                      >
+                        <div style={{ fontSize: '0.7rem', textTransform: 'uppercase', letterSpacing: '0.04em', color: 'var(--text-muted)', marginBottom: '4px' }}>
+                          Set Duration & Coverage
+                        </div>
+                        <div style={{ fontSize: 'var(--text-sm)', fontWeight: 600, color: 'var(--text-headings)' }}>
+                          {entertainmentDetails.performanceDuration}
+                        </div>
+                      </div>
+
+                      <div
+                        style={{
+                          padding: 'var(--space-4)',
+                          backgroundColor: 'var(--bg-surface-soft)',
+                          borderRadius: 'var(--radius-md)',
+                          border: '1px solid var(--border-subtle)',
+                        }}
+                      >
+                        <div style={{ fontSize: '0.7rem', textTransform: 'uppercase', letterSpacing: '0.04em', color: 'var(--text-muted)', marginBottom: '4px' }}>
+                          Ensemble / Team Size
+                        </div>
+                        <div style={{ fontSize: 'var(--text-sm)', fontWeight: 600, color: 'var(--text-headings)' }}>
+                          {entertainmentDetails.teamSize} {entertainmentDetails.teamSize === 1 ? 'Artist' : 'Members'}
+                        </div>
+                      </div>
+                    </div>
+
+                    {/* Genres & Event Types */}
+                    <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(260px, 1fr))', gap: 'var(--space-5)', marginBottom: 'var(--space-5)' }}>
+                      <div>
+                        <h4 style={{ fontSize: 'var(--text-xs)', fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.05em', color: 'var(--text-muted)', marginBottom: 'var(--space-2)' }}>
+                          Repertoire & Genres:
+                        </h4>
+                        <div style={{ display: 'flex', flexWrap: 'wrap', gap: 'var(--space-2)' }}>
+                          {entertainmentDetails.genres.map((genre) => (
+                            <span
+                              key={genre}
+                              style={{
+                                fontSize: 'var(--text-xs)',
+                                padding: '0.25rem 0.65rem',
+                                borderRadius: 'var(--radius-full)',
+                                backgroundColor: 'var(--saathi-nude-tint)',
+                                color: 'var(--saathi-maroon)',
+                                fontWeight: 600,
+                                border: '1px solid var(--border-subtle)',
+                              }}
+                            >
+                              {genre}
+                            </span>
+                          ))}
+                        </div>
+                      </div>
+
+                      <div>
+                        <h4 style={{ fontSize: 'var(--text-xs)', fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.05em', color: 'var(--text-muted)', marginBottom: 'var(--space-2)' }}>
+                          Ideal Occasions & Functions:
+                        </h4>
+                        <div style={{ display: 'flex', flexWrap: 'wrap', gap: 'var(--space-2)' }}>
+                          {entertainmentDetails.eventTypes.map((evt) => (
+                            <span
+                              key={evt}
+                              style={{
+                                fontSize: 'var(--text-xs)',
+                                padding: '0.25rem 0.65rem',
+                                borderRadius: 'var(--radius-full)',
+                                backgroundColor: 'var(--bg-surface-soft)',
+                                color: 'var(--text-secondary)',
+                                fontWeight: 500,
+                                border: '1px solid var(--border-subtle)',
+                              }}
+                            >
+                              {evt}
+                            </span>
+                          ))}
+                        </div>
+                      </div>
+                    </div>
+
+                    {/* Technical Equipment & Rider */}
+                    {entertainmentDetails.equipment && entertainmentDetails.equipment.length > 0 && (
+                      <div>
+                        <h4 style={{ fontSize: 'var(--text-xs)', fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.05em', color: 'var(--text-muted)', marginBottom: 'var(--space-2)' }}>
+                          Supplied Technical Rider & Equipment:
+                        </h4>
+                        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: 'var(--space-2)' }}>
+                          {entertainmentDetails.equipment.map((eq, idx) => (
+                            <div
+                              key={idx}
+                              style={{
+                                display: 'flex',
+                                alignItems: 'center',
+                                gap: '6px',
+                                fontSize: 'var(--text-xs)',
+                                color: 'var(--text-secondary)',
+                                padding: '3px 0',
+                              }}
+                            >
+                              <Check size={14} style={{ color: 'var(--saathi-maroon)', flexShrink: 0 }} />
+                              <span>{eq}</span>
+                            </div>
+                          ))}
+                        </div>
+                      </div>
+                    )}
+                  </div>
+                )}
 
                 {/* Cities Served */}
                 <div

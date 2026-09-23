@@ -16,6 +16,7 @@ import { ProfessionalDashboardPage } from './pages/ProfessionalDashboardPage';
 import { CustomerEnquiriesPage } from './pages/CustomerEnquiriesPage';
 import { PlaceholderPage } from './pages/PlaceholderPage';
 import { PhotographyPage } from './pages/PhotographyPage';
+import { MusicEntertainmentPage } from './pages/MusicEntertainmentPage';
 import { MASTER_WEDDINGS_CATEGORY } from './data/weddingPlanningData';
 
 export const App: React.FC = () => {
@@ -114,6 +115,15 @@ export const App: React.FC = () => {
       return { type: 'wedding-planning-service', serviceSlug: 'wedding-coordination' };
     }
 
+    // 6c. Subcategory A3: Music & Entertainment
+    if (pathname === '/categories/weddings-events/entertainment') {
+      return { type: 'music-entertainment' };
+    }
+    const entertainmentServiceMatch = pathname.match(/^\/categories\/weddings-events\/entertainment\/([^/]+)$/);
+    if (entertainmentServiceMatch) {
+      return { type: 'music-entertainment-service', serviceSlug: entertainmentServiceMatch[1] };
+    }
+
     // 7. Professionals Profile & Enquiry
     const proEnquireMatch = pathname.match(/^\/professionals\/([^/]+)\/enquire$/);
     if (proEnquireMatch) {
@@ -132,7 +142,7 @@ export const App: React.FC = () => {
       const title = subFound ? subFound.name : subSlug.replace(/-/g, ' ').replace(/\b\w/g, (c) => c.toUpperCase());
       return {
         type: 'placeholder',
-        title: `${title} (Coming Soon)`,
+        title: title,
         description: 'This specialized vertical is currently in preparation and will be released in an upcoming Saathi platform phase.',
       };
     }
@@ -177,6 +187,10 @@ export const App: React.FC = () => {
         return <WeddingPlanningPage onNavigate={navigate} />;
       case 'wedding-planning-service':
         return <WeddingPlanningPage activeServiceSlug={route.serviceSlug} onNavigate={navigate} />;
+      case 'music-entertainment':
+        return <MusicEntertainmentPage onNavigate={navigate} />;
+      case 'music-entertainment-service':
+        return <MusicEntertainmentPage activeServiceSlug={route.serviceSlug} onNavigate={navigate} />;
       case 'professional-profile':
         return <ProfessionalProfilePage professionalId={route.professionalId!} onNavigate={navigate} />;
       case 'professional-enquire':

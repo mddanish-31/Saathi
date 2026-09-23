@@ -30,6 +30,7 @@ export const SearchBar: React.FC<SearchBarProps> = ({
       style={{
         display: 'flex',
         alignItems: 'center',
+        flexWrap: 'wrap',
         background: 'var(--bg-surface)',
         border: '1.5px solid var(--border-subtle)',
         borderRadius: 'var(--radius-xl)',
@@ -37,6 +38,7 @@ export const SearchBar: React.FC<SearchBarProps> = ({
         boxShadow: 'var(--shadow-md)',
         width: '100%',
         maxWidth: '720px',
+        gap: '0.5rem',
         transition: 'border-color var(--transition-normal), box-shadow var(--transition-normal)',
       }}
     >
@@ -46,7 +48,8 @@ export const SearchBar: React.FC<SearchBarProps> = ({
           display: 'flex',
           alignItems: 'center',
           gap: '0.65rem',
-          flex: '1 1 60%',
+          flex: '1 1 240px',
+          minWidth: '0',
           paddingLeft: '0.85rem',
           paddingRight: '0.5rem',
         }}
@@ -69,63 +72,63 @@ export const SearchBar: React.FC<SearchBarProps> = ({
         />
       </div>
 
-      {/* Location / Scope divider */}
-      <div
-        style={{
-          width: '1px',
-          height: '24px',
-          backgroundColor: 'var(--border-subtle)',
-          margin: '0 0.5rem',
-          display: 'block',
-        }}
-      />
-
-      {/* Location / Scope Selector */}
       <div
         style={{
           display: 'flex',
           alignItems: 'center',
-          gap: '0.4rem',
-          flex: '0 0 auto',
-          paddingRight: '0.5rem',
+          justifyContent: 'space-between',
+          flex: '0 1 auto',
+          gap: '0.5rem',
+          marginLeft: 'auto',
         }}
       >
-        <MapPin size={16} color="var(--text-muted)" />
-        <select
-          value={location}
-          onChange={(e) => setLocation(e.target.value)}
-          aria-label="Location selector"
+        {/* Location / Scope Selector */}
+        <div
           style={{
-            border: 'none',
-            outline: 'none',
-            background: 'transparent',
-            color: 'var(--text-secondary)',
-            fontSize: 'var(--text-xs)',
-            fontWeight: 500,
-            cursor: 'pointer',
+            display: 'flex',
+            alignItems: 'center',
+            gap: '0.4rem',
+            flex: '0 0 auto',
+            paddingRight: '0.5rem',
           }}
         >
-          <option value="All India">All India</option>
-          <option value="Delhi NCR">Delhi NCR</option>
-          <option value="Mumbai">Mumbai</option>
-          <option value="Bengaluru">Bengaluru</option>
-          <option value="Hyderabad">Hyderabad</option>
-          <option value="Kolkata">Kolkata</option>
-          <option value="Chennai">Chennai</option>
-          <option value="Jaipur">Jaipur</option>
-        </select>
-      </div>
+          <MapPin size={16} color="var(--text-muted)" />
+          <select
+            value={location}
+            onChange={(e) => setLocation(e.target.value)}
+            aria-label="Location selector"
+            style={{
+              border: 'none',
+              outline: 'none',
+              background: 'transparent',
+              color: 'var(--text-secondary)',
+              fontSize: 'var(--text-xs)',
+              fontWeight: 500,
+              cursor: 'pointer',
+            }}
+          >
+            <option value="All India">All India</option>
+            <option value="Delhi NCR">Delhi NCR</option>
+            <option value="Mumbai">Mumbai</option>
+            <option value="Bengaluru">Bengaluru</option>
+            <option value="Hyderabad">Hyderabad</option>
+            <option value="Kolkata">Kolkata</option>
+            <option value="Chennai">Chennai</option>
+            <option value="Jaipur">Jaipur</option>
+          </select>
+        </div>
 
-      {/* Submit CTA */}
-      <Button
-        type="submit"
-        variant="primary"
-        size="md"
-        style={{ borderRadius: 'var(--radius-lg)' }}
-        rightIcon={<Sparkles size={15} />}
-      >
-        Search
-      </Button>
+        {/* Submit CTA */}
+        <Button
+          type="submit"
+          variant="primary"
+          size="md"
+          style={{ borderRadius: 'var(--radius-lg)' }}
+          rightIcon={<Sparkles size={15} />}
+        >
+          Search
+        </Button>
+      </div>
     </form>
   );
 };

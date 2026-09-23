@@ -37,7 +37,9 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onNavigate }) => {
     if (cat.id === 'weddings-celebrations' || cat.id === 'weddings-events') {
       onNavigate('/categories/weddings-events');
     } else if (cat.id === 'photography-production') {
-      scrollToSection('photography');
+      onNavigate('/categories/weddings-events/photography');
+    } else if (cat.id === 'events-gatherings') {
+      onNavigate('/categories/weddings-events/entertainment');
     } else {
       scrollToSection('categories');
     }

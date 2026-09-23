@@ -4,7 +4,7 @@ import { Professional, EnquiryData, AuthUser } from '../../types';
 import { Input } from '../ui/Input';
 import { Button } from '../ui/Button';
 import { Avatar } from '../ui/Avatar';
-import { A1_SERVICES } from '../../data/weddingPlanningData';
+import { ALL_SERVICES } from '../../data/weddingPlanningData';
 
 interface EnquiryFormProps {
   professional: Professional;
@@ -21,12 +21,12 @@ export const EnquiryForm: React.FC<EnquiryFormProps> = ({
   onSubmitEnquiry,
   className = '',
 }) => {
-  const matchedServices = A1_SERVICES.filter((srv) =>
+  const matchedServices = ALL_SERVICES.filter((srv) =>
     professional.servicesOffered.includes(srv.slug)
   );
 
   const defaultService =
-    matchedServices.find((s) => s.slug === initialServiceSlug) || matchedServices[0] || A1_SERVICES[0];
+    matchedServices.find((s) => s.slug === initialServiceSlug) || matchedServices[0] || ALL_SERVICES[0];
 
   const [name, setName] = useState(currentUser?.name || '');
   const [email, setEmail] = useState(currentUser?.email || '');

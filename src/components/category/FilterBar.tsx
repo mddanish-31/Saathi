@@ -60,6 +60,7 @@ export const FilterBar: React.FC<FilterBarProps> = ({
     outline: 'none',
     cursor: 'pointer',
     fontFamily: 'var(--font-sans)',
+    maxWidth: '100%',
   };
 
   return (
@@ -69,7 +70,7 @@ export const FilterBar: React.FC<FilterBarProps> = ({
         backgroundColor: 'var(--bg-surface-soft)',
         border: '1px solid var(--border-subtle)',
         borderRadius: 'var(--radius-lg)',
-        padding: 'var(--space-4) var(--space-5)',
+        padding: 'clamp(var(--space-3), 3vw, var(--space-5))',
         marginBottom: 'var(--space-8)',
       }}
     >
@@ -92,12 +93,12 @@ export const FilterBar: React.FC<FilterBarProps> = ({
             border: '1px solid var(--border-default)',
             borderRadius: 'var(--radius-md)',
             padding: '0 0.75rem',
-            minWidth: '240px',
-            flex: '1 1 240px',
+            minWidth: '0',
+            flex: '1 1 200px',
             height: '38px',
           }}
         >
-          <Search size={15} style={{ color: 'var(--text-muted)' }} />
+          <Search size={15} style={{ color: 'var(--text-muted)', flexShrink: 0 }} />
           <input
             type="text"
             placeholder="Search by name, brand, or specialty..."
@@ -126,7 +127,7 @@ export const FilterBar: React.FC<FilterBarProps> = ({
         >
           {/* City Filter */}
           <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
-            <MapPin size={14} style={{ color: 'var(--text-muted)' }} />
+            <MapPin size={14} style={{ color: 'var(--text-muted)', flexShrink: 0 }} />
             <select
               value={filters.city}
               onChange={handleCityChange}
@@ -157,7 +158,7 @@ export const FilterBar: React.FC<FilterBarProps> = ({
 
           {/* Sort By Dropdown */}
           <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
-            <SlidersHorizontal size={14} style={{ color: 'var(--text-muted)' }} />
+            <SlidersHorizontal size={14} style={{ color: 'var(--text-muted)', flexShrink: 0 }} />
             <select
               value={filters.sortBy}
               onChange={handleSortChange}
@@ -200,8 +201,10 @@ export const FilterBar: React.FC<FilterBarProps> = ({
       <div
         style={{
           display: 'flex',
+          flexWrap: 'wrap',
           justifyContent: 'space-between',
           alignItems: 'center',
+          gap: 'var(--space-2)',
           marginTop: 'var(--space-3)',
           paddingTop: 'var(--space-2)',
           fontSize: 'var(--text-xs)',

@@ -121,6 +121,7 @@ export const CustomerDashboardPage: React.FC<CustomerDashboardPageProps> = ({ on
 
         {/* Dashboard Navigation Tabs */}
         <div
+          className="saathi-tab-strip"
           style={{
             display: 'flex',
             overflowX: 'auto',
@@ -128,6 +129,7 @@ export const CustomerDashboardPage: React.FC<CustomerDashboardPageProps> = ({ on
             paddingBottom: 'var(--space-2)',
             marginBottom: 'var(--space-6)',
             borderBottom: '1px solid var(--border-subtle)',
+            WebkitOverflowScrolling: 'touch',
             scrollbarWidth: 'none',
           }}
         >
@@ -183,7 +185,7 @@ export const CustomerDashboardPage: React.FC<CustomerDashboardPageProps> = ({ on
             <div
               style={{
                 display: 'grid',
-                gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))',
+                gridTemplateColumns: 'repeat(auto-fit, minmax(180px, 1fr))',
                 gap: 'var(--space-4)',
               }}
             >
