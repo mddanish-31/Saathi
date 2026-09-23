@@ -60,6 +60,8 @@ export const WeddingsEventsPage: React.FC<WeddingsEventsPageProps> = ({ onNaviga
           >
             {MASTER_WEDDINGS_CATEGORY.subCategories.map((sub) => {
               const isA1 = sub.slug === 'planning';
+              const isPhotography = sub.slug === 'photography';
+              const isFeatured = isA1 || isPhotography;
 
               return (
                 <div
@@ -68,6 +70,8 @@ export const WeddingsEventsPage: React.FC<WeddingsEventsPageProps> = ({ onNaviga
                   onClick={() => {
                     if (isA1) {
                       onNavigate('/categories/weddings-events/planning');
+                    } else if (isPhotography) {
+                      onNavigate('/categories/weddings-events/photography');
                     } else {
                       onNavigate(`/categories/weddings-events/${sub.slug}`);
                     }
@@ -75,19 +79,19 @@ export const WeddingsEventsPage: React.FC<WeddingsEventsPageProps> = ({ onNaviga
                   style={{
                     backgroundColor: 'var(--bg-surface)',
                     borderRadius: 'var(--radius-lg)',
-                    border: isA1 ? '1.5px solid var(--saathi-maroon)' : '1px solid var(--border-subtle)',
+                    border: isFeatured ? '1.5px solid var(--saathi-maroon)' : '1px solid var(--border-subtle)',
                     padding: 'var(--space-6)',
                     display: 'flex',
                     flexDirection: 'column',
                     justifyContent: 'space-between',
-                    boxShadow: isA1 ? 'var(--shadow-md)' : 'var(--shadow-sm)',
+                    boxShadow: isFeatured ? 'var(--shadow-md)' : 'var(--shadow-sm)',
                     cursor: 'pointer',
-                    opacity: isA1 ? 1 : 0.9,
+                    opacity: isFeatured ? 1 : 0.9,
                     position: 'relative',
                     transition: 'all var(--transition-normal)',
                   }}
                 >
-                  {isA1 && (
+                  {isFeatured && (
                     <div
                       style={{
                         position: 'absolute',
@@ -180,6 +184,22 @@ export const WeddingsEventsPage: React.FC<WeddingsEventsPageProps> = ({ onNaviga
                       }}
                     >
                       <span>Explore Planning & Coordination</span>
+                      <ArrowRight size={14} />
+                    </div>
+                  ) : isPhotography ? (
+                    <div
+                      style={{
+                        display: 'flex',
+                        alignItems: 'center',
+                        gap: '6px',
+                        fontSize: 'var(--text-xs)',
+                        fontWeight: 600,
+                        color: 'var(--saathi-maroon)',
+                        paddingTop: 'var(--space-2)',
+                        borderTop: '1px solid var(--border-subtle)',
+                      }}
+                    >
+                      <span>Explore Photography</span>
                       <ArrowRight size={14} />
                     </div>
                   ) : (

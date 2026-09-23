@@ -17,10 +17,10 @@ export const PREVIEW_CATEGORIES: CategoryPreviewItem[] = [
   {
     id: 'photography-production',
     name: 'Photography & Visuals',
-    description: 'Candid wedding photographers, cinematographers, drone pilots, and studio portraitists.',
+    description: 'Professional photography services to preserve your most memorable moments.',
     iconName: 'Camera',
     tag: 'Creative',
-    href: '#categories',
+    href: '#photography',
   },
   {
     id: 'home-spaces',

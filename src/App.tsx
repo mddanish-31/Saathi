@@ -15,6 +15,7 @@ import { CustomerDashboardPage } from './pages/CustomerDashboardPage';
 import { ProfessionalDashboardPage } from './pages/ProfessionalDashboardPage';
 import { CustomerEnquiriesPage } from './pages/CustomerEnquiriesPage';
 import { PlaceholderPage } from './pages/PlaceholderPage';
+import { PhotographyPage } from './pages/PhotographyPage';
 import { MASTER_WEDDINGS_CATEGORY } from './data/weddingPlanningData';
 
 export const App: React.FC = () => {
@@ -91,6 +92,14 @@ export const App: React.FC = () => {
       return { type: 'weddings-events' };
     }
 
+    // 5b. Photography Vertical
+    if (
+      pathname === '/categories/weddings-events/photography' ||
+      pathname === '/categories/photography'
+    ) {
+      return { type: 'photography' };
+    }
+
     // 6. Subcategory A1: Planning & Coordination
     if (pathname === '/categories/weddings-events/planning') {
       return { type: 'wedding-planning' };
@@ -162,6 +171,8 @@ export const App: React.FC = () => {
         return <CustomerEnquiriesPage enquiryId={route.enquiryId} onNavigate={navigate} />;
       case 'weddings-events':
         return <WeddingsEventsPage onNavigate={navigate} />;
+      case 'photography':
+        return <PhotographyPage onNavigate={navigate} />;
       case 'wedding-planning':
         return <WeddingPlanningPage onNavigate={navigate} />;
       case 'wedding-planning-service':

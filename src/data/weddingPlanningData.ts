@@ -65,6 +65,7 @@ export const MASTER_WEDDINGS_CATEGORY: MasterCategory = {
       id: 'sub-photography',
       code: 'A2',
       name: 'Photography & Videography',
+<<<<<<< HEAD
       title: 'Photography & Videography',
       slug: 'photography',
       description: 'Candid visual storytellers, cinematic documentary teams, drone pilots, and heirloom portraiture specialists.',
@@ -72,6 +73,11 @@ export const MASTER_WEDDINGS_CATEGORY: MasterCategory = {
       isActive: false,
       image: unsplash('photo-1537633552985-df8429e8048b', 800),
       imageUrl: unsplash('photo-1537633552985-df8429e8048b', 800),
+=======
+      description: 'Professional photography services to preserve your most memorable moments.',
+      isActive: true,
+      itemCount: '3 Curated Formats',
+>>>>>>> b486629 (Updated photography section and website content)
     },
     {
       id: 'sub-entertainment',
