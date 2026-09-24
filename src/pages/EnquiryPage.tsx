@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { ArrowLeft, UserX } from 'lucide-react';
-import { getProfessionalById } from '../data/weddingPlanningData';
+import { getProfessionalById } from '../data/professionalDirectory';
 import { useAuth } from '../context/AuthContext';
 import { useEnquiry } from '../context/EnquiryContext';
 import { EnquiryForm } from '../components/enquiry/EnquiryForm';
@@ -102,9 +102,9 @@ export const EnquiryPage: React.FC<EnquiryPageProps> = ({
               variant="outline"
               size="md"
               leftIcon={<ArrowLeft size={16} />}
-              onClick={() => onNavigate('/categories/weddings-events/planning')}
+              onClick={() => onNavigate('/categories/weddings-events')}
             >
-              Back to Wedding Specialists
+              Back to Weddings & Events
             </Button>
           </div>
         </Container>

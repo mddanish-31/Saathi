@@ -9,14 +9,13 @@ import { LoginPage } from './pages/LoginPage';
 import { SignupPage } from './pages/SignupPage';
 import { WeddingsEventsPage } from './pages/WeddingsEventsPage';
 import { WeddingPlanningPage } from './pages/WeddingPlanningPage';
+import { MusicEntertainmentPage } from './pages/MusicEntertainmentPage';
 import { ProfessionalProfilePage } from './pages/ProfessionalProfilePage';
 import { EnquiryPage } from './pages/EnquiryPage';
 import { CustomerDashboardPage } from './pages/CustomerDashboardPage';
 import { ProfessionalDashboardPage } from './pages/ProfessionalDashboardPage';
 import { CustomerEnquiriesPage } from './pages/CustomerEnquiriesPage';
 import { PlaceholderPage } from './pages/PlaceholderPage';
-import { PhotographyPage } from './pages/PhotographyPage';
-import { MusicEntertainmentPage } from './pages/MusicEntertainmentPage';
 import { MASTER_WEDDINGS_CATEGORY } from './data/weddingPlanningData';
 
 export const App: React.FC = () => {
@@ -93,14 +92,6 @@ export const App: React.FC = () => {
       return { type: 'weddings-events' };
     }
 
-    // 5b. Photography Vertical
-    if (
-      pathname === '/categories/weddings-events/photography' ||
-      pathname === '/categories/photography'
-    ) {
-      return { type: 'photography' };
-    }
-
     // 6. Subcategory A1: Planning & Coordination
     if (pathname === '/categories/weddings-events/planning') {
       return { type: 'wedding-planning' };
@@ -115,13 +106,16 @@ export const App: React.FC = () => {
       return { type: 'wedding-planning-service', serviceSlug: 'wedding-coordination' };
     }
 
-    // 6c. Subcategory A3: Music & Entertainment
+    // 6b. Subcategory A3: Music & Entertainment
     if (pathname === '/categories/weddings-events/entertainment') {
       return { type: 'music-entertainment' };
     }
-    const entertainmentServiceMatch = pathname.match(/^\/categories\/weddings-events\/entertainment\/([^/]+)$/);
-    if (entertainmentServiceMatch) {
-      return { type: 'music-entertainment-service', serviceSlug: entertainmentServiceMatch[1] };
+    const a3ServiceMatch = pathname.match(/^\/categories\/weddings-events\/entertainment\/([^/]+)$/);
+    if (a3ServiceMatch) {
+      const a3ServiceSlugs = ['djs', 'live-bands', 'singers', 'performers', 'anchors-hosts', 'event-production'];
+      if (a3ServiceSlugs.includes(a3ServiceMatch[1])) {
+        return { type: 'music-entertainment-service', serviceSlug: a3ServiceMatch[1] };
+      }
     }
 
     // 7. Professionals Profile & Enquiry
@@ -142,7 +136,7 @@ export const App: React.FC = () => {
       const title = subFound ? subFound.name : subSlug.replace(/-/g, ' ').replace(/\b\w/g, (c) => c.toUpperCase());
       return {
         type: 'placeholder',
-        title: title,
+        title: `${title} (Coming Soon)`,
         description: 'This specialized vertical is currently in preparation and will be released in an upcoming Saathi platform phase.',
       };
     }
@@ -181,8 +175,6 @@ export const App: React.FC = () => {
         return <CustomerEnquiriesPage enquiryId={route.enquiryId} onNavigate={navigate} />;
       case 'weddings-events':
         return <WeddingsEventsPage onNavigate={navigate} />;
-      case 'photography':
-        return <PhotographyPage onNavigate={navigate} />;
       case 'wedding-planning':
         return <WeddingPlanningPage onNavigate={navigate} />;
       case 'wedding-planning-service':

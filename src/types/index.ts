@@ -75,39 +75,6 @@ export interface ServiceItem {
   features: string[];
   typicalTimeline: string;
   idealFor: string;
-  isComingSoon?: boolean;
-}
-
-export interface PlannedServiceItem {
-  name: string;
-  slug?: string;
-  description?: string;
-}
-
-export interface MarketplaceSubCategory {
-  id: string;
-  code: string;
-  name: string;
-  slug: string;
-  description: string;
-  badge?: string;
-  isActive: boolean;
-  plannedServices: string[];
-  imageUrl?: string;
-  heroImage?: string;
-}
-
-export interface MarketplaceCategory {
-  id: string;
-  code: string;
-  name: string;
-  slug: string;
-  description: string;
-  isActive: boolean;
-  subCategories?: MarketplaceSubCategory[];
-  plannedServices?: string[];
-  iconName?: string;
-  heroImage?: string;
 }
 
 export interface PortfolioItem {
@@ -118,6 +85,8 @@ export interface PortfolioItem {
   imageUrl: string;
   description: string;
   tags: string[];
+  /** Optional media kind for the portfolio item. Defaults to 'image' behavior when omitted. */
+  type?: 'image' | 'video' | 'audio';
 }
 
 export interface ReviewItem {
@@ -155,6 +124,13 @@ export interface Professional {
   verified: boolean;
   portfolio: PortfolioItem[];
   reviews: ReviewItem[];
+  /* Optional, backward-compatible performance/entertainment metadata (A3). Omitted for A1 professionals. */
+  performanceType?: string;
+  genres?: string[];
+  eventTypes?: string[];
+  performanceDuration?: string;
+  teamSize?: string;
+  equipmentProvided?: string[];
 }
 
 /* ==========================================================================

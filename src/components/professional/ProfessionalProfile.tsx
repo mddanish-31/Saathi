@@ -17,7 +17,7 @@ import { Button } from '../ui/Button';
 import { Container } from '../ui/Container';
 import { PortfolioGallery } from './PortfolioGallery';
 import { ReviewSection } from './ReviewSection';
-import { ALL_SERVICES, getEntertainmentDetailsById } from '../../data/weddingPlanningData';
+import { ALL_SERVICES, getDirectoryPathForProfessional } from '../../data/professionalDirectory';
 
 interface ProfessionalProfileProps {
   professional: Professional;
@@ -46,8 +46,6 @@ export const ProfessionalProfile: React.FC<ProfessionalProfileProps> = ({
   const matchedServices = ALL_SERVICES.filter((srv) =>
     professional.servicesOffered.includes(srv.slug)
   );
-
-  const entertainmentDetails = getEntertainmentDetailsById(professional.id);
 
   return (
     <div className={`saathi-professional-profile ${className}`}>
@@ -90,7 +88,7 @@ export const ProfessionalProfile: React.FC<ProfessionalProfileProps> = ({
           <div style={{ paddingTop: 'var(--space-3)', marginBottom: '-30px', position: 'relative', zIndex: 20 }}>
             <button
               type="button"
-              onClick={() => onNavigate('/categories/weddings-events/planning')}
+              onClick={() => onNavigate(getDirectoryPathForProfessional(professional))}
               style={{
                 display: 'inline-flex',
                 alignItems: 'center',
@@ -420,8 +418,8 @@ export const ProfessionalProfile: React.FC<ProfessionalProfileProps> = ({
                   </div>
                 </div>
 
-                {/* Entertainment Performance & Technical Specifications (When available for A3 professionals) */}
-                {entertainmentDetails && (
+                {/* Performance Details \u2014 optional, only rendered when a professional supplies them (A3) */}
+                {(professional.performanceType || professional.genres || professional.eventTypes) && (
                   <div
                     style={{
                       backgroundColor: 'var(--bg-surface)',
@@ -430,151 +428,100 @@ export const ProfessionalProfile: React.FC<ProfessionalProfileProps> = ({
                       border: '1px solid var(--border-subtle)',
                     }}
                   >
-                    <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: 'var(--space-4)' }}>
-                      <Sparkles size={18} color="var(--saathi-maroon)" />
-                      <h3
-                        style={{
-                          fontFamily: 'var(--font-serif)',
-                          fontSize: 'var(--text-xl)',
-                          color: 'var(--text-headings)',
-                        }}
-                      >
-                        Performance & Technical Specifications
-                      </h3>
-                    </div>
-
+                    <h3
+                      style={{
+                        fontFamily: 'var(--font-serif)',
+                        fontSize: 'var(--text-lg)',
+                        color: 'var(--text-headings)',
+                        marginBottom: 'var(--space-4)',
+                      }}
+                    >
+                      Performance Details
+                    </h3>
                     <div
                       style={{
                         display: 'grid',
-                        gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))',
+                        gridTemplateColumns: 'repeat(auto-fit, minmax(180px, 1fr))',
                         gap: 'var(--space-4)',
-                        marginBottom: 'var(--space-5)',
                       }}
                     >
-                      <div
-                        style={{
-                          padding: 'var(--space-4)',
-                          backgroundColor: 'var(--bg-surface-soft)',
-                          borderRadius: 'var(--radius-md)',
-                          border: '1px solid var(--border-subtle)',
-                        }}
-                      >
-                        <div style={{ fontSize: '0.7rem', textTransform: 'uppercase', letterSpacing: '0.04em', color: 'var(--text-muted)', marginBottom: '4px' }}>
-                          Performance Format
+                      {professional.performanceType && (
+                        <div>
+                          <span style={{ fontSize: '0.75rem', color: 'var(--text-muted)', display: 'block' }}>Performance Type</span>
+                          <strong style={{ fontSize: 'var(--text-sm)', color: 'var(--text-headings)' }}>{professional.performanceType}</strong>
                         </div>
-                        <div style={{ fontSize: 'var(--text-sm)', fontWeight: 600, color: 'var(--text-headings)' }}>
-                          {entertainmentDetails.performanceType}
+                      )}
+                      {professional.performanceDuration && (
+                        <div>
+                          <span style={{ fontSize: '0.75rem', color: 'var(--text-muted)', display: 'block' }}>Performance Duration</span>
+                          <strong style={{ fontSize: 'var(--text-sm)', color: 'var(--text-headings)' }}>{professional.performanceDuration}</strong>
                         </div>
-                      </div>
-
-                      <div
-                        style={{
-                          padding: 'var(--space-4)',
-                          backgroundColor: 'var(--bg-surface-soft)',
-                          borderRadius: 'var(--radius-md)',
-                          border: '1px solid var(--border-subtle)',
-                        }}
-                      >
-                        <div style={{ fontSize: '0.7rem', textTransform: 'uppercase', letterSpacing: '0.04em', color: 'var(--text-muted)', marginBottom: '4px' }}>
-                          Set Duration & Coverage
+                      )}
+                      {professional.teamSize && (
+                        <div>
+                          <span style={{ fontSize: '0.75rem', color: 'var(--text-muted)', display: 'block' }}>Team Size</span>
+                          <strong style={{ fontSize: 'var(--text-sm)', color: 'var(--text-headings)' }}>{professional.teamSize}</strong>
                         </div>
-                        <div style={{ fontSize: 'var(--text-sm)', fontWeight: 600, color: 'var(--text-headings)' }}>
-                          {entertainmentDetails.performanceDuration}
-                        </div>
-                      </div>
-
-                      <div
-                        style={{
-                          padding: 'var(--space-4)',
-                          backgroundColor: 'var(--bg-surface-soft)',
-                          borderRadius: 'var(--radius-md)',
-                          border: '1px solid var(--border-subtle)',
-                        }}
-                      >
-                        <div style={{ fontSize: '0.7rem', textTransform: 'uppercase', letterSpacing: '0.04em', color: 'var(--text-muted)', marginBottom: '4px' }}>
-                          Ensemble / Team Size
-                        </div>
-                        <div style={{ fontSize: 'var(--text-sm)', fontWeight: 600, color: 'var(--text-headings)' }}>
-                          {entertainmentDetails.teamSize} {entertainmentDetails.teamSize === 1 ? 'Artist' : 'Members'}
-                        </div>
-                      </div>
+                      )}
                     </div>
 
-                    {/* Genres & Event Types */}
-                    <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(260px, 1fr))', gap: 'var(--space-5)', marginBottom: 'var(--space-5)' }}>
-                      <div>
-                        <h4 style={{ fontSize: 'var(--text-xs)', fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.05em', color: 'var(--text-muted)', marginBottom: 'var(--space-2)' }}>
-                          Repertoire & Genres:
-                        </h4>
-                        <div style={{ display: 'flex', flexWrap: 'wrap', gap: 'var(--space-2)' }}>
-                          {entertainmentDetails.genres.map((genre) => (
+                    {professional.genres && professional.genres.length > 0 && (
+                      <div style={{ marginTop: 'var(--space-5)' }}>
+                        <span style={{ fontSize: '0.75rem', color: 'var(--text-muted)', display: 'block', marginBottom: 'var(--space-2)' }}>Genres</span>
+                        <div style={{ display: 'flex', flexWrap: 'wrap', gap: '6px' }}>
+                          {professional.genres.map((g) => (
                             <span
-                              key={genre}
+                              key={g}
                               style={{
-                                fontSize: 'var(--text-xs)',
-                                padding: '0.25rem 0.65rem',
+                                fontSize: '0.7rem',
+                                padding: '0.25rem 0.6rem',
+                                borderRadius: 'var(--radius-full)',
+                                backgroundColor: 'var(--bg-surface-soft)',
+                                border: '1px solid var(--border-subtle)',
+                                color: 'var(--text-secondary)',
+                              }}
+                            >
+                              {g}
+                            </span>
+                          ))}
+                        </div>
+                      </div>
+                    )}
+
+                    {professional.eventTypes && professional.eventTypes.length > 0 && (
+                      <div style={{ marginTop: 'var(--space-5)' }}>
+                        <span style={{ fontSize: '0.75rem', color: 'var(--text-muted)', display: 'block', marginBottom: 'var(--space-2)' }}>Event Types</span>
+                        <div style={{ display: 'flex', flexWrap: 'wrap', gap: '6px' }}>
+                          {professional.eventTypes.map((et) => (
+                            <span
+                              key={et}
+                              style={{
+                                fontSize: '0.7rem',
+                                padding: '0.25rem 0.6rem',
                                 borderRadius: 'var(--radius-full)',
                                 backgroundColor: 'var(--saathi-nude-tint)',
                                 color: 'var(--saathi-maroon)',
                                 fontWeight: 600,
-                                border: '1px solid var(--border-subtle)',
                               }}
                             >
-                              {genre}
+                              {et}
                             </span>
                           ))}
                         </div>
                       </div>
+                    )}
 
-                      <div>
-                        <h4 style={{ fontSize: 'var(--text-xs)', fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.05em', color: 'var(--text-muted)', marginBottom: 'var(--space-2)' }}>
-                          Ideal Occasions & Functions:
-                        </h4>
-                        <div style={{ display: 'flex', flexWrap: 'wrap', gap: 'var(--space-2)' }}>
-                          {entertainmentDetails.eventTypes.map((evt) => (
-                            <span
-                              key={evt}
-                              style={{
-                                fontSize: 'var(--text-xs)',
-                                padding: '0.25rem 0.65rem',
-                                borderRadius: 'var(--radius-full)',
-                                backgroundColor: 'var(--bg-surface-soft)',
-                                color: 'var(--text-secondary)',
-                                fontWeight: 500,
-                                border: '1px solid var(--border-subtle)',
-                              }}
-                            >
-                              {evt}
-                            </span>
+                    {professional.equipmentProvided && professional.equipmentProvided.length > 0 && (
+                      <div style={{ marginTop: 'var(--space-5)' }}>
+                        <span style={{ fontSize: '0.75rem', color: 'var(--text-muted)', display: 'block', marginBottom: 'var(--space-2)' }}>Equipment Provided</span>
+                        <ul style={{ listStyle: 'none', padding: 0, margin: 0, display: 'flex', flexDirection: 'column', gap: '4px' }}>
+                          {professional.equipmentProvided.map((eq) => (
+                            <li key={eq} style={{ fontSize: 'var(--text-xs)', color: 'var(--text-secondary)', display: 'flex', alignItems: 'center', gap: '6px' }}>
+                              <CheckCircle2 size={12} style={{ color: 'var(--saathi-maroon)' }} />
+                              {eq}
+                            </li>
                           ))}
-                        </div>
-                      </div>
-                    </div>
-
-                    {/* Technical Equipment & Rider */}
-                    {entertainmentDetails.equipment && entertainmentDetails.equipment.length > 0 && (
-                      <div>
-                        <h4 style={{ fontSize: 'var(--text-xs)', fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.05em', color: 'var(--text-muted)', marginBottom: 'var(--space-2)' }}>
-                          Supplied Technical Rider & Equipment:
-                        </h4>
-                        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: 'var(--space-2)' }}>
-                          {entertainmentDetails.equipment.map((eq, idx) => (
-                            <div
-                              key={idx}
-                              style={{
-                                display: 'flex',
-                                alignItems: 'center',
-                                gap: '6px',
-                                fontSize: 'var(--text-xs)',
-                                color: 'var(--text-secondary)',
-                                padding: '3px 0',
-                              }}
-                            >
-                              <Check size={14} style={{ color: 'var(--saathi-maroon)', flexShrink: 0 }} />
-                              <span>{eq}</span>
-                            </div>
-                          ))}
-                        </div>
+                        </ul>
                       </div>
                     )}
                   </div>

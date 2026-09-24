@@ -1,14 +1,12 @@
 import React, { useState, useMemo } from 'react';
-import { A3_SERVICES, MOCK_PROFESSIONALS } from '../data/weddingPlanningData';
+import { A3_SERVICES, A3_MOCK_PROFESSIONALS } from '../data/musicEntertainmentData';
 import { CategoryHero, BreadcrumbItem } from '../components/category/CategoryHero';
 import { ServiceCard } from '../components/category/ServiceCard';
-import { FilterBar, FilterState } from '../components/category/FilterBar';
+import { FilterBar, FilterState, ExtraFilterOption } from '../components/category/FilterBar';
 import { ProfessionalGrid } from '../components/professional/ProfessionalGrid';
 import { Container } from '../components/ui/Container';
 import { SectionHeading } from '../components/ui/SectionHeading';
-import { Card } from '../components/ui/Card';
 import { Professional, ServiceItem } from '../types';
-import { CheckCircle2, Clock, Sparkles, Music2 } from 'lucide-react';
 
 interface MusicEntertainmentPageProps {
   activeServiceSlug?: string;
@@ -31,6 +29,19 @@ export const MusicEntertainmentPage: React.FC<MusicEntertainmentPageProps> = ({
     sortBy: 'rating',
   });
 
+  // A3-specific filters (Event Type, Performance Type). Frontend-only/mock, passed to the
+  // shared FilterBar through its generic `extraFilters` slot \u2014 A1 is unaffected.
+  const EVENT_TYPE_OPTIONS = ['All Event Types', 'Wedding', 'Reception', 'Sangeet', 'Engagement', 'Mehendi', 'Haldi', 'Corporate Event', 'Private Party'];
+  const PERFORMANCE_TYPE_OPTIONS = ['All Performance Types', 'DJ', 'Live Band', 'Singer', 'Performer', 'Anchor/Host', 'Sound System', 'Light & Sound'];
+
+  const [eventType, setEventType] = useState(EVENT_TYPE_OPTIONS[0]);
+  const [performanceType, setPerformanceType] = useState(PERFORMANCE_TYPE_OPTIONS[0]);
+
+  const extraFilters: ExtraFilterOption[] = [
+    { label: 'Filter by event type', value: eventType, options: EVENT_TYPE_OPTIONS, onChange: setEventType },
+    { label: 'Filter by performance type', value: performanceType, options: PERFORMANCE_TYPE_OPTIONS, onChange: setPerformanceType },
+  ];
+
   const handleResetFilters = () => {
     setFilters({
       search: '',
@@ -39,6 +50,8 @@ export const MusicEntertainmentPage: React.FC<MusicEntertainmentPageProps> = ({
       minExperience: 0,
       sortBy: 'rating',
     });
+    setEventType(EVENT_TYPE_OPTIONS[0]);
+    setPerformanceType(PERFORMANCE_TYPE_OPTIONS[0]);
   };
 
   const handleSelectService = (slug: string) => {
@@ -76,22 +89,12 @@ export const MusicEntertainmentPage: React.FC<MusicEntertainmentPageProps> = ({
     breadcrumbs.push({ label: currentService.title });
   }
 
-  // All A3 Service Slugs for general entertainment category filtering
-  const a3ServiceSlugs = useMemo(() => A3_SERVICES.map((s) => s.slug), []);
-
-  // Filter & Sort Logic
+  // Filter & Sort Logic (mirrors WeddingPlanningPage; frontend-only/mock, no backend filtering)
   const filteredProfessionals = useMemo(() => {
-    return MOCK_PROFESSIONALS.filter((pro) => {
-      // 1. Service Filter (if activeServiceSlug specified, match it; otherwise must offer at least one A3 service)
-      if (activeServiceSlug) {
-        if (!pro.servicesOffered.includes(activeServiceSlug)) {
-          return false;
-        }
-      } else {
-        const offersA3Service = pro.servicesOffered.some((slug) => a3ServiceSlugs.includes(slug));
-        if (!offersA3Service) {
-          return false;
-        }
+    return A3_MOCK_PROFESSIONALS.filter((pro) => {
+      // 1. Service Filter
+      if (activeServiceSlug && !pro.servicesOffered.includes(activeServiceSlug)) {
+        return false;
       }
 
       // 2. City Filter
@@ -101,45 +104,42 @@ export const MusicEntertainmentPage: React.FC<MusicEntertainmentPageProps> = ({
         if (!inMainCity && !inServed) return false;
       }
 
-      // 3. Search Query
+      // 3. Search Query (name, brand, specialties/genres, location)
       if (filters.search.trim()) {
         const q = filters.search.toLowerCase();
         const matchesName = pro.name.toLowerCase().includes(q);
         const matchesBrand = pro.brandName.toLowerCase().includes(q);
         const matchesSpecialty = pro.specialties.some((s) => s.toLowerCase().includes(q));
+        const matchesGenre = (pro.genres ?? []).some((g) => g.toLowerCase().includes(q));
         const matchesLocation = pro.location.toLowerCase().includes(q);
-        const matchesAbout = pro.about.toLowerCase().includes(q);
-        if (!matchesName && !matchesBrand && !matchesSpecialty && !matchesLocation && !matchesAbout) {
+        if (!matchesName && !matchesBrand && !matchesSpecialty && !matchesGenre && !matchesLocation) {
           return false;
         }
       }
 
       // 4. Budget Filter
       if (filters.budget !== 'All') {
-        if (
-          filters.budget === 'under-2l' &&
-          !pro.startingPrice.includes('45,000') &&
-          !pro.startingPrice.includes('60,000') &&
-          !pro.startingPrice.includes('75,000') &&
-          !pro.startingPrice.includes('80,000') &&
-          !pro.startingPrice.includes('1,10,000') &&
-          !pro.startingPrice.includes('1,20,000') &&
-          !pro.startingPrice.includes('1,25,000') &&
-          !pro.startingPrice.includes('1,50,000')
-        ) {
+        if (filters.budget === 'under-2l' && !pro.startingPrice.includes('25,000') && !pro.startingPrice.includes('30,000') && !pro.startingPrice.includes('35,000') && !pro.startingPrice.includes('40,000')) {
           return false;
         }
-        if (
-          filters.budget === 'above-15l' &&
-          !pro.priceRange.includes('4L') &&
-          !pro.priceRange.includes('5L') &&
-          !pro.priceRange.includes('6L') &&
-          !pro.priceRange.includes('7L') &&
-          !pro.priceRange.includes('8L') &&
-          !pro.priceRange.includes('10L')
-        ) {
+        if (filters.budget === 'above-15l' && !pro.priceRange.includes('4L') && !pro.priceRange.includes('3.2L')) {
           return false;
         }
+      }
+
+      // 5. Experience Filter
+      if (filters.minExperience > 0 && pro.experienceYears < filters.minExperience) {
+        return false;
+      }
+
+      // 6. Event Type Filter (mock/frontend-only)
+      if (eventType !== EVENT_TYPE_OPTIONS[0] && !(pro.eventTypes ?? []).includes(eventType)) {
+        return false;
+      }
+
+      // 7. Performance Type Filter (mock/frontend-only)
+      if (performanceType !== PERFORMANCE_TYPE_OPTIONS[0] && pro.performanceType !== performanceType) {
+        return false;
       }
 
       return true;
@@ -149,27 +149,27 @@ export const MusicEntertainmentPage: React.FC<MusicEntertainmentPageProps> = ({
       if (filters.sortBy === 'name') return a.brandName.localeCompare(b.brandName);
       return 0;
     });
-  }, [activeServiceSlug, a3ServiceSlugs, filters]);
+  }, [activeServiceSlug, filters, eventType, performanceType]);
 
   const pageTitle = currentService ? currentService.title : 'Music & Entertainment';
 
   const pageDescription = currentService
     ? currentService.fullDescription
-    : 'Concert DJs, live Sufi & Bollywood ensembles, folk troupes, bilingual emcees, and concert sound production engineered for unforgettable celebrations.';
+    : 'Book DJs, live bands, singers, performers, bilingual anchors, and full sound & light production teams to power every stage of your celebration \u2014 from an intimate mandap ceremony to a showstopper sangeet night.';
 
   return (
     <div className="saathi-music-entertainment-page">
       {/* Category Hero */}
       <CategoryHero
         breadcrumbs={breadcrumbs}
-        codeTag="Vertical A3"
+        codeTag="Subcategory A3"
         title={pageTitle}
         description={pageDescription}
         onNavigate={onNavigate}
         activeServiceSlug={activeServiceSlug}
         serviceTabs={[
           { label: 'DJs', slug: 'djs' },
-          { label: 'Live Bands', slug: 'live-bands' },
+          { label: 'Live Bands & Musicians', slug: 'live-bands' },
           { label: 'Singers', slug: 'singers' },
           { label: 'Performers', slug: 'performers' },
           { label: 'Anchors & Hosts', slug: 'anchors-hosts' },
@@ -179,222 +179,21 @@ export const MusicEntertainmentPage: React.FC<MusicEntertainmentPageProps> = ({
       />
 
       {/* Main Section */}
-      <section
-        style={{
-          padding: 'clamp(var(--space-10), 5vw, var(--space-16)) 0',
-          backgroundColor: 'var(--bg-app)',
-        }}
-      >
+      <section style={{ padding: 'clamp(var(--space-10), 5vw, var(--space-16)) 0', backgroundColor: 'var(--bg-app)' }}>
         <Container>
-          {/* Active Service Deep Dive Card (When a service route is active) */}
-          {currentService && (
-            <div style={{ marginBottom: 'var(--space-12)' }}>
-              <Card
-                padding="lg"
-                elevation="sm"
-                style={{
-                  backgroundColor: 'var(--bg-surface)',
-                  borderRadius: 'var(--radius-xl)',
-                  border: '1px solid var(--border-subtle)',
-                }}
-              >
-                <div
-                  style={{
-                    display: 'grid',
-                    gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))',
-                    gap: 'var(--space-8)',
-                  }}
-                >
-                  <div>
-                    <div
-                      style={{
-                        display: 'inline-flex',
-                        alignItems: 'center',
-                        gap: '6px',
-                        fontSize: 'var(--text-xs)',
-                        fontWeight: 600,
-                        textTransform: 'uppercase',
-                        letterSpacing: '0.05em',
-                        color: 'var(--saathi-maroon)',
-                        backgroundColor: 'var(--saathi-nude-tint)',
-                        padding: '0.25rem 0.75rem',
-                        borderRadius: 'var(--radius-full)',
-                        marginBottom: 'var(--space-3)',
-                      }}
-                    >
-                      <Sparkles size={13} />
-                      <span>Service Overview</span>
-                    </div>
-
-                    <h2
-                      style={{
-                        fontFamily: 'var(--font-serif)',
-                        fontSize: 'var(--text-2xl)',
-                        color: 'var(--text-headings)',
-                        marginBottom: 'var(--space-3)',
-                      }}
-                    >
-                      {currentService.title}
-                    </h2>
-
-                    <p
-                      style={{
-                        fontSize: 'var(--text-sm)',
-                        color: 'var(--text-secondary)',
-                        lineHeight: 'var(--leading-relaxed)',
-                        marginBottom: 'var(--space-5)',
-                      }}
-                    >
-                      {currentService.fullDescription}
-                    </p>
-
-                    <div
-                      style={{
-                        display: 'flex',
-                        flexWrap: 'wrap',
-                        gap: 'var(--space-4)',
-                        padding: 'var(--space-4)',
-                        backgroundColor: 'var(--bg-surface-soft)',
-                        borderRadius: 'var(--radius-md)',
-                        border: '1px solid var(--border-subtle)',
-                      }}
-                    >
-                      <div>
-                        <div
-                          style={{
-                            fontSize: '0.7rem',
-                            textTransform: 'uppercase',
-                            letterSpacing: '0.04em',
-                            color: 'var(--text-muted)',
-                            marginBottom: '2px',
-                          }}
-                        >
-                          Starting From
-                        </div>
-                        <div
-                          style={{
-                            fontSize: 'var(--text-lg)',
-                            fontWeight: 700,
-                            color: 'var(--saathi-maroon)',
-                          }}
-                        >
-                          {currentService.startingPrice}
-                        </div>
-                        <div style={{ fontSize: '0.7rem', color: 'var(--text-muted)' }}>
-                          {currentService.priceModel}
-                        </div>
-                      </div>
-
-                      <div style={{ borderLeft: '1px solid var(--border-subtle)', paddingLeft: 'var(--space-4)' }}>
-                        <div
-                          style={{
-                            fontSize: '0.7rem',
-                            textTransform: 'uppercase',
-                            letterSpacing: '0.04em',
-                            color: 'var(--text-muted)',
-                            marginBottom: '2px',
-                          }}
-                        >
-                          Typical Lead Time
-                        </div>
-                        <div
-                          style={{
-                            display: 'flex',
-                            alignItems: 'center',
-                            gap: '4px',
-                            fontSize: 'var(--text-sm)',
-                            fontWeight: 600,
-                            color: 'var(--text-primary)',
-                          }}
-                        >
-                          <Clock size={14} color="var(--saathi-maroon)" />
-                          <span>{currentService.typicalTimeline}</span>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-
-                  <div>
-                    <h3
-                      style={{
-                        fontSize: 'var(--text-sm)',
-                        fontWeight: 600,
-                        textTransform: 'uppercase',
-                        letterSpacing: '0.04em',
-                        color: 'var(--text-headings)',
-                        marginBottom: 'var(--space-3)',
-                      }}
-                    >
-                      Standard Inclusions & Deliverables
-                    </h3>
-
-                    <ul
-                      style={{
-                        listStyle: 'none',
-                        padding: 0,
-                        margin: '0 0 var(--space-5) 0',
-                        display: 'flex',
-                        flexDirection: 'column',
-                        gap: 'var(--space-2)',
-                      }}
-                    >
-                      {currentService.features.map((feat, idx) => (
-                        <li
-                          key={idx}
-                          style={{
-                            display: 'flex',
-                            alignItems: 'flex-start',
-                            gap: '8px',
-                            fontSize: 'var(--text-xs)',
-                            color: 'var(--text-secondary)',
-                            lineHeight: 1.5,
-                          }}
-                        >
-                          <CheckCircle2
-                            size={16}
-                            style={{ color: 'var(--saathi-maroon)', flexShrink: 0, marginTop: '2px' }}
-                          />
-                          <span>{feat}</span>
-                        </li>
-                      ))}
-                    </ul>
-
-                    {currentService.idealFor && (
-                      <div
-                        style={{
-                          padding: 'var(--space-3) var(--space-4)',
-                          borderRadius: 'var(--radius-md)',
-                          backgroundColor: 'var(--saathi-nude-tint)',
-                          border: '1px solid var(--border-subtle)',
-                        }}
-                      >
-                        <span style={{ fontSize: 'var(--text-xs)', fontWeight: 600, color: 'var(--saathi-maroon)' }}>
-                          Ideal for:{' '}
-                        </span>
-                        <span style={{ fontSize: 'var(--text-xs)', color: 'var(--text-secondary)' }}>
-                          {currentService.idealFor}
-                        </span>
-                      </div>
-                    )}
-                  </div>
-                </div>
-              </Card>
-            </div>
-          )}
-
-          {/* All 6 Services Overview Cards (Show when on main A3 vertical page) */}
+          {/* Services Overview Cards (Show if on main entertainment page) */}
           {!activeServiceSlug && (
             <div style={{ marginBottom: 'var(--space-16)' }}>
               <SectionHeading
-                eyebrow="Specialized Entertainment Categories"
-                title="Explore Music & Entertainment Verticals"
-                subtitle="From concert-grade dance floors to soul-stirring live mehfils and high-octane stage choreography, select a category to discover curated talent."
+                eyebrow="Specialized Entertainment Services"
+                title="Choose Your Entertainment Engagement"
+                subtitle="Whether you need a full-night DJ set, a live fusion band, a bilingual anchor to run the show, or complete sound & light production, our specialist directory has you covered."
               />
 
               <div
                 style={{
                   display: 'grid',
-                  gridTemplateColumns: 'repeat(auto-fill, minmax(320px, 1fr))',
+                  gridTemplateColumns: 'repeat(auto-fill, minmax(300px, 1fr))',
                   gap: 'var(--space-6)',
                 }}
               >
@@ -411,30 +210,29 @@ export const MusicEntertainmentPage: React.FC<MusicEntertainmentPageProps> = ({
 
           {/* Specialists Directory Header */}
           <div style={{ marginBottom: 'var(--space-6)' }}>
-            <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: 'var(--space-1)' }}>
-              <Music2 size={20} color="var(--saathi-maroon)" />
-              <h2
-                style={{
-                  fontFamily: 'var(--font-serif)',
-                  fontSize: 'clamp(1.5rem, 2.5vw, 2rem)',
-                  fontWeight: 600,
-                  color: 'var(--text-headings)',
-                }}
-              >
-                {currentService ? `${currentService.title} Specialists` : 'All Music & Entertainment Artists'}
-              </h2>
-            </div>
+            <h2
+              style={{
+                fontFamily: 'var(--font-serif)',
+                fontSize: 'clamp(1.5rem, 2.5vw, 2rem)',
+                fontWeight: 600,
+                color: 'var(--text-headings)',
+                marginBottom: 'var(--space-1)',
+              }}
+            >
+              {currentService ? `${currentService.title} Specialists` : 'All Music & Entertainment Specialists'}
+            </h2>
             <p style={{ fontSize: 'var(--text-sm)', color: 'var(--text-secondary)' }}>
-              Browse artist profiles, sound & lighting specifications, transparent pricing, and direct client reviews.
+              Browse performance portfolios, transparent price guides, and direct client reviews.
             </p>
           </div>
 
-          {/* Filter Bar */}
+          {/* Filter Bar (Location, Budget, Experience, Sort \u2014 frontend-only/mock) */}
           <FilterBar
             filters={filters}
             onFilterChange={setFilters}
             onReset={handleResetFilters}
             totalResults={filteredProfessionals.length}
+            extraFilters={extraFilters}
           />
 
           {/* Professional Grid */}
