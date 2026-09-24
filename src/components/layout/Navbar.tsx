@@ -102,7 +102,7 @@ export const Navbar: React.FC<NavbarProps> = ({ currentPath, onNavigate }) => {
     { code: 'A4', title: 'Beauty, Makeup & Mehndi', slug: '/categories/weddings-events/beauty-makeup-mehndi' },
     { code: 'A5', title: 'Catering, Food & Desserts', slug: '/categories/weddings-events/catering-food-desserts' },
     { code: 'A6', title: 'Wedding Venues', slug: '/categories/weddings-events/wedding-venues' },
-    { code: 'A7', title: 'Decor, Styling & Essentials', slug: '/categories/weddings-events/decor-styling-essentials' },
+    { code: 'A7', title: 'Decor, Styling & Wedding Essentials', slug: '/categories/weddings-events/decor-styling-essentials' },
     { code: 'A8', title: 'Wedding Transportation', slug: '/categories/weddings-events/wedding-transportation' },
   ];
 

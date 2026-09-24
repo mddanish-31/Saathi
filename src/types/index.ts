@@ -75,6 +75,39 @@ export interface ServiceItem {
   features: string[];
   typicalTimeline: string;
   idealFor: string;
+  isComingSoon?: boolean;
+}
+
+export interface PlannedServiceItem {
+  name: string;
+  slug?: string;
+  description?: string;
+}
+
+export interface MarketplaceSubCategory {
+  id: string;
+  code: string;
+  name: string;
+  slug: string;
+  description: string;
+  badge?: string;
+  isActive: boolean;
+  plannedServices: string[];
+  imageUrl?: string;
+  heroImage?: string;
+}
+
+export interface MarketplaceCategory {
+  id: string;
+  code: string;
+  name: string;
+  slug: string;
+  description: string;
+  isActive: boolean;
+  subCategories?: MarketplaceSubCategory[];
+  plannedServices?: string[];
+  iconName?: string;
+  heroImage?: string;
 }
 
 export interface PortfolioItem {
