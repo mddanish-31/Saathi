@@ -27,7 +27,7 @@ export const ProfessionalCard: React.FC<ProfessionalCardProps> = ({
         justifyContent: 'space-between',
         backgroundColor: 'var(--bg-surface)',
         border: '1px solid var(--border-subtle)',
-        borderRadius: 'var(--radius-lg)',
+        borderRadius: 'var(--radius-xl)',
         boxShadow: 'var(--shadow-sm)',
         transition: 'all var(--transition-normal)',
         overflow: 'hidden',
@@ -37,8 +37,9 @@ export const ProfessionalCard: React.FC<ProfessionalCardProps> = ({
       {/* Cover Header Image if available */}
       {professional.coverImageUrl && (
         <div
+          className="image-zoom-container"
           style={{
-            height: '110px',
+            height: '125px',
             width: '100%',
             overflow: 'hidden',
             position: 'relative',
@@ -53,7 +54,6 @@ export const ProfessionalCard: React.FC<ProfessionalCardProps> = ({
               height: '100%',
               objectFit: 'cover',
               display: 'block',
-              transition: 'transform 0.4s ease',
             }}
           />
           <div
@@ -61,13 +61,16 @@ export const ProfessionalCard: React.FC<ProfessionalCardProps> = ({
               position: 'absolute',
               top: '10px',
               right: '10px',
-              padding: '0.2rem 0.6rem',
+              padding: '0.22rem 0.65rem',
               borderRadius: 'var(--radius-full)',
-              backgroundColor: 'rgba(38, 26, 36, 0.75)',
+              backgroundColor: 'rgba(38, 26, 36, 0.78)',
               color: '#FAF6F3',
-              fontSize: '0.7rem',
+              fontSize: '0.6875rem',
               fontWeight: 600,
-              backdropFilter: 'blur(4px)',
+              letterSpacing: '0.04em',
+              textTransform: 'uppercase',
+              backdropFilter: 'blur(6px)',
+              border: '1px solid rgba(255, 255, 255, 0.12)',
             }}
           >
             {professional.businessType}

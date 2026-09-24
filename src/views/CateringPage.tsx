@@ -1,3 +1,5 @@
+"use client";
+
 import React, { useState } from 'react';
 import { CateringHero } from '../components/catering/CateringHero';
 import { CateringCategories } from '../components/catering/CateringCategories';

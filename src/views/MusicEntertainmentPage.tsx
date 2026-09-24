@@ -1,6 +1,8 @@
+"use client";
+
 import React, { useState, useMemo } from 'react';
 import { A3_SERVICES, A3_MOCK_PROFESSIONALS } from '../data/musicEntertainmentData';
-import { CategoryHero, BreadcrumbItem } from '../components/category/CategoryHero';
+import { CategoryHero } from '../components/category/CategoryHero';
 import { ServiceCard } from '../components/category/ServiceCard';
 import { FilterBar, FilterState, ExtraFilterOption } from '../components/category/FilterBar';
 import { ProfessionalGrid } from '../components/professional/ProfessionalGrid';
@@ -75,19 +77,7 @@ export const MusicEntertainmentPage: React.FC<MusicEntertainmentPageProps> = ({
     onNavigate(`/professionals/${pro.id}/enquire`);
   };
 
-  // Breadcrumbs computation
-  const breadcrumbs: BreadcrumbItem[] = [
-    { label: 'Home', href: '/' },
-    { label: 'Weddings & Events', href: '/categories/weddings-events' },
-    {
-      label: 'Music & Entertainment',
-      href: currentService ? '/categories/weddings-events/entertainment' : undefined,
-    },
-  ];
 
-  if (currentService) {
-    breadcrumbs.push({ label: currentService.title });
-  }
 
   // Filter & Sort Logic (mirrors WeddingPlanningPage; frontend-only/mock, no backend filtering)
   const filteredProfessionals = useMemo(() => {
@@ -161,8 +151,6 @@ export const MusicEntertainmentPage: React.FC<MusicEntertainmentPageProps> = ({
     <div className="saathi-music-entertainment-page">
       {/* Category Hero */}
       <CategoryHero
-        breadcrumbs={breadcrumbs}
-        codeTag="Subcategory A3"
         title={pageTitle}
         description={pageDescription}
         onNavigate={onNavigate}

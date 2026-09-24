@@ -27,7 +27,7 @@ export const ReviewSection: React.FC<ReviewSectionProps> = ({
           gap: 'var(--space-6)',
           padding: 'var(--space-6)',
           backgroundColor: 'var(--bg-surface-soft)',
-          borderRadius: 'var(--radius-lg)',
+          borderRadius: 'var(--radius-xl)',
           border: '1px solid var(--border-subtle)',
           marginBottom: 'var(--space-8)',
           alignItems: 'center',
@@ -106,9 +106,9 @@ export const ReviewSection: React.FC<ReviewSectionProps> = ({
           <div
             key={rev.id}
             style={{
-              padding: 'var(--space-6)',
+              padding: 'clamp(var(--space-5), 3vw, var(--space-6))',
               backgroundColor: 'var(--bg-surface)',
-              borderRadius: 'var(--radius-lg)',
+              borderRadius: 'var(--radius-xl)',
               border: '1px solid var(--border-subtle)',
               boxShadow: 'var(--shadow-sm)',
             }}
@@ -131,7 +131,7 @@ export const ReviewSection: React.FC<ReviewSectionProps> = ({
                     <h4
                       style={{
                         fontFamily: 'var(--font-serif)',
-                        fontSize: '1rem',
+                        fontSize: '1.05rem',
                         fontWeight: 600,
                         color: 'var(--text-headings)',
                       }}
@@ -168,6 +168,7 @@ export const ReviewSection: React.FC<ReviewSectionProps> = ({
                 fontSize: 'var(--text-sm)',
                 color: 'var(--text-secondary)',
                 lineHeight: 'var(--leading-relaxed)',
+                fontStyle: 'italic',
               }}
             >
               "{rev.comment}"

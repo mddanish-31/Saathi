@@ -1,17 +1,19 @@
+"use client";
+
 import React from 'react';
 import { ArrowLeft, Clock, ShieldCheck, CheckCircle2, ArrowRight } from 'lucide-react';
 import { Container } from '../components/ui/Container';
 import { Button } from '../components/ui/Button';
 import { Badge } from '../components/ui/Badge';
 import { SectionHeading } from '../components/ui/SectionHeading';
-import { CategoryHero, BreadcrumbItem } from '../components/category/CategoryHero';
+import { CategoryHero } from '../components/category/CategoryHero';
 import { ServiceCard, ServiceCardData } from '../components/category/ServiceCard';
 
 export interface PlaceholderPageProps {
   title: string;
   description?: string;
   codeTag?: string;
-  breadcrumbs?: BreadcrumbItem[];
+  breadcrumbs?: any[];
   plannedServices?: string[];
   categorySlug?: string;
   subCategorySlug?: string;
@@ -23,8 +25,6 @@ export interface PlaceholderPageProps {
 export const PlaceholderPage: React.FC<PlaceholderPageProps> = ({
   title,
   description = 'This specialized vertical is currently in preparation and will be released in an upcoming Saathi platform phase.',
-  codeTag = 'Upcoming Vertical',
-  breadcrumbs,
   plannedServices = [],
   showBackButton = true,
   onNavigate,
@@ -42,18 +42,10 @@ export const PlaceholderPage: React.FC<PlaceholderPageProps> = ({
 
   const displayTitle = title.replace(/\s*\(Coming Soon\)\s*/gi, '').trim();
 
-  const defaultBreadcrumbs: BreadcrumbItem[] = breadcrumbs || [
-    { label: 'Home', href: '/' },
-    { label: 'Weddings & Events', href: '/categories/weddings-events' },
-    { label: displayTitle },
-  ];
-
   return (
     <div className={`saathi-placeholder-page ${className}`}>
       {/* Category Hero */}
       <CategoryHero
-        breadcrumbs={defaultBreadcrumbs}
-        codeTag={codeTag}
         title={displayTitle}
         description={description}
         onNavigate={handleNavigate}

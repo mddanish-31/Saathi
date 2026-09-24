@@ -25,13 +25,13 @@ export const EnquiryForm: React.FC<EnquiryFormProps> = ({
     professional.servicesOffered.includes(srv.slug)
   );
 
-  const defaultService =
+  const defaultService: ServiceItem | undefined =
     matchedServices.find((s: ServiceItem) => s.slug === initialServiceSlug) || matchedServices[0] || ALL_SERVICES[0];
 
   const [name, setName] = useState(currentUser?.name || '');
   const [email, setEmail] = useState(currentUser?.email || '');
   const [phone, setPhone] = useState(currentUser?.phone || '');
-  const [serviceId, setServiceId] = useState(defaultService.slug);
+  const [serviceId, setServiceId] = useState(defaultService?.slug ?? '');
   const [eventDate, setEventDate] = useState('');
   const [location, setLocation] = useState(professional.location.split('&')[0].trim());
   const [budgetRange, setBudgetRange] = useState('₹5L - ₹10L');
@@ -63,12 +63,19 @@ export const EnquiryForm: React.FC<EnquiryFormProps> = ({
       return;
     }
 
+    const selectedServiceObj =
+      matchedServices.find((s: ServiceItem) => s.slug === serviceId) || defaultService;
+
+    if (!selectedServiceObj) {
+      setError('Please select a service for your enquiry.');
+      return;
+    }
+
     setError(null);
     setIsSubmitting(true);
 
-    const selectedServiceObj = matchedServices.find((s: ServiceItem) => s.slug === serviceId) || defaultService;
-
     const newEnquiryPayload: Omit<EnquiryData, 'id' | 'createdAt' | 'status'> = {
+      // ...rest stays exactly the same
       professionalId: professional.id,
       professionalName: professional.name,
       professionalBrand: professional.brandName,

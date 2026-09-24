@@ -52,13 +52,14 @@ export const Badge: React.FC<BadgeProps> = ({
         display: 'inline-flex',
         alignItems: 'center',
         gap: '0.35rem',
-        padding: size === 'sm' ? '0.2rem 0.6rem' : '0.3rem 0.85rem',
-        fontSize: size === 'sm' ? 'var(--text-xs)' : '0.8125rem',
+        padding: size === 'sm' ? '0.22rem 0.65rem' : '0.32rem 0.9rem',
+        fontSize: size === 'sm' ? 'var(--text-xs)' : '0.78125rem',
         fontWeight: 600,
-        letterSpacing: '0.04em',
+        letterSpacing: '0.06em',
         textTransform: 'uppercase',
         borderRadius: 'var(--radius-full)',
         lineHeight: 1,
+        transition: 'all var(--transition-fast)',
         ...getVariantStyles(),
       }}
     >
