@@ -95,12 +95,6 @@ export const PhotographyPage: React.FC<PhotographyPageProps> = ({ onNavigate }) 
     <div className="saathi-photography-page">
       {/* Category Hero */}
       <CategoryHero
-        breadcrumbs={[
-          { label: 'Home', href: '/' },
-          { label: 'Weddings & Events', href: '/categories/weddings-events' },
-          { label: 'Photography' },
-        ]}
-        codeTag="Vertical A2"
         title="Capture Every Beautiful Moment"
         description="Professional photography services to preserve your most memorable moments."
         onNavigate={onNavigate}

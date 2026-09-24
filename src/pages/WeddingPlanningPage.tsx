@@ -1,6 +1,6 @@
 import React, { useState, useMemo } from 'react';
 import { A1_SERVICES, MOCK_PROFESSIONALS } from '../data/weddingPlanningData';
-import { CategoryHero, BreadcrumbItem } from '../components/category/CategoryHero';
+import { CategoryHero } from '../components/category/CategoryHero';
 import { ServiceCard } from '../components/category/ServiceCard';
 import { FilterBar, FilterState } from '../components/category/FilterBar';
 import { ProfessionalGrid } from '../components/professional/ProfessionalGrid';
@@ -60,20 +60,6 @@ export const WeddingPlanningPage: React.FC<WeddingPlanningPageProps> = ({
     onNavigate(`/professionals/${pro.id}/enquire`);
   };
 
-  // Breadcrumbs computation
-  const breadcrumbs: BreadcrumbItem[] = [
-    { label: 'Home', href: '/' },
-    { label: 'Weddings & Events', href: '/categories/weddings-events' },
-    {
-      label: 'Wedding Planning & Coordination',
-      href: currentService ? '/categories/weddings-events/planning' : undefined,
-    },
-  ];
-
-  if (currentService) {
-    breadcrumbs.push({ label: currentService.title });
-  }
-
   // Filter & Sort Logic
   const filteredProfessionals = useMemo(() => {
     return MOCK_PROFESSIONALS.filter((pro) => {
@@ -132,8 +118,6 @@ export const WeddingPlanningPage: React.FC<WeddingPlanningPageProps> = ({
     <div className="saathi-wedding-planning-page">
       {/* Category Hero */}
       <CategoryHero
-        breadcrumbs={breadcrumbs}
-        codeTag="Subcategory A1"
         title={pageTitle}
         description={pageDescription}
         onNavigate={onNavigate}

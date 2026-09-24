@@ -1,6 +1,6 @@
 import React, { useState, useMemo } from 'react';
 import { A3_SERVICES, MOCK_PROFESSIONALS } from '../data/weddingPlanningData';
-import { CategoryHero, BreadcrumbItem } from '../components/category/CategoryHero';
+import { CategoryHero } from '../components/category/CategoryHero';
 import { ServiceCard } from '../components/category/ServiceCard';
 import { FilterBar, FilterState } from '../components/category/FilterBar';
 import { ProfessionalGrid } from '../components/professional/ProfessionalGrid';
@@ -62,19 +62,7 @@ export const MusicEntertainmentPage: React.FC<MusicEntertainmentPageProps> = ({
     onNavigate(`/professionals/${pro.id}/enquire`);
   };
 
-  // Breadcrumbs computation
-  const breadcrumbs: BreadcrumbItem[] = [
-    { label: 'Home', href: '/' },
-    { label: 'Weddings & Events', href: '/categories/weddings-events' },
-    {
-      label: 'Music & Entertainment',
-      href: currentService ? '/categories/weddings-events/entertainment' : undefined,
-    },
-  ];
 
-  if (currentService) {
-    breadcrumbs.push({ label: currentService.title });
-  }
 
   // All A3 Service Slugs for general entertainment category filtering
   const a3ServiceSlugs = useMemo(() => A3_SERVICES.map((s) => s.slug), []);
@@ -161,8 +149,6 @@ export const MusicEntertainmentPage: React.FC<MusicEntertainmentPageProps> = ({
     <div className="saathi-music-entertainment-page">
       {/* Category Hero */}
       <CategoryHero
-        breadcrumbs={breadcrumbs}
-        codeTag="Vertical A3"
         title={pageTitle}
         description={pageDescription}
         onNavigate={onNavigate}

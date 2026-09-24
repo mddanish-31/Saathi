@@ -36,7 +36,7 @@ export const CategoryCard: React.FC<CategoryCardProps> = ({
 
   return (
     <div
-      className={`saathi-category-card hover-lift hover-glow ${className}`}
+      className={`saathi-category-card hover-lift ${className}`}
       onClick={() => onClick?.(category)}
       tabIndex={0}
       role="button"
@@ -51,14 +51,15 @@ export const CategoryCard: React.FC<CategoryCardProps> = ({
         display: 'flex',
         flexDirection: 'column',
         justifyContent: 'space-between',
-        padding: 'var(--space-6)',
+        padding: 'clamp(var(--space-5), 3vw, var(--space-6))',
         backgroundColor: 'var(--bg-surface)',
         border: '1px solid var(--border-subtle)',
-        borderRadius: 'var(--radius-lg)',
+        borderRadius: 'var(--radius-xl)',
         cursor: 'pointer',
         transition: 'all var(--transition-normal)',
         position: 'relative',
-        minHeight: '200px',
+        minHeight: '210px',
+        boxShadow: 'var(--shadow-sm)',
       }}
     >
       <div>
@@ -73,8 +74,8 @@ export const CategoryCard: React.FC<CategoryCardProps> = ({
         >
           <div
             style={{
-              width: '44px',
-              height: '44px',
+              width: '46px',
+              height: '46px',
               borderRadius: 'var(--radius-md)',
               backgroundColor: 'var(--bg-surface-soft)',
               display: 'flex',
@@ -82,6 +83,7 @@ export const CategoryCard: React.FC<CategoryCardProps> = ({
               justifyContent: 'center',
               color: 'var(--saathi-maroon)',
               border: '1px solid var(--border-subtle)',
+              transition: 'all var(--transition-fast)',
             }}
           >
             <IconComponent size={22} />
@@ -92,10 +94,12 @@ export const CategoryCard: React.FC<CategoryCardProps> = ({
               style={{
                 fontSize: 'var(--text-xs)',
                 fontWeight: 600,
-                letterSpacing: '0.04em',
+                letterSpacing: '0.06em',
+                textTransform: 'uppercase',
                 color: 'var(--text-muted)',
                 backgroundColor: 'var(--bg-surface-soft)',
-                padding: '0.2rem 0.6rem',
+                border: '1px solid var(--border-subtle)',
+                padding: '0.2rem 0.65rem',
                 borderRadius: 'var(--radius-full)',
               }}
             >
@@ -108,11 +112,12 @@ export const CategoryCard: React.FC<CategoryCardProps> = ({
         <h3
           style={{
             fontFamily: 'var(--font-serif)',
-            fontSize: 'var(--text-xl)',
+            fontSize: '1.25rem',
             fontWeight: 600,
             color: 'var(--text-headings)',
             marginBottom: 'var(--space-2)',
-            lineHeight: 'var(--leading-snug)',
+            lineHeight: 1.25,
+            letterSpacing: 'var(--tracking-tight)',
           }}
         >
           {category.name}
@@ -123,7 +128,7 @@ export const CategoryCard: React.FC<CategoryCardProps> = ({
           style={{
             fontSize: 'var(--text-sm)',
             color: 'var(--text-secondary)',
-            lineHeight: 'var(--leading-normal)',
+            lineHeight: 'var(--leading-relaxed)',
           }}
         >
           {category.description}
@@ -135,12 +140,13 @@ export const CategoryCard: React.FC<CategoryCardProps> = ({
         style={{
           display: 'flex',
           alignItems: 'center',
-          gap: '4px',
+          gap: '6px',
           marginTop: 'var(--space-5)',
           fontSize: 'var(--text-xs)',
           fontWeight: 600,
           color: 'var(--saathi-maroon)',
-          letterSpacing: '0.02em',
+          letterSpacing: '0.03em',
+          textTransform: 'uppercase',
         }}
       >
         <span>Explore Specialists</span>
