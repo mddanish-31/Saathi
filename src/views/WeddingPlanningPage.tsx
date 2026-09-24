@@ -1,24 +1,26 @@
+"use client";
+
 import React, { useState, useMemo } from 'react';
-import { A3_SERVICES, A3_MOCK_PROFESSIONALS } from '../data/musicEntertainmentData';
+import { A1_SERVICES, MOCK_PROFESSIONALS } from '../data/weddingPlanningData';
 import { CategoryHero } from '../components/category/CategoryHero';
 import { ServiceCard } from '../components/category/ServiceCard';
-import { FilterBar, FilterState, ExtraFilterOption } from '../components/category/FilterBar';
+import { FilterBar, FilterState } from '../components/category/FilterBar';
 import { ProfessionalGrid } from '../components/professional/ProfessionalGrid';
 import { Container } from '../components/ui/Container';
 import { SectionHeading } from '../components/ui/SectionHeading';
 import { Professional, ServiceItem } from '../types';
 
-interface MusicEntertainmentPageProps {
+interface WeddingPlanningPageProps {
   activeServiceSlug?: string;
   onNavigate: (path: string) => void;
 }
 
-export const MusicEntertainmentPage: React.FC<MusicEntertainmentPageProps> = ({
+export const WeddingPlanningPage: React.FC<WeddingPlanningPageProps> = ({
   activeServiceSlug,
   onNavigate,
 }) => {
   const currentService = activeServiceSlug
-    ? A3_SERVICES.find((s) => s.slug === activeServiceSlug)
+    ? A1_SERVICES.find((s) => s.slug === activeServiceSlug)
     : undefined;
 
   const [filters, setFilters] = useState<FilterState>({
@@ -29,19 +31,6 @@ export const MusicEntertainmentPage: React.FC<MusicEntertainmentPageProps> = ({
     sortBy: 'rating',
   });
 
-  // A3-specific filters (Event Type, Performance Type). Frontend-only/mock, passed to the
-  // shared FilterBar through its generic `extraFilters` slot \u2014 A1 is unaffected.
-  const EVENT_TYPE_OPTIONS = ['All Event Types', 'Wedding', 'Reception', 'Sangeet', 'Engagement', 'Mehendi', 'Haldi', 'Corporate Event', 'Private Party'];
-  const PERFORMANCE_TYPE_OPTIONS = ['All Performance Types', 'DJ', 'Live Band', 'Singer', 'Performer', 'Anchor/Host', 'Sound System', 'Light & Sound'];
-
-  const [eventType, setEventType] = useState(EVENT_TYPE_OPTIONS[0]);
-  const [performanceType, setPerformanceType] = useState(PERFORMANCE_TYPE_OPTIONS[0]);
-
-  const extraFilters: ExtraFilterOption[] = [
-    { label: 'Filter by event type', value: eventType, options: EVENT_TYPE_OPTIONS, onChange: setEventType },
-    { label: 'Filter by performance type', value: performanceType, options: PERFORMANCE_TYPE_OPTIONS, onChange: setPerformanceType },
-  ];
-
   const handleResetFilters = () => {
     setFilters({
       search: '',
@@ -50,20 +39,18 @@ export const MusicEntertainmentPage: React.FC<MusicEntertainmentPageProps> = ({
       minExperience: 0,
       sortBy: 'rating',
     });
-    setEventType(EVENT_TYPE_OPTIONS[0]);
-    setPerformanceType(PERFORMANCE_TYPE_OPTIONS[0]);
   };
 
   const handleSelectService = (slug: string) => {
     if (slug === 'all') {
-      onNavigate('/categories/weddings-events/entertainment');
+      onNavigate('/categories/weddings-events/planning');
     } else {
-      onNavigate(`/categories/weddings-events/entertainment/${slug}`);
+      onNavigate(`/categories/weddings-events/planning/${slug}`);
     }
   };
 
   const handleServiceCardClick = (service: ServiceItem) => {
-    onNavigate(`/categories/weddings-events/entertainment/${service.slug}`);
+    onNavigate(`/categories/weddings-events/planning/${service.slug}`);
     window.scrollTo({ top: 350, behavior: 'smooth' });
   };
 
@@ -75,11 +62,9 @@ export const MusicEntertainmentPage: React.FC<MusicEntertainmentPageProps> = ({
     onNavigate(`/professionals/${pro.id}/enquire`);
   };
 
-
-
-  // Filter & Sort Logic (mirrors WeddingPlanningPage; frontend-only/mock, no backend filtering)
+  // Filter & Sort Logic
   const filteredProfessionals = useMemo(() => {
-    return A3_MOCK_PROFESSIONALS.filter((pro) => {
+    return MOCK_PROFESSIONALS.filter((pro) => {
       // 1. Service Filter
       if (activeServiceSlug && !pro.servicesOffered.includes(activeServiceSlug)) {
         return false;
@@ -92,42 +77,26 @@ export const MusicEntertainmentPage: React.FC<MusicEntertainmentPageProps> = ({
         if (!inMainCity && !inServed) return false;
       }
 
-      // 3. Search Query (name, brand, specialties/genres, location)
+      // 3. Search Query
       if (filters.search.trim()) {
         const q = filters.search.toLowerCase();
         const matchesName = pro.name.toLowerCase().includes(q);
         const matchesBrand = pro.brandName.toLowerCase().includes(q);
         const matchesSpecialty = pro.specialties.some((s) => s.toLowerCase().includes(q));
-        const matchesGenre = (pro.genres ?? []).some((g) => g.toLowerCase().includes(q));
         const matchesLocation = pro.location.toLowerCase().includes(q);
-        if (!matchesName && !matchesBrand && !matchesSpecialty && !matchesGenre && !matchesLocation) {
+        if (!matchesName && !matchesBrand && !matchesSpecialty && !matchesLocation) {
           return false;
         }
       }
 
       // 4. Budget Filter
       if (filters.budget !== 'All') {
-        if (filters.budget === 'under-2l' && !pro.startingPrice.includes('25,000') && !pro.startingPrice.includes('30,000') && !pro.startingPrice.includes('35,000') && !pro.startingPrice.includes('40,000')) {
+        if (filters.budget === 'under-2l' && !pro.startingPrice.includes('85,000') && !pro.startingPrice.includes('1,20,000') && !pro.startingPrice.includes('1,75,000')) {
           return false;
         }
-        if (filters.budget === 'above-15l' && !pro.priceRange.includes('4L') && !pro.priceRange.includes('3.2L')) {
+        if (filters.budget === 'above-15l' && !pro.priceRange.includes('20L') && !pro.priceRange.includes('25L')) {
           return false;
         }
-      }
-
-      // 5. Experience Filter
-      if (filters.minExperience > 0 && pro.experienceYears < filters.minExperience) {
-        return false;
-      }
-
-      // 6. Event Type Filter (mock/frontend-only)
-      if (eventType !== EVENT_TYPE_OPTIONS[0] && !(pro.eventTypes ?? []).includes(eventType)) {
-        return false;
-      }
-
-      // 7. Performance Type Filter (mock/frontend-only)
-      if (performanceType !== PERFORMANCE_TYPE_OPTIONS[0] && pro.performanceType !== performanceType) {
-        return false;
       }
 
       return true;
@@ -137,16 +106,18 @@ export const MusicEntertainmentPage: React.FC<MusicEntertainmentPageProps> = ({
       if (filters.sortBy === 'name') return a.brandName.localeCompare(b.brandName);
       return 0;
     });
-  }, [activeServiceSlug, filters, eventType, performanceType]);
+  }, [activeServiceSlug, filters]);
 
-  const pageTitle = currentService ? currentService.title : 'Music & Entertainment';
+  const pageTitle = currentService
+    ? currentService.title
+    : 'Wedding Planning & Coordination';
 
   const pageDescription = currentService
     ? currentService.fullDescription
-    : 'Book DJs, live bands, singers, performers, bilingual anchors, and full sound & light production teams to power every stage of your celebration \u2014 from an intimate mandap ceremony to a showstopper sangeet night.';
+    : 'Orchestrate seamless royal celebrations, pre-wedding soirees, and precision day-of coordination with India’s most esteemed planning artists.';
 
   return (
-    <div className="saathi-music-entertainment-page">
+    <div className="saathi-wedding-planning-page">
       {/* Category Hero */}
       <CategoryHero
         title={pageTitle}
@@ -154,12 +125,9 @@ export const MusicEntertainmentPage: React.FC<MusicEntertainmentPageProps> = ({
         onNavigate={onNavigate}
         activeServiceSlug={activeServiceSlug}
         serviceTabs={[
-          { label: 'DJs', slug: 'djs' },
-          { label: 'Live Bands & Musicians', slug: 'live-bands' },
-          { label: 'Singers', slug: 'singers' },
-          { label: 'Performers', slug: 'performers' },
-          { label: 'Anchors & Hosts', slug: 'anchors-hosts' },
-          { label: 'Event Production', slug: 'event-production' },
+          { label: 'Wedding Planning', slug: 'wedding-planning' },
+          { label: 'Event Planning', slug: 'event-planning' },
+          { label: 'Wedding Coordination', slug: 'wedding-coordination' },
         ]}
         onSelectService={handleSelectService}
       />
@@ -167,13 +135,13 @@ export const MusicEntertainmentPage: React.FC<MusicEntertainmentPageProps> = ({
       {/* Main Section */}
       <section style={{ padding: 'clamp(var(--space-10), 5vw, var(--space-16)) 0', backgroundColor: 'var(--bg-app)' }}>
         <Container>
-          {/* Services Overview Cards (Show if on main entertainment page) */}
+          {/* Services Overview Cards (Show if on main planning page) */}
           {!activeServiceSlug && (
             <div style={{ marginBottom: 'var(--space-16)' }}>
               <SectionHeading
-                eyebrow="Specialized Entertainment Services"
-                title="Choose Your Entertainment Engagement"
-                subtitle="Whether you need a full-night DJ set, a live fusion band, a bilingual anchor to run the show, or complete sound & light production, our specialist directory has you covered."
+                eyebrow="Specialized Planning Services"
+                title="Choose Your Planning Engagement"
+                subtitle="Whether you need turnkey production from day one, single-event styling, or precision day-of timeline coordination, our specialist directory has you covered."
               />
 
               <div
@@ -183,7 +151,7 @@ export const MusicEntertainmentPage: React.FC<MusicEntertainmentPageProps> = ({
                   gap: 'var(--space-6)',
                 }}
               >
-                {A3_SERVICES.map((service) => (
+                {A1_SERVICES.map((service) => (
                   <ServiceCard
                     key={service.id}
                     service={service}
@@ -205,20 +173,19 @@ export const MusicEntertainmentPage: React.FC<MusicEntertainmentPageProps> = ({
                 marginBottom: 'var(--space-1)',
               }}
             >
-              {currentService ? `${currentService.title} Specialists` : 'All Music & Entertainment Specialists'}
+              {currentService ? `${currentService.title} Specialists` : 'All Planning & Coordination Specialists'}
             </h2>
             <p style={{ fontSize: 'var(--text-sm)', color: 'var(--text-secondary)' }}>
-              Browse performance portfolios, transparent price guides, and direct client reviews.
+              Browse portfolios, transparent price guides, and direct client reviews.
             </p>
           </div>
 
-          {/* Filter Bar (Location, Budget, Experience, Sort \u2014 frontend-only/mock) */}
+          {/* Filter Bar */}
           <FilterBar
             filters={filters}
             onFilterChange={setFilters}
             onReset={handleResetFilters}
             totalResults={filteredProfessionals.length}
-            extraFilters={extraFilters}
           />
 
           {/* Professional Grid */}

@@ -1,3 +1,5 @@
+"use client";
+
 import React, { createContext, useContext, useState, useEffect } from 'react';
 import { EnquiryData, EnquiryContextType } from '../types';
 
@@ -43,17 +45,18 @@ const INITIAL_DEMO_ENQUIRIES: EnquiryData[] = [
 ];
 
 export const EnquiryProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
-  const [enquiries, setEnquiries] = useState<EnquiryData[]>(() => {
+  const [enquiries, setEnquiries] = useState<EnquiryData[]>(INITIAL_DEMO_ENQUIRIES);
+
+  useEffect(() => {
     try {
       const saved = localStorage.getItem(ENQUIRIES_STORAGE_KEY);
       if (saved) {
-        return JSON.parse(saved);
+        setEnquiries(JSON.parse(saved));
       }
     } catch {
       // ignore
     }
-    return INITIAL_DEMO_ENQUIRIES;
-  });
+  }, []);
 
   useEffect(() => {
     try {
