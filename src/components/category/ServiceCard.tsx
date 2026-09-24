@@ -1,32 +1,27 @@
-import React from 'react';
-import { CheckCircle2, ArrowRight, Sparkles, Clock } from 'lucide-react';
+import { CheckCircle2, ArrowRight, Sparkles } from 'lucide-react';
 import { ServiceItem } from '../../types';
 import { Button } from '../ui/Button';
 
-export interface ServiceCardProps {
-  service: Partial<ServiceItem> & { title: string };
-  onSelect?: (service: ServiceItem) => void;
+export type ServiceCardData = Pick<ServiceItem, 'title' | 'shortDescription'> &
+  Partial<Omit<ServiceItem, 'title' | 'shortDescription'>> & { isComingSoon?: boolean };
+
+interface ServiceCardProps<T extends ServiceCardData = ServiceItem> {
+  service: T;
+  onSelect?: (service: T) => void;
   isComingSoon?: boolean;
-  ctaLabel?: string;
   badge?: string;
-  category?: string;
-  location?: string;
-  professionalCount?: number;
+  ctaLabel?: string;
   className?: string;
 }
 
-export const ServiceCard: React.FC<ServiceCardProps> = ({
+export function ServiceCard<T extends ServiceCardData = ServiceItem>({
   service,
   onSelect,
-  isComingSoon: propIsComingSoon,
-  ctaLabel,
-  badge,
+  isComingSoon = false,
+  badge = 'Curated Service',
+  ctaLabel = 'Explore Specialists',
   className = '',
-}) => {
-  const isComingSoon = propIsComingSoon ?? service.isComingSoon ?? false;
-  const description = service.shortDescription || service.fullDescription || 'Specialized service curated for your celebration needs.';
-  const features = service.features || [];
-
+}: ServiceCardProps<T>) {
   return (
     <div
       className={`saathi-service-card hover-lift ${className}`}
@@ -41,7 +36,6 @@ export const ServiceCard: React.FC<ServiceCardProps> = ({
         boxShadow: 'var(--shadow-sm)',
         transition: 'all var(--transition-normal)',
         position: 'relative',
-        opacity: isComingSoon ? 0.95 : 1,
       }}
     >
       <div>
@@ -61,39 +55,25 @@ export const ServiceCard: React.FC<ServiceCardProps> = ({
               gap: '6px',
               padding: '0.25rem 0.65rem',
               borderRadius: 'var(--radius-full)',
-              backgroundColor: isComingSoon ? 'var(--bg-surface-soft)' : 'var(--saathi-nude-tint)',
-              color: isComingSoon ? 'var(--text-muted)' : 'var(--saathi-maroon)',
+              backgroundColor: 'var(--saathi-nude-tint)',
+              color: 'var(--saathi-maroon)',
               fontSize: 'var(--text-xs)',
               fontWeight: 600,
               border: '1px solid var(--border-subtle)',
             }}
           >
-            {isComingSoon ? <Clock size={12} /> : <Sparkles size={12} />}
-            <span>{badge || (isComingSoon ? 'Planned Service' : 'Curated Service')}</span>
+            <Sparkles size={12} />
+            <span>{badge}</span>
           </div>
 
-          <div style={{ textAlign: 'right' }}>
-            {isComingSoon ? (
-              <span
-                style={{
-                  fontSize: 'var(--text-xs)',
-                  fontWeight: 600,
-                  color: 'var(--text-muted)',
-                  textTransform: 'uppercase',
-                  letterSpacing: '0.04em',
-                }}
-              >
-                In Curation
+          {service.startingPrice && (
+            <div style={{ textAlign: 'right' }}>
+              <span style={{ fontSize: '0.7rem', color: 'var(--text-muted)', display: 'block' }}>From</span>
+              <span style={{ fontSize: 'var(--text-sm)', fontWeight: 700, color: 'var(--text-headings)' }}>
+                {service.startingPrice}
               </span>
-            ) : (
-              <>
-                <span style={{ fontSize: '0.7rem', color: 'var(--text-muted)', display: 'block' }}>From</span>
-                <span style={{ fontSize: 'var(--text-sm)', fontWeight: 700, color: 'var(--text-headings)' }}>
-                  {service.startingPrice || 'On Request'}
-                </span>
-              </>
-            )}
-          </div>
+            </div>
+          )}
         </div>
 
         {/* Title */}
@@ -116,14 +96,14 @@ export const ServiceCard: React.FC<ServiceCardProps> = ({
             fontSize: 'var(--text-sm)',
             color: 'var(--text-secondary)',
             lineHeight: 'var(--leading-normal)',
-            marginBottom: features.length > 0 ? 'var(--space-5)' : 'var(--space-6)',
+            marginBottom: 'var(--space-5)',
           }}
         >
-          {description}
+          {service.shortDescription}
         </p>
 
-        {/* Feature List (if present) */}
-        {features.length > 0 && (
+        {/* Feature List */}
+        {service.features && service.features.length > 0 && (
           <div
             style={{
               borderTop: '1px solid var(--border-subtle)',
@@ -141,10 +121,10 @@ export const ServiceCard: React.FC<ServiceCardProps> = ({
                 marginBottom: 'var(--space-3)',
               }}
             >
-              Key Highlights:
+              What is Included:
             </p>
             <ul style={{ listStyle: 'none', padding: 0, margin: 0, display: 'flex', flexDirection: 'column', gap: 'var(--space-2)' }}>
-              {features.slice(0, 3).map((feat, idx) => (
+              {service.features.slice(0, 3).map((feat, idx) => (
                 <li
                   key={idx}
                   style={{
@@ -159,7 +139,7 @@ export const ServiceCard: React.FC<ServiceCardProps> = ({
                   <CheckCircle2
                     size={14}
                     style={{
-                      color: isComingSoon ? 'var(--text-muted)' : 'var(--saathi-maroon)',
+                      color: 'var(--saathi-maroon)',
                       flexShrink: 0,
                       marginTop: '2px',
                     }}
@@ -174,36 +154,17 @@ export const ServiceCard: React.FC<ServiceCardProps> = ({
 
       {/* Action Footer */}
       <div style={{ paddingTop: 'var(--space-2)' }}>
-        {isComingSoon ? (
-          <div
-            style={{
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              gap: '6px',
-              padding: '0.55rem 1rem',
-              borderRadius: 'var(--radius-md)',
-              backgroundColor: 'var(--bg-surface-soft)',
-              border: '1px solid var(--border-subtle)',
-              fontSize: 'var(--text-xs)',
-              fontWeight: 600,
-              color: 'var(--text-muted)',
-            }}
-          >
-            <span>{ctaLabel || 'Coming Soon'}</span>
-          </div>
-        ) : (
-          <Button
-            variant="outline"
-            fullWidth
-            size="md"
-            rightIcon={<ArrowRight size={16} />}
-            onClick={() => onSelect && onSelect(service as ServiceItem)}
-          >
-            {ctaLabel || 'Explore Specialists'}
-          </Button>
-        )}
+        <Button
+          variant="outline"
+          fullWidth
+          size="md"
+          disabled={isComingSoon}
+          rightIcon={<ArrowRight size={16} />}
+          onClick={() => onSelect?.(service)}
+        >
+          {ctaLabel}
+        </Button>
       </div>
     </div>
   );
-};
+}

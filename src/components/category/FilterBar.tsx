@@ -9,12 +9,25 @@ export interface FilterState {
   sortBy: 'rating' | 'experience' | 'name';
 }
 
+/**
+ * Generic extra dropdown filter slot. Optional and additive: categories such as A3
+ * (Event Type, Performance Type) can pass their own options through this without
+ * forking FilterBar. Omitted entirely by categories (e.g. A1) that don't need it.
+ */
+export interface ExtraFilterOption {
+  label: string;
+  value: string;
+  options: string[]; // first entry is treated as the "All" / unset value
+  onChange: (value: string) => void;
+}
+
 interface FilterBarProps {
   filters: FilterState;
   onFilterChange: (newFilters: FilterState) => void;
   onReset: () => void;
   totalResults: number;
   availableCities?: string[];
+  extraFilters?: ExtraFilterOption[];
   className?: string;
 }
 
@@ -24,6 +37,7 @@ export const FilterBar: React.FC<FilterBarProps> = ({
   onReset,
   totalResults,
   availableCities = ['All Cities', 'Mumbai', 'Udaipur', 'Jaipur', 'Delhi NCR', 'Bengaluru', 'Pune', 'Goa', 'Chennai'],
+  extraFilters,
   className = '',
 }) => {
   const isFiltered =
@@ -31,7 +45,8 @@ export const FilterBar: React.FC<FilterBarProps> = ({
     filters.city !== 'All Cities' ||
     filters.budget !== 'All' ||
     filters.minExperience > 0 ||
-    filters.sortBy !== 'rating';
+    filters.sortBy !== 'rating' ||
+    Boolean(extraFilters?.some((f) => f.value !== f.options[0]));
 
   const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     onFilterChange({ ...filters, search: e.target.value });
@@ -60,7 +75,6 @@ export const FilterBar: React.FC<FilterBarProps> = ({
     outline: 'none',
     cursor: 'pointer',
     fontFamily: 'var(--font-sans)',
-    maxWidth: '100%',
   };
 
   return (
@@ -70,7 +84,7 @@ export const FilterBar: React.FC<FilterBarProps> = ({
         backgroundColor: 'var(--bg-surface-soft)',
         border: '1px solid var(--border-subtle)',
         borderRadius: 'var(--radius-lg)',
-        padding: 'clamp(var(--space-3), 3vw, var(--space-5))',
+        padding: 'var(--space-4) var(--space-5)',
         marginBottom: 'var(--space-8)',
       }}
     >
@@ -93,12 +107,12 @@ export const FilterBar: React.FC<FilterBarProps> = ({
             border: '1px solid var(--border-default)',
             borderRadius: 'var(--radius-md)',
             padding: '0 0.75rem',
-            minWidth: '0',
-            flex: '1 1 200px',
+            minWidth: '240px',
+            flex: '1 1 240px',
             height: '38px',
           }}
         >
-          <Search size={15} style={{ color: 'var(--text-muted)', flexShrink: 0 }} />
+          <Search size={15} style={{ color: 'var(--text-muted)' }} />
           <input
             type="text"
             placeholder="Search by name, brand, or specialty..."
@@ -127,7 +141,7 @@ export const FilterBar: React.FC<FilterBarProps> = ({
         >
           {/* City Filter */}
           <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
-            <MapPin size={14} style={{ color: 'var(--text-muted)', flexShrink: 0 }} />
+            <MapPin size={14} style={{ color: 'var(--text-muted)' }} />
             <select
               value={filters.city}
               onChange={handleCityChange}
@@ -156,9 +170,26 @@ export const FilterBar: React.FC<FilterBarProps> = ({
             <option value="above-15l">₹15 Lakhs & Above</option>
           </select>
 
+          {/* Extra Filters (e.g. Event Type, Performance Type) \u2014 optional, category-supplied */}
+          {extraFilters?.map((f) => (
+            <select
+              key={f.label}
+              value={f.value}
+              onChange={(e) => f.onChange(e.target.value)}
+              style={selectStyle}
+              aria-label={f.label}
+            >
+              {f.options.map((opt) => (
+                <option key={opt} value={opt}>
+                  {opt}
+                </option>
+              ))}
+            </select>
+          ))}
+
           {/* Sort By Dropdown */}
           <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
-            <SlidersHorizontal size={14} style={{ color: 'var(--text-muted)', flexShrink: 0 }} />
+            <SlidersHorizontal size={14} style={{ color: 'var(--text-muted)' }} />
             <select
               value={filters.sortBy}
               onChange={handleSortChange}
@@ -201,10 +232,8 @@ export const FilterBar: React.FC<FilterBarProps> = ({
       <div
         style={{
           display: 'flex',
-          flexWrap: 'wrap',
           justifyContent: 'space-between',
           alignItems: 'center',
-          gap: 'var(--space-2)',
           marginTop: 'var(--space-3)',
           paddingTop: 'var(--space-2)',
           fontSize: 'var(--text-xs)',

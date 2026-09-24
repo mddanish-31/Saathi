@@ -1,6 +1,6 @@
 import React from 'react';
 import { ArrowLeft, UserX } from 'lucide-react';
-import { getProfessionalById } from '../data/weddingPlanningData';
+import { getProfessionalById } from '../data/professionalDirectory';
 import { ProfessionalProfile } from '../components/professional/ProfessionalProfile';
 import { Container } from '../components/ui/Container';
 import { Button } from '../components/ui/Button';
@@ -78,9 +78,9 @@ export const ProfessionalProfilePage: React.FC<ProfessionalProfilePageProps> = (
               variant="outline"
               size="md"
               leftIcon={<ArrowLeft size={16} />}
-              onClick={() => onNavigate('/categories/weddings-events/planning')}
+              onClick={() => onNavigate('/categories/weddings-events')}
             >
-              Back to Wedding Specialists
+              Back to Weddings & Events
             </Button>
           </div>
         </Container>

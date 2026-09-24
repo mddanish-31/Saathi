@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { X, MapPin, ZoomIn } from 'lucide-react';
+import { X, MapPin, ZoomIn, Play, Music2 } from 'lucide-react';
 import { PortfolioItem } from '../../types';
 
 interface PortfolioGalleryProps {
@@ -114,8 +114,12 @@ export const PortfolioGallery: React.FC<PortfolioGalleryProps> = ({
                     boxShadow: 'var(--shadow-md)',
                   }}
                 >
-                  <ZoomIn size={14} />
-                  <span>View Project</span>
+                  {item.type === 'video' && <Play size={14} />}
+                  {item.type === 'audio' && <Music2 size={14} />}
+                  {(!item.type || item.type === 'image') && <ZoomIn size={14} />}
+                  <span>
+                    {item.type === 'video' ? 'Play Video' : item.type === 'audio' ? 'Play Audio Sample' : 'View Project'}
+                  </span>
                 </div>
               </div>
 
@@ -136,6 +140,31 @@ export const PortfolioGallery: React.FC<PortfolioGalleryProps> = ({
               >
                 {item.category}
               </div>
+
+              {/* Media Type Badge (video/audio only \u2014 mock UI, no real playback) */}
+              {(item.type === 'video' || item.type === 'audio') && (
+                <div
+                  style={{
+                    position: 'absolute',
+                    top: '10px',
+                    right: '10px',
+                    display: 'inline-flex',
+                    alignItems: 'center',
+                    gap: '4px',
+                    padding: '0.2rem 0.55rem',
+                    borderRadius: 'var(--radius-full)',
+                    backgroundColor: 'var(--saathi-maroon)',
+                    color: '#FAF6F3',
+                    fontSize: '0.65rem',
+                    fontWeight: 700,
+                    textTransform: 'uppercase',
+                    letterSpacing: '0.03em',
+                  }}
+                >
+                  {item.type === 'video' ? <Play size={11} /> : <Music2 size={11} />}
+                  <span>{item.type === 'video' ? 'Video' : 'Audio'}</span>
+                </div>
+              )}
             </div>
 
             {/* Description Body */}
@@ -261,13 +290,48 @@ export const PortfolioGallery: React.FC<PortfolioGalleryProps> = ({
               <X size={18} />
             </button>
 
-            {/* High-res Image Preview */}
-            <div style={{ width: '100%', height: '360px', backgroundColor: '#000', overflow: 'hidden' }}>
+            {/* High-res Image Preview (or Video/Audio placeholder \u2014 mock UI, no real playback) */}
+            <div style={{ width: '100%', height: '360px', backgroundColor: '#000', overflow: 'hidden', position: 'relative' }}>
               <img
                 src={selectedItem.imageUrl}
                 alt={selectedItem.title}
-                style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+                style={{
+                  width: '100%',
+                  height: '100%',
+                  objectFit: 'cover',
+                  filter: selectedItem.type === 'video' || selectedItem.type === 'audio' ? 'brightness(0.55)' : undefined,
+                }}
               />
+              {(selectedItem.type === 'video' || selectedItem.type === 'audio') && (
+                <div
+                  style={{
+                    position: 'absolute',
+                    inset: 0,
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                  }}
+                >
+                  <div
+                    style={{
+                      width: '72px',
+                      height: '72px',
+                      borderRadius: 'var(--radius-full)',
+                      backgroundColor: 'rgba(250, 246, 243, 0.92)',
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      boxShadow: 'var(--shadow-lg)',
+                    }}
+                  >
+                    {selectedItem.type === 'video' ? (
+                      <Play size={28} style={{ color: 'var(--saathi-maroon)', marginLeft: '3px' }} />
+                    ) : (
+                      <Music2 size={26} style={{ color: 'var(--saathi-maroon)' }} />
+                    )}
+                  </div>
+                </div>
+              )}
             </div>
 
             {/* Modal Info */}
