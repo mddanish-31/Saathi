@@ -37,6 +37,33 @@ export interface StepItem {
 }
 
 /* ==========================================================================
+   MARKETPLACE CATEGORY HIERARCHY
+   ========================================================================== */
+export interface MarketplaceSubCategory {
+  id: string;
+  code: string;
+  name: string;
+  slug: string;
+  description: string;
+  badge?: string;
+  isActive: boolean;
+  plannedServices?: string[];
+  imageUrl?: string;
+}
+
+export interface MarketplaceCategory {
+  id: string;
+  code: string;
+  name: string;
+  slug: string;
+  description: string;
+  isActive: boolean;
+  subCategories?: MarketplaceSubCategory[];
+  plannedServices?: string[];
+  heroImage?: string;
+}
+
+/* ==========================================================================
    AUTHENTICATION & USER TYPES
    ========================================================================== */
 export type UserRole = 'customer' | 'professional';

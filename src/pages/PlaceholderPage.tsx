@@ -1,11 +1,11 @@
 import React from 'react';
-import { ArrowLeft, Clock, Sparkles, ShieldCheck, CheckCircle2, ArrowRight } from 'lucide-react';
+import { ArrowLeft, Clock, ShieldCheck, CheckCircle2, ArrowRight } from 'lucide-react';
 import { Container } from '../components/ui/Container';
 import { Button } from '../components/ui/Button';
 import { Badge } from '../components/ui/Badge';
 import { SectionHeading } from '../components/ui/SectionHeading';
 import { CategoryHero, BreadcrumbItem } from '../components/category/CategoryHero';
-import { ServiceCard } from '../components/category/ServiceCard';
+import { ServiceCard, ServiceCardData } from '../components/category/ServiceCard';
 
 export interface PlaceholderPageProps {
   title: string;
@@ -141,7 +141,7 @@ export const PlaceholderPage: React.FC<PlaceholderPageProps> = ({
                 }}
               >
                 {plannedServices.map((serviceName, idx) => (
-                  <ServiceCard
+                  <ServiceCard<ServiceCardData>
                     key={idx}
                     service={{
                       title: serviceName,
