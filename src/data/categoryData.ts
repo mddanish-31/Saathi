@@ -102,8 +102,8 @@ export const WEDDING_SUBCATEGORIES_CANONICAL: MarketplaceSubCategory[] = [
     slug: 'catering-food-desserts',
     description:
       'Fine-dining wedding caterers, regional culinary specialists, bespoke live counters, artisanal bakers, and signature dessert stations.',
-    badge: 'Coming Soon',
-    isActive: false,
+    badge: 'Active Flow',
+    isActive: true,
     plannedServices: [
       'Catering',
       'Full-Service Catering',

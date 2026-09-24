@@ -15,6 +15,7 @@ import { EnquiryPage } from './pages/EnquiryPage';
 import { CustomerDashboardPage } from './pages/CustomerDashboardPage';
 import { ProfessionalDashboardPage } from './pages/ProfessionalDashboardPage';
 import { CustomerEnquiriesPage } from './pages/CustomerEnquiriesPage';
+import { CateringPage } from './pages/CateringPage';
 import { PlaceholderPage } from './pages/PlaceholderPage';
 import { MASTER_WEDDINGS_CATEGORY } from './data/weddingPlanningData';
 
@@ -118,6 +119,18 @@ export const App: React.FC = () => {
       }
     }
 
+    // 6c. Subcategory A5: Catering, Food & Desserts
+    if (
+      pathname === '/catering' ||
+      pathname === '/categories/weddings-events/catering-food-desserts' ||
+      pathname === '/categories/weddings-events/catering'
+    ) {
+      return { type: 'catering' };
+    }
+    if (pathname.startsWith('/categories/weddings-events/catering-food-desserts/')) {
+      return { type: 'catering' };
+    }
+
     // 7. Professionals Profile & Enquiry
     const proEnquireMatch = pathname.match(/^\/professionals\/([^/]+)\/enquire$/);
     if (proEnquireMatch) {
@@ -183,6 +196,8 @@ export const App: React.FC = () => {
         return <MusicEntertainmentPage onNavigate={navigate} />;
       case 'music-entertainment-service':
         return <MusicEntertainmentPage activeServiceSlug={route.serviceSlug} onNavigate={navigate} />;
+      case 'catering':
+        return <CateringPage onNavigate={navigate} />;
       case 'professional-profile':
         return <ProfessionalProfilePage professionalId={route.professionalId!} onNavigate={navigate} />;
       case 'professional-enquire':

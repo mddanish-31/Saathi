@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
 import { User, Mail, Phone, Calendar, MapPin, ArrowRight, ShieldCheck } from 'lucide-react';
-import { Professional, EnquiryData, AuthUser } from '../../types';
+import { Professional, EnquiryData, AuthUser, ServiceItem } from '../../types';
 import { Input } from '../ui/Input';
 import { Button } from '../ui/Button';
 import { Avatar } from '../ui/Avatar';
-import { ALL_SERVICES } from '../../data/weddingPlanningData';
+import { ALL_SERVICES } from '../../data/professionalDirectory';
 
 interface EnquiryFormProps {
   professional: Professional;
@@ -21,12 +21,12 @@ export const EnquiryForm: React.FC<EnquiryFormProps> = ({
   onSubmitEnquiry,
   className = '',
 }) => {
-  const matchedServices = ALL_SERVICES.filter((srv) =>
+  const matchedServices = ALL_SERVICES.filter((srv: ServiceItem) =>
     professional.servicesOffered.includes(srv.slug)
   );
 
   const defaultService =
-    matchedServices.find((s) => s.slug === initialServiceSlug) || matchedServices[0] || ALL_SERVICES[0];
+    matchedServices.find((s: ServiceItem) => s.slug === initialServiceSlug) || matchedServices[0] || ALL_SERVICES[0];
 
   const [name, setName] = useState(currentUser?.name || '');
   const [email, setEmail] = useState(currentUser?.email || '');
@@ -66,7 +66,7 @@ export const EnquiryForm: React.FC<EnquiryFormProps> = ({
     setError(null);
     setIsSubmitting(true);
 
-    const selectedServiceObj = matchedServices.find((s) => s.slug === serviceId) || defaultService;
+    const selectedServiceObj = matchedServices.find((s: ServiceItem) => s.slug === serviceId) || defaultService;
 
     const newEnquiryPayload: Omit<EnquiryData, 'id' | 'createdAt' | 'status'> = {
       professionalId: professional.id,
@@ -232,7 +232,7 @@ export const EnquiryForm: React.FC<EnquiryFormProps> = ({
               fontFamily: 'var(--font-sans)',
             }}
           >
-            {matchedServices.map((srv) => (
+            {matchedServices.map((srv: ServiceItem) => (
               <option key={srv.slug} value={srv.slug}>
                 {srv.title} ({srv.startingPrice})
               </option>
