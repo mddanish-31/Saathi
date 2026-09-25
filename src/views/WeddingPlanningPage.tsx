@@ -186,6 +186,7 @@ export const WeddingPlanningPage: React.FC<WeddingPlanningPageProps> = ({
             onFilterChange={setFilters}
             onReset={handleResetFilters}
             totalResults={filteredProfessionals.length}
+            resultLabel="curated planning & coordination specialists"
           />
 
           {/* Professional Grid */}

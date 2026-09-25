@@ -275,6 +275,7 @@ export const WeddingVenuesPage: React.FC<WeddingVenuesPageProps> = ({
                         onFilterChange={setFilters}
                         onReset={handleResetFilters}
                         totalResults={filteredVenues.length}
+                        resultLabel="curated wedding venues & spaces"
                         extraFilters={extraFilters}
                     />
 

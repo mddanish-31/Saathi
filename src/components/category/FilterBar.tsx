@@ -26,6 +26,7 @@ interface FilterBarProps {
   onFilterChange: (newFilters: FilterState) => void;
   onReset: () => void;
   totalResults: number;
+  resultLabel?: string;
   availableCities?: string[];
   extraFilters?: ExtraFilterOption[];
   className?: string;
@@ -36,6 +37,7 @@ export const FilterBar: React.FC<FilterBarProps> = ({
   onFilterChange,
   onReset,
   totalResults,
+  resultLabel = 'curated specialists',
   availableCities = ['All Cities', 'Mumbai', 'Udaipur', 'Jaipur', 'Delhi NCR', 'Bengaluru', 'Pune', 'Goa', 'Chennai'],
   extraFilters,
   className = '',
@@ -241,7 +243,7 @@ export const FilterBar: React.FC<FilterBarProps> = ({
         }}
       >
         <span>
-          Showing <strong style={{ color: 'var(--text-primary)' }}>{totalResults}</strong> curated planning & coordination specialists
+          Showing <strong style={{ color: 'var(--text-primary)' }}>{totalResults}</strong> {resultLabel}
         </span>
         {filters.city !== 'All Cities' && (
           <span style={{ color: 'var(--saathi-maroon)', fontWeight: 500 }}>

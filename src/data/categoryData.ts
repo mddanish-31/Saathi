@@ -119,8 +119,8 @@ export const WEDDING_SUBCATEGORIES_CANONICAL: MarketplaceSubCategory[] = [
     slug: 'wedding-venues',
     description:
       'Heritage palaces, coastal luxury resorts, expansive lawns, and private estates curated for multi-day milestone celebrations.',
-    badge: 'Coming Soon',
-    isActive: false,
+    badge: 'Active Flow',
+    isActive: true,
     plannedServices: [
       'Banquet / Marriage Hall',
       'Resort',

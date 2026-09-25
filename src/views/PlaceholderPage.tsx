@@ -6,14 +6,14 @@ import { Container } from '../components/ui/Container';
 import { Button } from '../components/ui/Button';
 import { Badge } from '../components/ui/Badge';
 import { SectionHeading } from '../components/ui/SectionHeading';
-import { CategoryHero } from '../components/category/CategoryHero';
+import { CategoryHero, BreadcrumbItem } from '../components/category/CategoryHero';
 import { ServiceCard, ServiceCardData } from '../components/category/ServiceCard';
 
 export interface PlaceholderPageProps {
   title: string;
   description?: string;
   codeTag?: string;
-  breadcrumbs?: any[];
+  breadcrumbs?: BreadcrumbItem[];
   plannedServices?: string[];
   categorySlug?: string;
   subCategorySlug?: string;
@@ -25,6 +25,8 @@ export interface PlaceholderPageProps {
 export const PlaceholderPage: React.FC<PlaceholderPageProps> = ({
   title,
   description = 'This specialized vertical is currently in preparation and will be released in an upcoming Saathi platform phase.',
+  codeTag,
+  breadcrumbs,
   plannedServices = [],
   showBackButton = true,
   onNavigate,
@@ -48,6 +50,8 @@ export const PlaceholderPage: React.FC<PlaceholderPageProps> = ({
       <CategoryHero
         title={displayTitle}
         description={description}
+        codeTag={codeTag}
+        breadcrumbs={breadcrumbs}
         onNavigate={handleNavigate}
         highlights={[
           'Quality Verification in Progress',

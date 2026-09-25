@@ -248,35 +248,8 @@ img, svg {
 }
 
 /* ==========================================================================
-   A5 CATERING MODULE TYPOGRAPHY & VISUAL HOVER/FOCUS SCOPING
+   A5 CATERING MODULE VISUAL HOVER/FOCUS SCOPING & MICRO-INTERACTIONS
    ========================================================================== */
-.saathi-catering-page,
-.saathi-catering-modal {
-  --font-serif: 'Times New Roman', Times, Baskerville, Georgia, serif;
-  --font-sans: 'Times New Roman', Times, Baskerville, Georgia, serif;
-}
-
-.saathi-catering-page,
-.saathi-catering-page *,
-.saathi-catering-page *::before,
-.saathi-catering-page *::after,
-.saathi-catering-modal,
-.saathi-catering-modal *,
-.saathi-catering-modal *::before,
-.saathi-catering-modal *::after {
-  font-family: 'Times New Roman', Times, Baskerville, Georgia, serif !important;
-}
-
-.saathi-catering-page button,
-.saathi-catering-page input,
-.saathi-catering-page select,
-.saathi-catering-page textarea,
-.saathi-catering-modal button,
-.saathi-catering-modal input,
-.saathi-catering-modal select,
-.saathi-catering-modal textarea {
-  font-family: 'Times New Roman', Times, Baskerville, Georgia, serif !important;
-}
 
 /* 1. Focus-Visible Accessibility */
 .saathi-catering-page button:focus-visible,

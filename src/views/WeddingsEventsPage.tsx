@@ -55,31 +55,14 @@ export const WeddingsEventsPage: React.FC<WeddingsEventsPageProps> = ({ onNaviga
             }}
           >
             {MASTER_WEDDINGS_CATEGORY.subCategories.map((sub) => {
-              const isA1 = sub.slug === 'planning';
-              const isPhotography = sub.slug === 'photography';
-              const isEntertainment = sub.slug === 'entertainment';
-              const isCatering = sub.slug === 'catering-food-desserts';
-              const isVenues = sub.slug === 'wedding-venues';
-              const isFeatured = isA1 || isPhotography || isEntertainment || isCatering || isVenues;
+              const isFeatured = sub.isActive;
 
               return (
                 <div
                   key={sub.id}
                   className="hover-lift"
                   onClick={() => {
-                    if (isA1) {
-                      onNavigate('/categories/weddings-events/planning');
-                    } else if (isPhotography) {
-                      onNavigate('/categories/weddings-events/photography');
-                    } else if (isEntertainment) {
-                      onNavigate('/categories/weddings-events/entertainment');
-                    } else if (isCatering) {
-                      onNavigate('/categories/weddings-events/catering-food-desserts');
-                    } else if (isVenues) {
-                      onNavigate('/categories/weddings-events/wedding-venues');
-                    } else {
-                      onNavigate(`/categories/weddings-events/${sub.slug}`);
-                    }
+                    onNavigate(`/categories/weddings-events/${sub.slug}`);
                   }}
                   style={{
                     backgroundColor: 'var(--bg-surface)',
@@ -175,7 +158,7 @@ export const WeddingsEventsPage: React.FC<WeddingsEventsPageProps> = ({ onNaviga
                     </p>
                   </div>
 
-                  {isA1 ? (
+                  {isFeatured ? (
                     <div
                       style={{
                         display: 'flex',
@@ -188,71 +171,7 @@ export const WeddingsEventsPage: React.FC<WeddingsEventsPageProps> = ({ onNaviga
                         borderTop: '1px solid var(--border-subtle)',
                       }}
                     >
-                      <span>Explore Planning & Coordination</span>
-                      <ArrowRight size={14} />
-                    </div>
-                  ) : isPhotography ? (
-                    <div
-                      style={{
-                        display: 'flex',
-                        alignItems: 'center',
-                        gap: '6px',
-                        fontSize: 'var(--text-xs)',
-                        fontWeight: 600,
-                        color: 'var(--saathi-maroon)',
-                        paddingTop: 'var(--space-2)',
-                        borderTop: '1px solid var(--border-subtle)',
-                      }}
-                    >
-                      <span>Explore Photography</span>
-                      <ArrowRight size={14} />
-                    </div>
-                  ) : isEntertainment ? (
-                    <div
-                      style={{
-                        display: 'flex',
-                        alignItems: 'center',
-                        gap: '6px',
-                        fontSize: 'var(--text-xs)',
-                        fontWeight: 600,
-                        color: 'var(--saathi-maroon)',
-                        paddingTop: 'var(--space-2)',
-                        borderTop: '1px solid var(--border-subtle)',
-                      }}
-                    >
-                      <span>Explore Music & Entertainment</span>
-                      <ArrowRight size={14} />
-                    </div>
-                  ) : isCatering ? (
-                    <div
-                      style={{
-                        display: 'flex',
-                        alignItems: 'center',
-                        gap: '6px',
-                        fontSize: 'var(--text-xs)',
-                        fontWeight: 600,
-                        color: 'var(--saathi-maroon)',
-                        paddingTop: 'var(--space-2)',
-                        borderTop: '1px solid var(--border-subtle)',
-                      }}
-                    >
-                      <span>Explore Catering, Food & Desserts</span>
-                      <ArrowRight size={14} />
-                    </div>
-                  ) : isVenues ? (
-                    <div
-                      style={{
-                        display: 'flex',
-                        alignItems: 'center',
-                        gap: '6px',
-                        fontSize: 'var(--text-xs)',
-                        fontWeight: 600,
-                        color: 'var(--saathi-maroon)',
-                        paddingTop: 'var(--space-2)',
-                        borderTop: '1px solid var(--border-subtle)',
-                      }}
-                    >
-                      <span>Explore Wedding Venues</span>
+                      <span>Explore {sub.name}</span>
                       <ArrowRight size={14} />
                     </div>
                   ) : (

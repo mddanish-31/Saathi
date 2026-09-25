@@ -41,8 +41,8 @@ export const MASTER_WEDDINGS_CATEGORY = {
       code: 'A2',
       name: 'Photography & Videography',
       description: 'Wedding photography, wedding videography, pre-wedding shoots, and drone cinematography.',
-      isActive: false,
-      badge: 'Coming Soon',
+      isActive: true,
+      itemCount: '3 Dedicated Services',
     },
     {
       id: 'a3-music-entertainment',

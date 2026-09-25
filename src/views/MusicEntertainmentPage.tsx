@@ -214,12 +214,13 @@ export const MusicEntertainmentPage: React.FC<MusicEntertainmentPageProps> = ({
             </p>
           </div>
 
-          {/* Filter Bar (Location, Budget, Experience, Sort \u2014 frontend-only/mock) */}
+          {/* Filter Bar (Location, Budget, Experience, Sort — frontend-only/mock) */}
           <FilterBar
             filters={filters}
             onFilterChange={setFilters}
             onReset={handleResetFilters}
             totalResults={filteredProfessionals.length}
+            resultLabel="curated music & entertainment specialists"
             extraFilters={extraFilters}
           />
 

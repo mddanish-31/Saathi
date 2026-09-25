@@ -7,6 +7,7 @@ import { MusicEntertainmentPage } from '../../../../src/views/MusicEntertainment
 import { CateringPage } from '../../../../src/views/CateringPage';
 import { WeddingVenuesPage } from '../../../../src/views/WeddingVenuesPage';
 import { PlaceholderPage } from '../../../../src/views/PlaceholderPage';
+import { getWeddingSubCategoryBySlug } from '../../../../src/data/categoryData';
 
 export default function Page() {
   const router = useRouter();
@@ -39,9 +40,25 @@ export default function Page() {
     }
   }
 
+  const subCat = getWeddingSubCategoryBySlug(subSlug);
+
   return (
     <PlaceholderPage
-      title={subSlug ? subSlug.replace(/-/g, ' ').replace(/\b\w/g, (c) => c.toUpperCase()) : 'Subcategory'}
+      title={
+        subCat
+          ? subCat.name
+          : subSlug
+          ? subSlug.replace(/-/g, ' ').replace(/\b\w/g, (c) => c.toUpperCase())
+          : 'Subcategory'
+      }
+      description={subCat?.description}
+      plannedServices={subCat?.plannedServices}
+      codeTag={subCat?.code}
+      breadcrumbs={[
+        { label: 'Home', href: '/' },
+        { label: 'Weddings & Events', href: '/categories/weddings-events' },
+        { label: subCat ? subCat.name : 'Subcategory' },
+      ]}
       onNavigate={handleNavigate}
     />
   );
