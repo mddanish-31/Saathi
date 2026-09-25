@@ -26,7 +26,6 @@ export const WEDDING_SUBCATEGORIES_CANONICAL: MarketplaceSubCategory[] = [
       'Event Planning',
       'Wedding Coordination',
     ],
-    imageUrl: 'https://images.unsplash.com/photo-1519741497674-611481863552?auto=format&fit=crop&w=800&q=80',
   },
   {
     id: 'sub-photography',
@@ -46,7 +45,6 @@ export const WEDDING_SUBCATEGORIES_CANONICAL: MarketplaceSubCategory[] = [
       'Cinematography',
       'Wedding Films',
     ],
-    imageUrl: 'https://images.unsplash.com/photo-1537633552985-df8429e8048b?auto=format&fit=crop&w=800&q=80',
   },
   {
     id: 'sub-entertainment',
@@ -70,7 +68,6 @@ export const WEDDING_SUBCATEGORIES_CANONICAL: MarketplaceSubCategory[] = [
       'Event Lighting',
       'Light & Sound Setup',
     ],
-    imageUrl: 'https://images.unsplash.com/photo-1470225620780-dba8ba36b745?auto=format&fit=crop&w=800&q=80',
   },
   {
     id: 'sub-beauty-makeup',
@@ -93,7 +90,6 @@ export const WEDDING_SUBCATEGORIES_CANONICAL: MarketplaceSubCategory[] = [
       'Pre-Wedding Makeup',
       'Makeup Trial',
     ],
-    imageUrl: 'https://images.unsplash.com/photo-1487412720507-e7ab37603c6f?auto=format&fit=crop&w=800&q=80',
   },
   {
     id: 'sub-catering-food',
@@ -102,8 +98,8 @@ export const WEDDING_SUBCATEGORIES_CANONICAL: MarketplaceSubCategory[] = [
     slug: 'catering-food-desserts',
     description:
       'Fine-dining wedding caterers, regional culinary specialists, bespoke live counters, artisanal bakers, and signature dessert stations.',
-    badge: 'Coming Soon',
-    isActive: false,
+    badge: 'Active Flow',
+    isActive: true,
     plannedServices: [
       'Catering',
       'Full-Service Catering',
@@ -115,7 +111,6 @@ export const WEDDING_SUBCATEGORIES_CANONICAL: MarketplaceSubCategory[] = [
       'Dessert Services',
       'Cake & Dessert Catering',
     ],
-    imageUrl: 'https://images.unsplash.com/photo-1555244162-803834f70033?auto=format&fit=crop&w=800&q=80',
   },
   {
     id: 'sub-wedding-venues',
@@ -134,7 +129,6 @@ export const WEDDING_SUBCATEGORIES_CANONICAL: MarketplaceSubCategory[] = [
       'Outdoor Venue',
       'Destination Venue',
     ],
-    imageUrl: 'https://images.unsplash.com/photo-1519167758481-83f550bb49b3?auto=format&fit=crop&w=800&q=80',
   },
   {
     id: 'sub-decor-styling',
@@ -154,7 +148,6 @@ export const WEDDING_SUBCATEGORIES_CANONICAL: MarketplaceSubCategory[] = [
       'Jewellery',
       'Invitations & Gifting',
     ],
-    imageUrl: 'https://images.unsplash.com/photo-1511285560929-80b456fea0bc?auto=format&fit=crop&w=800&q=80',
   },
   {
     id: 'sub-transportation',
@@ -173,7 +166,6 @@ export const WEDDING_SUBCATEGORIES_CANONICAL: MarketplaceSubCategory[] = [
       'Guest Bus',
       'Guest Van',
     ],
-    imageUrl: 'https://images.unsplash.com/photo-1549399542-7e3f8b79c341?auto=format&fit=crop&w=800&q=80',
   },
 ];
 
@@ -187,7 +179,6 @@ export const ALL_MARKETPLACE_CATEGORIES: MarketplaceCategory[] = [
       'From royal palace unions to intimate beach ceremonies, discover certified planners, visionary decorators, and ritual specialists dedicated to perfecting your milestone moments.',
     isActive: true,
     subCategories: WEDDING_SUBCATEGORIES_CANONICAL,
-    heroImage: 'https://images.unsplash.com/photo-1519741497674-611481863552?auto=format&fit=crop&w=1200&q=80',
   },
   {
     id: 'cat-home-spaces',
@@ -206,7 +197,6 @@ export const ALL_MARKETPLACE_CATEGORIES: MarketplaceCategory[] = [
       'Home Styling & Staging',
       'Modular Kitchens & Custom Wardrobes',
     ],
-    heroImage: 'https://images.unsplash.com/photo-1618221195710-dd6b41faaea6?auto=format&fit=crop&w=1200&q=80',
   },
   {
     id: 'cat-wellness-lifestyle',
@@ -224,7 +214,6 @@ export const ALL_MARKETPLACE_CATEGORIES: MarketplaceCategory[] = [
       'Holistic Therapists & Mindfulness Coaches',
       'Bridal Pre-Wedding Wellness Mentors',
     ],
-    heroImage: 'https://images.unsplash.com/photo-1544367567-0f2fcb009e0b?auto=format&fit=crop&w=1200&q=80',
   },
   {
     id: 'cat-corporate-business',
@@ -242,7 +231,6 @@ export const ALL_MARKETPLACE_CATEGORIES: MarketplaceCategory[] = [
       'Corporate Gifting & Hospitality',
       'PR & Media Event Strategists',
     ],
-    heroImage: 'https://images.unsplash.com/photo-1511578314322-379afb476865?auto=format&fit=crop&w=1200&q=80',
   },
 ];
 

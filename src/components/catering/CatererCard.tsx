@@ -5,24 +5,20 @@ import { Avatar } from '../ui/Avatar';
 import { Rating } from '../ui/Rating';
 import { Button } from '../ui/Button';
 
-import { ImagePlaceholder } from '../ui/ImagePlaceholder';
-
-interface ProfessionalCardProps {
-  professional: Professional;
-  onViewProfile: (pro: Professional) => void;
-  onEnquire: (pro: Professional) => void;
-  className?: string;
+interface CatererCardProps {
+  caterer: Professional;
+  onViewCaterer: (caterer: Professional) => void;
+  onEnquire: (caterer: Professional) => void;
 }
 
-export const ProfessionalCard: React.FC<ProfessionalCardProps> = ({
-  professional,
-  onViewProfile,
+export const CatererCard: React.FC<CatererCardProps> = ({
+  caterer,
+  onViewCaterer,
   onEnquire,
-  className = '',
 }) => {
   return (
     <div
-      className={`saathi-professional-card hover-lift ${className}`}
+      className="saathi-caterer-card hover-lift"
       style={{
         display: 'flex',
         flexDirection: 'column',
@@ -36,66 +32,74 @@ export const ProfessionalCard: React.FC<ProfessionalCardProps> = ({
         position: 'relative',
       }}
     >
-      {/* Cover Header Image or Placeholder */}
+      {/* Cover Header Banner */}
       <div
-        className="image-zoom-container"
         style={{
-          height: '125px',
+          height: '130px',
           width: '100%',
           overflow: 'hidden',
           position: 'relative',
           backgroundColor: 'var(--bg-surface-soft)',
         }}
       >
-        {professional.coverImageUrl ? (
+        {caterer.coverImageUrl ? (
           <img
-            src={professional.coverImageUrl}
-            alt={professional.brandName}
+            src={caterer.coverImageUrl}
+            alt={caterer.brandName}
             style={{
               width: '100%',
               height: '100%',
               objectFit: 'cover',
               display: 'block',
+              transition: 'transform 0.4s ease',
             }}
           />
         ) : (
-          <ImagePlaceholder
-            variant="card"
-            label=""
-            style={{ border: 'none', borderRadius: 0 }}
+          <div
+            style={{
+              width: '100%',
+              height: '100%',
+              background: 'linear-gradient(135deg, var(--saathi-maroon) 0%, var(--saathi-deep-plum) 100%)',
+            }}
           />
         )}
         <div
           style={{
             position: 'absolute',
+            inset: 0,
+            background: 'linear-gradient(to top, rgba(24, 14, 23, 0.6) 0%, transparent 70%)',
+          }}
+        />
+
+        {/* Business Type Badge */}
+        <div
+          style={{
+            position: 'absolute',
             top: '10px',
             right: '10px',
-            padding: '0.22rem 0.65rem',
+            padding: '0.2rem 0.6rem',
             borderRadius: 'var(--radius-full)',
-            backgroundColor: 'rgba(38, 26, 36, 0.78)',
+            backgroundColor: 'rgba(38, 26, 36, 0.85)',
             color: '#FAF6F3',
             fontSize: '0.6875rem',
             fontWeight: 600,
-            letterSpacing: '0.04em',
-            textTransform: 'uppercase',
-            backdropFilter: 'blur(6px)',
-            border: '1px solid rgba(255, 255, 255, 0.12)',
-            zIndex: 2,
+            backdropFilter: 'blur(4px)',
+            border: '1px solid rgba(255, 255, 255, 0.15)',
           }}
         >
-          {professional.businessType}
+          {caterer.businessType}
         </div>
       </div>
 
       {/* Main Body */}
-      <div style={{ padding: 'var(--space-5)', flex: '1 0 auto' }}>
+      <div style={{ padding: 'var(--space-5)', flex: 1, display: 'flex', flexDirection: 'column' }}>
         {/* Avatar + Main Info Row */}
         <div
           style={{
             display: 'flex',
             alignItems: 'flex-start',
             gap: 'var(--space-3)',
-            marginTop: professional.coverImageUrl ? '-32px' : 0,
+            marginTop: '-36px',
             marginBottom: 'var(--space-3)',
             position: 'relative',
           }}
@@ -109,32 +113,30 @@ export const ProfessionalCard: React.FC<ProfessionalCardProps> = ({
             }}
           >
             <Avatar
-              src={professional.avatarUrl}
-              name={professional.name}
+              src={caterer.avatarUrl}
+              name={caterer.name}
               size="lg"
             />
           </div>
 
-          <div style={{ flex: 1, minWidth: 0, paddingTop: professional.coverImageUrl ? '18px' : 0 }}>
-            <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
-              <h3
-                style={{
-                  fontFamily: 'var(--font-serif)',
-                  fontSize: '1.05rem',
-                  fontWeight: 600,
-                  color: 'var(--text-headings)',
-                  whiteSpace: 'nowrap',
-                  overflow: 'hidden',
-                  textOverflow: 'ellipsis',
-                }}
-                title={professional.brandName}
-              >
-                {professional.brandName}
-              </h3>
-            </div>
+          <div style={{ flex: 1, minWidth: 0, paddingTop: '20px' }}>
+            <h3
+              style={{
+                fontFamily: 'var(--font-serif)',
+                fontSize: '1.1rem',
+                fontWeight: 600,
+                color: 'var(--text-headings)',
+                whiteSpace: 'nowrap',
+                overflow: 'hidden',
+                textOverflow: 'ellipsis',
+              }}
+              title={caterer.brandName}
+            >
+              {caterer.brandName}
+            </h3>
 
             <p style={{ fontSize: 'var(--text-xs)', color: 'var(--text-muted)' }}>
-              Led by {professional.name}
+              Head Chef: {caterer.name}
             </p>
           </div>
         </div>
@@ -160,18 +162,18 @@ export const ProfessionalCard: React.FC<ProfessionalCardProps> = ({
             }}
           >
             <MapPin size={13} style={{ color: 'var(--saathi-maroon)' }} />
-            <span>{professional.location}</span>
+            <span>{caterer.location}</span>
           </div>
 
           <Rating
-            value={professional.rating}
+            value={caterer.rating}
             size="sm"
             showValue
-            reviewCount={professional.reviewCount}
+            reviewCount={caterer.reviewCount}
           />
         </div>
 
-        {/* Tagline / Pitch */}
+        {/* Tagline */}
         <p
           style={{
             fontSize: 'var(--text-xs)',
@@ -185,10 +187,10 @@ export const ProfessionalCard: React.FC<ProfessionalCardProps> = ({
             minHeight: '34px',
           }}
         >
-          {professional.tagline}
+          {caterer.tagline}
         </p>
 
-        {/* Key Highlights (Experience & Pricing) */}
+        {/* Highlight strip (Experience & Pricing) */}
         <div
           style={{
             display: 'flex',
@@ -204,33 +206,33 @@ export const ProfessionalCard: React.FC<ProfessionalCardProps> = ({
           <div style={{ display: 'flex', alignItems: 'center', gap: '5px' }}>
             <Award size={13} style={{ color: 'var(--saathi-maroon)' }} />
             <span style={{ fontSize: 'var(--text-xs)', fontWeight: 600, color: 'var(--text-primary)' }}>
-              {professional.experienceYears}y exp
+              {caterer.experienceYears}y exp
             </span>
-            <span style={{ fontSize: '0.7rem', color: 'var(--text-muted)' }}>
-              ({professional.eventsCompleted} events)
+            <span style={{ fontSize: '0.6875rem', color: 'var(--text-muted)' }}>
+              ({caterer.eventsCompleted} events)
             </span>
           </div>
 
           <div style={{ textAlign: 'right' }}>
-            <span style={{ fontSize: '0.7rem', color: 'var(--text-muted)' }}>From </span>
+            <span style={{ fontSize: '0.6875rem', color: 'var(--text-muted)' }}>From </span>
             <strong style={{ fontSize: 'var(--text-xs)', color: 'var(--saathi-maroon)' }}>
-              {professional.startingPrice}
+              {caterer.startingPrice}
             </strong>
           </div>
         </div>
 
-        {/* Specialties Pills */}
+        {/* Cuisines & Specialties Pills */}
         <div
           style={{
             display: 'flex',
             flexWrap: 'wrap',
             gap: '4px',
-            marginBottom: 'var(--space-2)',
+            marginBottom: 'var(--space-4)',
           }}
         >
-          {professional.specialties.slice(0, 3).map((spec) => (
+          {caterer.cuisines?.slice(0, 3).map((c) => (
             <span
-              key={spec}
+              key={c}
               style={{
                 fontSize: '0.6875rem',
                 padding: '0.15rem 0.5rem',
@@ -240,7 +242,7 @@ export const ProfessionalCard: React.FC<ProfessionalCardProps> = ({
                 color: 'var(--text-secondary)',
               }}
             >
-              {spec}
+              {c}
             </span>
           ))}
         </div>
@@ -259,17 +261,17 @@ export const ProfessionalCard: React.FC<ProfessionalCardProps> = ({
           variant="outline"
           size="sm"
           style={{ flex: 1 }}
-          onClick={() => onViewProfile(professional)}
+          onClick={() => onViewCaterer(caterer)}
+          rightIcon={<ArrowUpRight size={13} />}
         >
-          <span>View Profile</span>
-          <ArrowUpRight size={13} />
+          View Caterer
         </Button>
         <Button
           variant="primary"
           size="sm"
           style={{ flex: 1 }}
           leftIcon={<MessageSquare size={13} />}
-          onClick={() => onEnquire(professional)}
+          onClick={() => onEnquire(caterer)}
         >
           Enquire
         </Button>
