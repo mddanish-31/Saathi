@@ -1,10 +1,13 @@
 "use client";
 
-import { useRouter } from 'next/navigation';
+import { useRouter, useSearchParams } from 'next/navigation';
+import { Suspense } from 'react';
 import { LoginPage } from '../../src/views/LoginPage';
 
-export default function Page() {
+function LoginContent() {
   const router = useRouter();
+  const searchParams = useSearchParams();
+  const returnTo = searchParams?.get('returnTo') || undefined;
 
   const handleNavigate = (path: string) => {
     router.push(path);
@@ -13,5 +16,13 @@ export default function Page() {
     }
   };
 
-  return <LoginPage onNavigate={handleNavigate} />;
+  return <LoginPage onNavigate={handleNavigate} returnTo={returnTo} />;
+}
+
+export default function Page() {
+  return (
+    <Suspense fallback={null}>
+      <LoginContent />
+    </Suspense>
+  );
 }

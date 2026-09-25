@@ -1,10 +1,13 @@
 "use client";
 
-import { useRouter } from 'next/navigation';
+import { useRouter, useSearchParams } from 'next/navigation';
+import { Suspense } from 'react';
 import { SignupPage } from '../../src/views/SignupPage';
 
-export default function Page() {
+function SignupContent() {
   const router = useRouter();
+  const searchParams = useSearchParams();
+  const returnTo = searchParams?.get('returnTo') || undefined;
 
   const handleNavigate = (path: string) => {
     router.push(path);
@@ -13,5 +16,13 @@ export default function Page() {
     }
   };
 
-  return <SignupPage onNavigate={handleNavigate} />;
+  return <SignupPage onNavigate={handleNavigate} returnTo={returnTo} />;
+}
+
+export default function Page() {
+  return (
+    <Suspense fallback={null}>
+      <SignupContent />
+    </Suspense>
+  );
 }
