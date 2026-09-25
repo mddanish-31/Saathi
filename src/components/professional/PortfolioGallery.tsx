@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
-import { X, MapPin, ZoomIn, Play, Music2 } from 'lucide-react';
+import { X, MapPin, ZoomIn, Play, Music2, Camera } from 'lucide-react';
 import { PortfolioItem } from '../../types';
+import { ImagePlaceholder } from '../ui/ImagePlaceholder';
 
 interface PortfolioGalleryProps {
   portfolio: PortfolioItem[];
@@ -75,16 +76,26 @@ export const PortfolioGallery: React.FC<PortfolioGalleryProps> = ({
                 backgroundColor: 'var(--bg-surface-soft)',
               }}
             >
-              <img
-                src={item.imageUrl}
-                alt={item.title}
-                style={{
-                  width: '100%',
-                  height: '100%',
-                  objectFit: 'cover',
-                  display: 'block',
-                }}
-              />
+              {item.imageUrl ? (
+                <img
+                  src={item.imageUrl}
+                  alt={item.title}
+                  style={{
+                    width: '100%',
+                    height: '100%',
+                    objectFit: 'cover',
+                    display: 'block',
+                  }}
+                />
+              ) : (
+                <ImagePlaceholder
+                  variant="gallery"
+                  label={item.title}
+                  sublabel={item.category}
+                  icon={item.type === 'video' ? Play : item.type === 'audio' ? Music2 : Camera}
+                  style={{ border: 'none', borderRadius: 0 }}
+                />
+              )}
               <div
                 style={{
                   position: 'absolute',
@@ -291,17 +302,27 @@ export const PortfolioGallery: React.FC<PortfolioGalleryProps> = ({
             </button>
 
             {/* High-res Image Preview (or Video/Audio placeholder \u2014 mock UI, no real playback) */}
-            <div style={{ width: '100%', height: '360px', backgroundColor: '#000', overflow: 'hidden', position: 'relative' }}>
-              <img
-                src={selectedItem.imageUrl}
-                alt={selectedItem.title}
-                style={{
-                  width: '100%',
-                  height: '100%',
-                  objectFit: 'cover',
-                  filter: selectedItem.type === 'video' || selectedItem.type === 'audio' ? 'brightness(0.55)' : undefined,
-                }}
-              />
+            <div style={{ width: '100%', height: '360px', backgroundColor: 'var(--bg-surface-soft)', overflow: 'hidden', position: 'relative' }}>
+              {selectedItem.imageUrl ? (
+                <img
+                  src={selectedItem.imageUrl}
+                  alt={selectedItem.title}
+                  style={{
+                    width: '100%',
+                    height: '100%',
+                    objectFit: 'cover',
+                    filter: selectedItem.type === 'video' || selectedItem.type === 'audio' ? 'brightness(0.55)' : undefined,
+                  }}
+                />
+              ) : (
+                <ImagePlaceholder
+                  variant="hero"
+                  label={selectedItem.title}
+                  sublabel={`${selectedItem.category} • ${selectedItem.location}`}
+                  icon={selectedItem.type === 'video' ? Play : selectedItem.type === 'audio' ? Music2 : Camera}
+                  style={{ border: 'none', borderRadius: 0 }}
+                />
+              )}
               {(selectedItem.type === 'video' || selectedItem.type === 'audio') && (
                 <div
                   style={{

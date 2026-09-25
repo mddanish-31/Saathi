@@ -109,7 +109,7 @@ export interface PortfolioItem {
   title: string;
   category: string;
   location: string;
-  imageUrl: string;
+  imageUrl?: string;
   description: string;
   tags: string[];
   /** Optional media kind for the portfolio item. Defaults to 'image' behavior when omitted. */

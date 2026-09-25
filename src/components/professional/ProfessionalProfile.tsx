@@ -18,6 +18,7 @@ import { Container } from '../ui/Container';
 import { PortfolioGallery } from './PortfolioGallery';
 import { ReviewSection } from './ReviewSection';
 import { ALL_SERVICES, getDirectoryPathForProfessional } from '../../data/professionalDirectory';
+import { ImagePlaceholder } from '../ui/ImagePlaceholder';
 
 interface ProfessionalProfileProps {
   professional: Professional;
@@ -66,12 +67,11 @@ export const ProfessionalProfile: React.FC<ProfessionalProfileProps> = ({
             style={{ width: '100%', height: '100%', objectFit: 'cover' }}
           />
         ) : (
-          <div
-            style={{
-              width: '100%',
-              height: '100%',
-              background: 'linear-gradient(135deg, var(--saathi-maroon) 0%, var(--saathi-deep-plum) 100%)',
-            }}
+          <ImagePlaceholder
+            variant="banner"
+            label={professional.brandName}
+            sublabel={professional.tagline}
+            style={{ border: 'none', borderRadius: 0 }}
           />
         )}
         <div
@@ -79,6 +79,7 @@ export const ProfessionalProfile: React.FC<ProfessionalProfileProps> = ({
             position: 'absolute',
             inset: 0,
             background: 'linear-gradient(to top, rgba(24, 14, 23, 0.75) 0%, transparent 60%)',
+            pointerEvents: 'none',
           }}
         />
       </div>
