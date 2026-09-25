@@ -1,3 +1,5 @@
+"use client";
+
 import React from 'react';
 import { ArrowLeft, Clock, ShieldCheck, CheckCircle2, ArrowRight } from 'lucide-react';
 import { Container } from '../components/ui/Container';

@@ -1,3 +1,5 @@
+"use client";
+
 import React from 'react';
 import { ArrowLeft, UserX } from 'lucide-react';
 import { getProfessionalById } from '../data/professionalDirectory';
