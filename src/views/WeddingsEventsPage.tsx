@@ -1,3 +1,5 @@
+"use client";
+
 import React from 'react';
 import { ArrowRight } from 'lucide-react';
 import { MASTER_WEDDINGS_CATEGORY, MOCK_PROFESSIONALS } from '../data/weddingPlanningData';
@@ -25,12 +27,6 @@ export const WeddingsEventsPage: React.FC<WeddingsEventsPageProps> = ({ onNaviga
     <div className="saathi-weddings-events-page">
       {/* Category Hero */}
       <CategoryHero
-        breadcrumbs={[
-          { label: 'Home', href: '/' },
-          { label: 'Explore Services', href: '/#categories' },
-          { label: 'Weddings & Events' },
-        ]}
-        codeTag="Master Category A"
         title={MASTER_WEDDINGS_CATEGORY.name}
         description={MASTER_WEDDINGS_CATEGORY.description}
         onNavigate={onNavigate}
@@ -81,9 +77,9 @@ export const WeddingsEventsPage: React.FC<WeddingsEventsPageProps> = ({ onNaviga
                   }}
                   style={{
                     backgroundColor: 'var(--bg-surface)',
-                    borderRadius: 'var(--radius-lg)',
+                    borderRadius: 'var(--radius-xl)',
                     border: isFeatured ? '1.5px solid var(--saathi-maroon)' : '1px solid var(--border-subtle)',
-                    padding: 'var(--space-6)',
+                    padding: 'clamp(var(--space-5), 3vw, var(--space-6))',
                     display: 'flex',
                     flexDirection: 'column',
                     justifyContent: 'space-between',

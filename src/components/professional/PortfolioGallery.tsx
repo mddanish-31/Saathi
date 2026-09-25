@@ -55,7 +55,7 @@ export const PortfolioGallery: React.FC<PortfolioGalleryProps> = ({
             }}
             style={{
               backgroundColor: 'var(--bg-surface)',
-              borderRadius: 'var(--radius-lg)',
+              borderRadius: 'var(--radius-xl)',
               border: '1px solid var(--border-subtle)',
               overflow: 'hidden',
               cursor: 'pointer',
@@ -67,9 +67,10 @@ export const PortfolioGallery: React.FC<PortfolioGalleryProps> = ({
           >
             {/* Image Container with Hover Zoom Overlay */}
             <div
+              className="image-zoom-container"
               style={{
                 position: 'relative',
-                height: '220px',
+                height: '230px',
                 overflow: 'hidden',
                 backgroundColor: 'var(--bg-surface-soft)',
               }}
@@ -82,7 +83,6 @@ export const PortfolioGallery: React.FC<PortfolioGalleryProps> = ({
                   height: '100%',
                   objectFit: 'cover',
                   display: 'block',
-                  transition: 'transform 0.4s ease',
                 }}
               />
               <div
