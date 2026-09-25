@@ -109,7 +109,7 @@ export interface PortfolioItem {
   title: string;
   category: string;
   location: string;
-  imageUrl: string;
+  imageUrl?: string;
   description: string;
   tags: string[];
   /** Optional media kind for the portfolio item. Defaults to 'image' behavior when omitted. */
@@ -158,6 +158,12 @@ export interface Professional {
   performanceDuration?: string;
   teamSize?: string;
   equipmentProvided?: string[];
+  /* Optional, backward-compatible catering metadata (A5). Omitted for non-catering professionals. */
+  cuisines?: string[];
+  dietaryOptions?: string[];
+  pricePerPlate?: string;
+  liveCounters?: string[];
+  dessertSpecialties?: string[];
   /* Optional, backward-compatible venue metadata (A6). Omitted for non-venue professionals. */
   venueType?: string;
   minGuests?: number;

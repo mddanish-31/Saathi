@@ -58,8 +58,9 @@ export const WeddingsEventsPage: React.FC<WeddingsEventsPageProps> = ({ onNaviga
               const isA1 = sub.slug === 'planning';
               const isPhotography = sub.slug === 'photography';
               const isEntertainment = sub.slug === 'entertainment';
+              const isCatering = sub.slug === 'catering-food-desserts';
               const isVenues = sub.slug === 'wedding-venues';
-              const isFeatured = isA1 || isPhotography || isEntertainment || isVenues;
+              const isFeatured = isA1 || isPhotography || isEntertainment || isCatering || isVenues;
 
               return (
                 <div
@@ -72,6 +73,8 @@ export const WeddingsEventsPage: React.FC<WeddingsEventsPageProps> = ({ onNaviga
                       onNavigate('/categories/weddings-events/photography');
                     } else if (isEntertainment) {
                       onNavigate('/categories/weddings-events/entertainment');
+                    } else if (isCatering) {
+                      onNavigate('/categories/weddings-events/catering-food-desserts');
                     } else if (isVenues) {
                       onNavigate('/categories/weddings-events/wedding-venues');
                     } else {
@@ -218,6 +221,22 @@ export const WeddingsEventsPage: React.FC<WeddingsEventsPageProps> = ({ onNaviga
                       }}
                     >
                       <span>Explore Music & Entertainment</span>
+                      <ArrowRight size={14} />
+                    </div>
+                  ) : isCatering ? (
+                    <div
+                      style={{
+                        display: 'flex',
+                        alignItems: 'center',
+                        gap: '6px',
+                        fontSize: 'var(--text-xs)',
+                        fontWeight: 600,
+                        color: 'var(--saathi-maroon)',
+                        paddingTop: 'var(--space-2)',
+                        borderTop: '1px solid var(--border-subtle)',
+                      }}
+                    >
+                      <span>Explore Catering, Food & Desserts</span>
                       <ArrowRight size={14} />
                     </div>
                   ) : isVenues ? (

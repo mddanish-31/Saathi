@@ -4,6 +4,7 @@ import { useRouter, useParams } from 'next/navigation';
 import { WeddingPlanningPage } from '../../../../../src/views/WeddingPlanningPage';
 import { PhotographyPage } from '../../../../../src/views/PhotographyPage';
 import { MusicEntertainmentPage } from '../../../../../src/views/MusicEntertainmentPage';
+import { CateringPage } from '../../../../../src/views/CateringPage';
 import { WeddingVenuesPage } from '../../../../../src/views/WeddingVenuesPage';
 import { PlaceholderPage } from '../../../../../src/views/PlaceholderPage';
 
@@ -30,6 +31,9 @@ export default function Page() {
     }
     if (subSlug === 'entertainment') {
       return <MusicEntertainmentPage activeServiceSlug={serviceSlug} onNavigate={handleNavigate} />;
+    }
+    if (subSlug === 'catering-food-desserts') {
+      return <CateringPage onNavigate={handleNavigate} />;
     }
     if (subSlug === 'wedding-venues') {
       return <WeddingVenuesPage activeCategorySlug={serviceSlug} onNavigate={handleNavigate} />;

@@ -2,6 +2,7 @@ import { Professional, ServiceItem } from '../types';
 import { MOCK_PROFESSIONALS as A1_PROFESSIONALS, A1_SERVICES } from './weddingPlanningData';
 import { A3_MOCK_PROFESSIONALS, A3_SERVICES } from './musicEntertainmentData';
 import { VENUE_MOCK_PROFESSIONALS, VENUE_CATEGORIES } from './venuesData';
+import { CATERERS_DATA } from './cateringData';
 
 /**
  * Combined read-only directory across all live categories (currently A1 Planning &
@@ -16,7 +17,7 @@ import { VENUE_MOCK_PROFESSIONALS, VENUE_CATEGORIES } from './venuesData';
  * linked to them. When A2 (Photography & Videography) ships, add its exports here too.
  */
 export const ALL_SERVICES: ServiceItem[] = [...A1_SERVICES, ...A3_SERVICES, ...VENUE_CATEGORIES];
-export const ALL_PROFESSIONALS: Professional[] = [...A1_PROFESSIONALS, ...A3_MOCK_PROFESSIONALS, ...VENUE_MOCK_PROFESSIONALS];
+export const ALL_PROFESSIONALS: Professional[] = [...A1_PROFESSIONALS, ...A3_MOCK_PROFESSIONALS, ...CATERERS_DATA, ...VENUE_MOCK_PROFESSIONALS];
 
 export const getProfessionalById = (id: string): Professional | undefined =>
     ALL_PROFESSIONALS.find((pro) => pro.id === id);
