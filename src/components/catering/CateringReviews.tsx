@@ -11,7 +11,7 @@ export const CateringReviews: React.FC = () => {
       id="catering-client-reviews"
       className="saathi-catering-reviews"
       style={{
-        padding: 'clamp(var(--space-12), 6vw, var(--space-20)) 0',
+        padding: 'clamp(var(--space-12), 5vw, var(--space-16)) 0',
         backgroundColor: 'var(--bg-surface-soft)',
         borderBottom: '1px solid var(--border-subtle)',
       }}
@@ -19,7 +19,7 @@ export const CateringReviews: React.FC = () => {
       <Container>
         <SectionHeading
           eyebrow="Client Experiences"
-          title="Loved by Hosts Across India"
+          title="Client Reviews & Host Testimonials"
           subtitle="Read real stories from couples, corporate planners, and families who trusted Saathi master caterers for their unforgettable celebrations."
         />
 
@@ -34,7 +34,7 @@ export const CateringReviews: React.FC = () => {
           {CATERING_REVIEWS.map((rev: CateringReview) => (
             <div
               key={rev.id}
-              className="hover-lift"
+              className="hover-lift saathi-review-card"
               style={{
                 backgroundColor: 'var(--bg-surface)',
                 borderRadius: 'var(--radius-xl)',

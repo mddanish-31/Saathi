@@ -88,7 +88,7 @@ export const FoodDessertMenu: React.FC<FoodDessertMenuProps> = ({
       id="food-dessert-menu-explorer"
       className="saathi-food-dessert-menu"
       style={{
-        padding: 'clamp(var(--space-12), 6vw, var(--space-20)) 0',
+        padding: 'clamp(var(--space-12), 5vw, var(--space-16)) 0',
         backgroundColor: 'var(--bg-app)',
         borderBottom: '1px solid var(--border-subtle)',
       }}
@@ -96,7 +96,7 @@ export const FoodDessertMenu: React.FC<FoodDessertMenuProps> = ({
       <Container>
         <SectionHeading
           eyebrow="Menu Explorer"
-          title="Curated Food & Dessert Menus"
+          title="Food & Dessert Menu Explorer"
           subtitle="Discover hand-crafted regional specialties, royal charcoal tandoor starters, slow-simmered dum courses, and artisanal French pastries. Select items to customize your celebration menu."
         />
 

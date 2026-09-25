@@ -185,14 +185,14 @@ export const CustomMenu: React.FC<CustomMenuProps> = ({
       id="custom-menu-configurator"
       className="saathi-custom-menu"
       style={{
-        padding: 'clamp(var(--space-12), 6vw, var(--space-20)) 0',
+        padding: 'clamp(var(--space-12), 5vw, var(--space-16)) 0',
         backgroundColor: 'var(--bg-app)',
         borderBottom: '1px solid var(--border-subtle)',
       }}
     >
       <Container>
         <SectionHeading
-          eyebrow="Custom Configurator"
+          eyebrow="Interactive Configurator"
           title="Design Your Custom Event Menu"
           subtitle="Select your event format, guest size, preferred regional cuisines, live counters, and service style. Get an instant transparent estimate and receive custom quotes."
         />

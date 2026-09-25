@@ -90,7 +90,7 @@ export const CatererListing: React.FC<CatererListingProps> = ({
       id="caterer-directory-listing"
       className="saathi-caterer-listing"
       style={{
-        padding: 'clamp(var(--space-12), 6vw, var(--space-20)) 0',
+        padding: 'clamp(var(--space-12), 5vw, var(--space-16)) 0',
         backgroundColor: 'var(--bg-app)',
         borderBottom: '1px solid var(--border-subtle)',
       }}
@@ -98,7 +98,7 @@ export const CatererListing: React.FC<CatererListingProps> = ({
       <Container>
         <SectionHeading
           eyebrow="Marketplace Directory"
-          title="Browse Verified Catering Masters"
+          title="Verified Master Caterers & Culinary Artists"
           subtitle="Explore India's leading artisanal wedding caterers, royal Awadhi khansamas, certified Jain banquet specialists, and boutique dessert ateliers."
         />
 

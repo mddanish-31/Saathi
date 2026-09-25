@@ -213,6 +213,7 @@ export const FoodCard: React.FC<FoodCardProps> = ({
 
           <button
             type="button"
+            className="saathi-food-card-btn"
             onClick={() => onToggleSelect(item)}
             style={{
               display: 'inline-flex',

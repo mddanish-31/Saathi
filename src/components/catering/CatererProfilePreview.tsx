@@ -41,7 +41,7 @@ export const CatererProfilePreview: React.FC<CatererProfilePreviewProps> = ({
 
   return (
     <div
-      className="saathi-modal-backdrop animate-fade-in"
+      className="saathi-modal-backdrop saathi-catering-modal animate-fade-in"
       onClick={onClose}
       style={{
         position: 'fixed',

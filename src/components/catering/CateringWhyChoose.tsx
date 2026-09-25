@@ -33,7 +33,7 @@ export const CateringWhyChoose: React.FC = () => {
       id="why-choose-saathi-catering"
       className="saathi-catering-why-choose"
       style={{
-        padding: 'clamp(var(--space-12), 6vw, var(--space-20)) 0',
+        padding: 'clamp(var(--space-12), 5vw, var(--space-16)) 0',
         backgroundColor: 'var(--bg-app)',
         borderBottom: '1px solid var(--border-subtle)',
       }}
@@ -56,7 +56,7 @@ export const CateringWhyChoose: React.FC = () => {
           {WHY_CHOOSE_CATERING.map((item: WhyChooseBenefit) => (
             <div
               key={item.id}
-              className="hover-lift"
+              className="hover-lift saathi-why-choose-card"
               style={{
                 backgroundColor: 'var(--bg-surface)',
                 borderRadius: 'var(--radius-xl)',

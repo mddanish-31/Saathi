@@ -21,7 +21,7 @@ export const CateringPackages: React.FC<CateringPackagesProps> = ({
       id="catering-packages-section"
       className="saathi-catering-packages"
       style={{
-        padding: 'clamp(var(--space-12), 6vw, var(--space-20)) 0',
+        padding: 'clamp(var(--space-12), 5vw, var(--space-16)) 0',
         backgroundColor: 'var(--bg-surface-soft)',
         borderBottom: '1px solid var(--border-subtle)',
       }}
@@ -49,7 +49,7 @@ export const CateringPackages: React.FC<CateringPackagesProps> = ({
             return (
               <div
                 key={pkg.id}
-                className="hover-lift"
+                className="hover-lift saathi-package-card"
                 style={{
                   backgroundColor: 'var(--bg-surface)',
                   borderRadius: 'var(--radius-2xl)',

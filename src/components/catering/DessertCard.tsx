@@ -165,6 +165,7 @@ export const DessertCard: React.FC<DessertCardProps> = ({
 
           <button
             type="button"
+            className="saathi-dessert-card-btn"
             onClick={() => onToggleSelect(item)}
             style={{
               display: 'inline-flex',

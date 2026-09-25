@@ -26,7 +26,7 @@ export const CateringGallery: React.FC = () => {
       id="catering-gallery-showcase"
       className="saathi-catering-gallery"
       style={{
-        padding: 'clamp(var(--space-12), 6vw, var(--space-20)) 0',
+        padding: 'clamp(var(--space-12), 5vw, var(--space-16)) 0',
         backgroundColor: 'var(--bg-surface-soft)',
         borderBottom: '1px solid var(--border-subtle)',
       }}
@@ -34,8 +34,8 @@ export const CateringGallery: React.FC = () => {
       <Container>
         <SectionHeading
           eyebrow="Visual Portfolio"
-          title="Gastronomic Artistry in Action"
-          subtitle="Explore live event captures of our partner caterers — from shimmering royal palace banquet tables to theatrical flame-kissed tandoor counters."
+          title="Catering & Gastronomy Gallery"
+          subtitle="Explore live event captures of our partner caterers — from shimmering royal palace banquet tables to theatrical flame-kissed tandoor counters and artisanal dessert displays."
         />
 
         {/* Gallery Filter Tabs */}
@@ -86,8 +86,16 @@ export const CateringGallery: React.FC = () => {
           {filteredItems.map((item) => (
             <div
               key={item.id}
-              className="hover-lift"
+              role="button"
+              tabIndex={0}
               onClick={() => setActiveLightboxItem(item)}
+              onKeyDown={(e) => {
+                if (e.key === 'Enter' || e.key === ' ') {
+                  e.preventDefault();
+                  setActiveLightboxItem(item);
+                }
+              }}
+              className="hover-lift saathi-gallery-card"
               style={{
                 borderRadius: 'var(--radius-xl)',
                 overflow: 'hidden',
@@ -150,6 +158,7 @@ export const CateringGallery: React.FC = () => {
 
                 {/* Hover Preview Eye Icon */}
                 <div
+                  className="saathi-gallery-eye"
                   style={{
                     position: 'absolute',
                     top: '12px',
@@ -197,7 +206,7 @@ export const CateringGallery: React.FC = () => {
         {/* Lightbox Modal */}
         {activeLightboxItem && (
           <div
-            className="saathi-modal-backdrop animate-fade-in"
+            className="saathi-modal-backdrop saathi-catering-modal animate-fade-in"
             onClick={() => setActiveLightboxItem(null)}
             style={{
               position: 'fixed',

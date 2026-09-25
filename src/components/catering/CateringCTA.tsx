@@ -16,7 +16,7 @@ export const CateringCTA: React.FC<CateringCTAProps> = ({
       id="catering-final-cta"
       className="saathi-catering-cta"
       style={{
-        padding: 'clamp(var(--space-12), 6vw, var(--space-20)) 0',
+        padding: 'clamp(var(--space-12), 5vw, var(--space-16)) 0',
         backgroundColor: 'var(--bg-app)',
         position: 'relative',
         overflow: 'hidden',
@@ -104,7 +104,7 @@ export const CateringCTA: React.FC<CateringCTAProps> = ({
                 marginBottom: 'var(--space-8)',
               }}
             >
-              Find the right catering professional and create a menu made for your event. Request custom multi-course quotes in minutes.
+              Connect with verified master caterers and create a custom celebration menu tailored to your guests. Request personalized multi-course quotes in minutes.
             </p>
 
             <div

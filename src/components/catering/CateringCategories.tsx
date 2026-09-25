@@ -18,7 +18,7 @@ export const CateringCategories: React.FC<CateringCategoriesProps> = ({
       id="catering-event-categories"
       className="saathi-catering-categories"
       style={{
-        padding: 'clamp(var(--space-12), 6vw, var(--space-20)) 0',
+        padding: 'clamp(var(--space-12), 5vw, var(--space-16)) 0',
         backgroundColor: 'var(--bg-app)',
         borderBottom: '1px solid var(--border-subtle)',
       }}
@@ -44,8 +44,16 @@ export const CateringCategories: React.FC<CateringCategoriesProps> = ({
             return (
               <div
                 key={cat.id}
+                role="button"
+                tabIndex={0}
                 onClick={() => onSelectCategory(cat)}
-                className="hover-lift"
+                onKeyDown={(e) => {
+                  if (e.key === 'Enter' || e.key === ' ') {
+                    e.preventDefault();
+                    onSelectCategory(cat);
+                  }
+                }}
+                className="hover-lift saathi-category-card"
                 style={{
                   backgroundColor: 'var(--bg-surface)',
                   borderRadius: 'var(--radius-xl)',
@@ -235,6 +243,7 @@ export const CateringCategories: React.FC<CateringCategoriesProps> = ({
                       Configure Menu
                     </span>
                     <div
+                      className="saathi-action-arrow"
                       style={{
                         width: '28px',
                         height: '28px',

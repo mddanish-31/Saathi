@@ -113,7 +113,7 @@ export const CateringHero: React.FC<CateringHeroProps> = ({
           <div style={{ display: 'flex', flexDirection: 'column' }}>
             <div style={{ marginBottom: 'var(--space-3)' }}>
               <Badge variant="brand" icon={<Utensils size={13} />}>
-                Vertical A5 • Curated Catering Marketplace
+                Curated Catering Marketplace • Bespoke Banquets & Feasts
               </Badge>
             </div>
 
