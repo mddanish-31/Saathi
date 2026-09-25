@@ -18,6 +18,8 @@ import { Container } from '../ui/Container';
 import { PortfolioGallery } from './PortfolioGallery';
 import { ReviewSection } from './ReviewSection';
 import { ALL_SERVICES, getDirectoryPathForProfessional } from '../../data/professionalDirectory';
+import { getSimilarVenues } from '../../data/venuesData';
+import { ProfessionalCard } from './ProfessionalCard';
 
 interface ProfessionalProfileProps {
   professional: Professional;
@@ -46,6 +48,8 @@ export const ProfessionalProfile: React.FC<ProfessionalProfileProps> = ({
   const matchedServices = ALL_SERVICES.filter((srv) =>
     professional.servicesOffered.includes(srv.slug)
   );
+
+  const similarVenues = professional.venueType ? getSimilarVenues(professional, 3) : [];
 
   return (
     <div className={`saathi-professional-profile ${className}`}>
@@ -527,6 +531,111 @@ export const ProfessionalProfile: React.FC<ProfessionalProfileProps> = ({
                   </div>
                 )}
 
+                {/* Venue Details \u2014 optional, only rendered when a professional supplies them (A6) */}
+                {professional.venueType && (
+                  <div
+                    style={{
+                      backgroundColor: 'var(--bg-surface)',
+                      padding: 'var(--space-6)',
+                      borderRadius: 'var(--radius-lg)',
+                      border: '1px solid var(--border-subtle)',
+                    }}
+                  >
+                    <h3
+                      style={{
+                        fontFamily: 'var(--font-serif)',
+                        fontSize: 'var(--text-lg)',
+                        color: 'var(--text-headings)',
+                        marginBottom: 'var(--space-4)',
+                      }}
+                    >
+                      Venue Details
+                    </h3>
+
+                    <div
+                      style={{
+                        display: 'grid',
+                        gridTemplateColumns: 'repeat(auto-fit, minmax(180px, 1fr))',
+                        gap: 'var(--space-4)',
+                        marginBottom: professional.venueSpaces?.length ? 'var(--space-5)' : 0,
+                      }}
+                    >
+                      <div>
+                        <span style={{ fontSize: '0.75rem', color: 'var(--text-muted)', display: 'block' }}>Venue Type</span>
+                        <strong style={{ fontSize: 'var(--text-sm)', color: 'var(--text-headings)' }}>{professional.venueType}</strong>
+                      </div>
+                      {professional.capacityLabel && (
+                        <div>
+                          <span style={{ fontSize: '0.75rem', color: 'var(--text-muted)', display: 'block' }}>Guest Capacity</span>
+                          <strong style={{ fontSize: 'var(--text-sm)', color: 'var(--text-headings)' }}>{professional.capacityLabel}</strong>
+                        </div>
+                      )}
+                    </div>
+
+                    {professional.venueSpaces && professional.venueSpaces.length > 0 && (
+                      <div style={{ marginBottom: 'var(--space-5)' }}>
+                        <span style={{ fontSize: '0.75rem', color: 'var(--text-muted)', display: 'block', marginBottom: 'var(--space-2)' }}>Venue Spaces</span>
+                        <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--space-3)' }}>
+                          {professional.venueSpaces.map((space) => (
+                            <div
+                              key={space.name}
+                              style={{
+                                padding: 'var(--space-3)',
+                                borderRadius: 'var(--radius-md)',
+                                backgroundColor: 'var(--bg-surface-soft)',
+                                border: '1px solid var(--border-subtle)',
+                              }}
+                            >
+                              <div style={{ display: 'flex', justifyContent: 'space-between', gap: 'var(--space-2)', marginBottom: '2px' }}>
+                                <strong style={{ fontSize: 'var(--text-sm)', color: 'var(--text-headings)' }}>{space.name}</strong>
+                                <span style={{ fontSize: '0.75rem', color: 'var(--saathi-maroon)', fontWeight: 600, whiteSpace: 'nowrap' }}>{space.capacity}</span>
+                              </div>
+                              <p style={{ fontSize: 'var(--text-xs)', color: 'var(--text-secondary)' }}>{space.description}</p>
+                            </div>
+                          ))}
+                        </div>
+                      </div>
+                    )}
+
+                    {professional.amenities && professional.amenities.length > 0 && (
+                      <div style={{ marginBottom: professional.policies?.length ? 'var(--space-5)' : 0 }}>
+                        <span style={{ fontSize: '0.75rem', color: 'var(--text-muted)', display: 'block', marginBottom: 'var(--space-2)' }}>Amenities</span>
+                        <div style={{ display: 'flex', flexWrap: 'wrap', gap: '6px' }}>
+                          {professional.amenities.map((a) => (
+                            <span
+                              key={a}
+                              style={{
+                                fontSize: '0.7rem',
+                                padding: '0.25rem 0.6rem',
+                                borderRadius: 'var(--radius-full)',
+                                backgroundColor: 'var(--saathi-nude-tint)',
+                                color: 'var(--saathi-maroon)',
+                                fontWeight: 600,
+                              }}
+                            >
+                              {a}
+                            </span>
+                          ))}
+                        </div>
+                      </div>
+                    )}
+
+                    {professional.policies && professional.policies.length > 0 && (
+                      <div>
+                        <span style={{ fontSize: '0.75rem', color: 'var(--text-muted)', display: 'block', marginBottom: 'var(--space-2)' }}>Venue Policies</span>
+                        <ul style={{ listStyle: 'none', padding: 0, margin: 0, display: 'flex', flexDirection: 'column', gap: '4px' }}>
+                          {professional.policies.map((p) => (
+                            <li key={p} style={{ fontSize: 'var(--text-xs)', color: 'var(--text-secondary)', display: 'flex', alignItems: 'flex-start', gap: '6px' }}>
+                              <CheckCircle2 size={12} style={{ color: 'var(--saathi-maroon)', marginTop: '2px', flexShrink: 0 }} />
+                              <span>{p}</span>
+                            </li>
+                          ))}
+                        </ul>
+                      </div>
+                    )}
+                  </div>
+                )}
+
                 {/* Cities Served */}
                 <div
                   style={{
@@ -800,6 +909,38 @@ export const ProfessionalProfile: React.FC<ProfessionalProfileProps> = ({
             </div>
           </div>
         </div>
+
+        {/* Similar Venues \u2014 optional, only rendered for venue professionals (A6) */}
+        {similarVenues.length > 0 && (
+          <div style={{ marginTop: 'var(--space-16)' }}>
+            <h3
+              style={{
+                fontFamily: 'var(--font-serif)',
+                fontSize: 'var(--text-xl)',
+                color: 'var(--text-headings)',
+                marginBottom: 'var(--space-5)',
+              }}
+            >
+              Similar Venues
+            </h3>
+            <div
+              style={{
+                display: 'grid',
+                gridTemplateColumns: 'repeat(auto-fill, minmax(280px, 1fr))',
+                gap: 'var(--space-6)',
+              }}
+            >
+              {similarVenues.map((venue) => (
+                <ProfessionalCard
+                  key={venue.id}
+                  professional={venue}
+                  onViewProfile={() => onNavigate?.(`/professionals/${venue.id}`)}
+                  onEnquire={() => onNavigate?.(`/professionals/${venue.id}/enquire`)}
+                />
+              ))}
+            </div>
+          </div>
+        )}
       </Container>
     </div>
   );

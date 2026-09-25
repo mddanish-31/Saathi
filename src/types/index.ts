@@ -158,6 +158,20 @@ export interface Professional {
   performanceDuration?: string;
   teamSize?: string;
   equipmentProvided?: string[];
+  /* Optional, backward-compatible venue metadata (A6). Omitted for non-venue professionals. */
+  venueType?: string;
+  minGuests?: number;
+  maxGuests?: number;
+  capacityLabel?: string;
+  amenities?: string[];
+  venueSpaces?: VenueSpace[];
+  policies?: string[];
+}
+
+export interface VenueSpace {
+  name: string;
+  capacity: string;
+  description: string;
 }
 
 /* ==========================================================================

@@ -75,7 +75,8 @@ export const MASTER_WEDDINGS_CATEGORY = {
       code: 'A6',
       name: 'Wedding Venues',
       description: 'Banquet & marriage halls, luxury resorts, sprawling lawns & gardens, community halls, and destination venues.',
-      isActive: false,
+      isActive: true,
+      itemCount: '6 Venue Categories',
     },
     {
       id: 'a7-decor-styling-essentials',
