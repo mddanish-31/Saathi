@@ -40,3 +40,8 @@ Thumbs.db
 # Build and test tool caches
 .vite/
 .eslintcache
+
+# Next.js
+.next/
+out/
+tsconfig.tsbuildinfo

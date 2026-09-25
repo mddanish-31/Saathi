@@ -37,6 +37,33 @@ export interface StepItem {
 }
 
 /* ==========================================================================
+   MARKETPLACE CATEGORY HIERARCHY
+   ========================================================================== */
+export interface MarketplaceSubCategory {
+  id: string;
+  code: string;
+  name: string;
+  slug: string;
+  description: string;
+  badge?: string;
+  isActive: boolean;
+  plannedServices?: string[];
+  imageUrl?: string;
+}
+
+export interface MarketplaceCategory {
+  id: string;
+  code: string;
+  name: string;
+  slug: string;
+  description: string;
+  isActive: boolean;
+  subCategories?: MarketplaceSubCategory[];
+  plannedServices?: string[];
+  heroImage?: string;
+}
+
+/* ==========================================================================
    AUTHENTICATION & USER TYPES
    ========================================================================== */
 export type UserRole = 'customer' | 'professional';
@@ -82,9 +109,11 @@ export interface PortfolioItem {
   title: string;
   category: string;
   location: string;
-  imageUrl: string;
+  imageUrl?: string;
   description: string;
   tags: string[];
+  /** Optional media kind for the portfolio item. Defaults to 'image' behavior when omitted. */
+  type?: 'image' | 'video' | 'audio';
 }
 
 export interface ReviewItem {
@@ -122,6 +151,33 @@ export interface Professional {
   verified: boolean;
   portfolio: PortfolioItem[];
   reviews: ReviewItem[];
+  /* Optional, backward-compatible performance/entertainment metadata (A3). Omitted for A1 professionals. */
+  performanceType?: string;
+  genres?: string[];
+  eventTypes?: string[];
+  performanceDuration?: string;
+  teamSize?: string;
+  equipmentProvided?: string[];
+  /* Optional, backward-compatible catering metadata (A5). Omitted for non-catering professionals. */
+  cuisines?: string[];
+  dietaryOptions?: string[];
+  pricePerPlate?: string;
+  liveCounters?: string[];
+  dessertSpecialties?: string[];
+  /* Optional, backward-compatible venue metadata (A6). Omitted for non-venue professionals. */
+  venueType?: string;
+  minGuests?: number;
+  maxGuests?: number;
+  capacityLabel?: string;
+  amenities?: string[];
+  venueSpaces?: VenueSpace[];
+  policies?: string[];
+}
+
+export interface VenueSpace {
+  name: string;
+  capacity: string;
+  description: string;
 }
 
 /* ==========================================================================

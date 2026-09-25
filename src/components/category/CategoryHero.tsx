@@ -1,7 +1,6 @@
 import React from 'react';
-import { ChevronRight, Sparkles, CheckCircle2 } from 'lucide-react';
+import { CheckCircle2, ChevronRight } from 'lucide-react';
 import { Container } from '../ui/Container';
-import { Badge } from '../ui/Badge';
 
 export interface BreadcrumbItem {
   label: string;
@@ -9,11 +8,11 @@ export interface BreadcrumbItem {
 }
 
 interface CategoryHeroProps {
-  breadcrumbs: BreadcrumbItem[];
+  breadcrumbs?: BreadcrumbItem[];
   codeTag?: string;
   title: string;
   description: string;
-  onNavigate: (path: string) => void;
+  onNavigate?: (path: string) => void;
   highlights?: string[];
   activeServiceSlug?: string;
   serviceTabs?: { label: string; slug: string }[];
@@ -46,59 +45,72 @@ export const CategoryHero: React.FC<CategoryHeroProps> = ({
       }}
     >
       <Container>
-        {/* Breadcrumb Bar */}
-        <nav
-          aria-label="Breadcrumbs"
-          style={{
-            display: 'flex',
-            alignItems: 'center',
-            flexWrap: 'wrap',
-            gap: '6px',
-            fontSize: 'var(--text-xs)',
-            color: 'var(--text-muted)',
-            marginBottom: 'var(--space-5)',
-          }}
-        >
-          {breadcrumbs.map((crumb, idx) => {
-            const isLast = idx === breadcrumbs.length - 1;
-            return (
-              <React.Fragment key={crumb.label}>
-                {idx > 0 && <ChevronRight size={13} style={{ opacity: 0.6 }} />}
-                {crumb.href && !isLast ? (
-                  <button
-                    type="button"
-                    onClick={() => onNavigate(crumb.href!)}
-                    style={{
-                      color: 'var(--text-secondary)',
-                      fontWeight: 500,
-                      cursor: 'pointer',
-                      transition: 'color var(--transition-fast)',
-                    }}
-                    onMouseEnter={(e) => (e.currentTarget.style.color = 'var(--saathi-maroon)')}
-                    onMouseLeave={(e) => (e.currentTarget.style.color = 'var(--text-secondary)')}
-                  >
-                    {crumb.label}
-                  </button>
-                ) : (
-                  <span style={{ color: isLast ? 'var(--saathi-maroon)' : 'var(--text-muted)', fontWeight: isLast ? 600 : 400 }}>
-                    {crumb.label}
-                  </span>
-                )}
-              </React.Fragment>
-            );
-          })}
-        </nav>
+        {/* Breadcrumbs Navigation */}
+        {breadcrumbs && breadcrumbs.length > 0 && (
+          <nav
+            aria-label="Breadcrumb"
+            style={{
+              display: 'flex',
+              alignItems: 'center',
+              flexWrap: 'wrap',
+              gap: '6px',
+              fontSize: 'var(--text-xs)',
+              color: 'var(--text-muted)',
+              marginBottom: 'var(--space-5)',
+            }}
+          >
+            {breadcrumbs.map((crumb, idx) => {
+              const isLast = idx === breadcrumbs.length - 1;
+              return (
+                <React.Fragment key={crumb.label}>
+                  {idx > 0 && <ChevronRight size={13} style={{ opacity: 0.5 }} />}
+                  {crumb.href && onNavigate && !isLast ? (
+                    <button
+                      type="button"
+                      onClick={() => onNavigate(crumb.href!)}
+                      style={{
+                        color: 'var(--text-secondary)',
+                        fontWeight: 500,
+                        cursor: 'pointer',
+                        transition: 'color var(--transition-fast)',
+                      }}
+                      onMouseEnter={(e) => (e.currentTarget.style.color = 'var(--saathi-maroon)')}
+                      onMouseLeave={(e) => (e.currentTarget.style.color = 'var(--text-secondary)')}
+                    >
+                      {crumb.label}
+                    </button>
+                  ) : (
+                    <span style={{ color: isLast ? 'var(--saathi-maroon)' : 'var(--text-secondary)', fontWeight: isLast ? 600 : 400 }}>
+                      {crumb.label}
+                    </span>
+                  )}
+                </React.Fragment>
+              );
+            })}
+          </nav>
+        )}
 
         {/* Hero Header Content */}
         <div style={{ maxWidth: '840px' }}>
-          {codeTag && (
+          {codeTag && !breadcrumbs && (
             <div style={{ marginBottom: 'var(--space-3)' }}>
-              <Badge variant="brand" icon={<Sparkles size={13} />}>
+              <span
+                style={{
+                  display: 'inline-flex',
+                  alignItems: 'center',
+                  padding: '0.2rem 0.6rem',
+                  borderRadius: 'var(--radius-full)',
+                  backgroundColor: 'var(--saathi-nude-tint)',
+                  color: 'var(--saathi-maroon)',
+                  fontSize: 'var(--text-xs)',
+                  fontWeight: 700,
+                  letterSpacing: '0.04em',
+                }}
+              >
                 {codeTag}
-              </Badge>
+              </span>
             </div>
           )}
-
           <h1
             style={{
               fontFamily: 'var(--font-serif)',

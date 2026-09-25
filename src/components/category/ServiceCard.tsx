@@ -1,19 +1,27 @@
-import React from 'react';
 import { CheckCircle2, ArrowRight, Sparkles } from 'lucide-react';
 import { ServiceItem } from '../../types';
 import { Button } from '../ui/Button';
 
-interface ServiceCardProps {
-  service: ServiceItem;
-  onSelect: (service: ServiceItem) => void;
+export type ServiceCardData = Pick<ServiceItem, 'title' | 'shortDescription'> &
+  Partial<Omit<ServiceItem, 'title' | 'shortDescription'>> & { isComingSoon?: boolean };
+
+interface ServiceCardProps<T extends ServiceCardData = ServiceItem> {
+  service: T;
+  onSelect?: (service: T) => void;
+  isComingSoon?: boolean;
+  badge?: string;
+  ctaLabel?: string;
   className?: string;
 }
 
-export const ServiceCard: React.FC<ServiceCardProps> = ({
+export function ServiceCard<T extends ServiceCardData = ServiceItem>({
   service,
   onSelect,
+  isComingSoon = false,
+  badge = 'Curated Service',
+  ctaLabel = 'Explore Specialists',
   className = '',
-}) => {
+}: ServiceCardProps<T>) {
   return (
     <div
       className={`saathi-service-card hover-lift ${className}`}
@@ -21,10 +29,10 @@ export const ServiceCard: React.FC<ServiceCardProps> = ({
         display: 'flex',
         flexDirection: 'column',
         justifyContent: 'space-between',
-        padding: 'var(--space-6)',
+        padding: 'clamp(var(--space-5), 3vw, var(--space-6))',
         backgroundColor: 'var(--bg-surface)',
         border: '1px solid var(--border-subtle)',
-        borderRadius: 'var(--radius-lg)',
+        borderRadius: 'var(--radius-xl)',
         boxShadow: 'var(--shadow-sm)',
         transition: 'all var(--transition-normal)',
         position: 'relative',
@@ -55,15 +63,17 @@ export const ServiceCard: React.FC<ServiceCardProps> = ({
             }}
           >
             <Sparkles size={12} />
-            <span>Curated Service</span>
+            <span>{badge}</span>
           </div>
 
-          <div style={{ textAlign: 'right' }}>
-            <span style={{ fontSize: '0.7rem', color: 'var(--text-muted)', display: 'block' }}>From</span>
-            <span style={{ fontSize: 'var(--text-sm)', fontWeight: 700, color: 'var(--text-headings)' }}>
-              {service.startingPrice}
-            </span>
-          </div>
+          {service.startingPrice && (
+            <div style={{ textAlign: 'right' }}>
+              <span style={{ fontSize: '0.7rem', color: 'var(--text-muted)', display: 'block' }}>From</span>
+              <span style={{ fontSize: 'var(--text-sm)', fontWeight: 700, color: 'var(--text-headings)' }}>
+                {service.startingPrice}
+              </span>
+            </div>
+          )}
         </div>
 
         {/* Title */}
@@ -93,51 +103,53 @@ export const ServiceCard: React.FC<ServiceCardProps> = ({
         </p>
 
         {/* Feature List */}
-        <div
-          style={{
-            borderTop: '1px solid var(--border-subtle)',
-            paddingTop: 'var(--space-4)',
-            marginBottom: 'var(--space-6)',
-          }}
-        >
-          <p
+        {service.features && service.features.length > 0 && (
+          <div
             style={{
-              fontSize: 'var(--text-xs)',
-              fontWeight: 600,
-              color: 'var(--text-muted)',
-              textTransform: 'uppercase',
-              letterSpacing: '0.04em',
-              marginBottom: 'var(--space-3)',
+              borderTop: '1px solid var(--border-subtle)',
+              paddingTop: 'var(--space-4)',
+              marginBottom: 'var(--space-6)',
             }}
           >
-            What is Included:
-          </p>
-          <ul style={{ listStyle: 'none', padding: 0, margin: 0, display: 'flex', flexDirection: 'column', gap: 'var(--space-2)' }}>
-            {service.features.slice(0, 3).map((feat, idx) => (
-              <li
-                key={idx}
-                style={{
-                  display: 'flex',
-                  alignItems: 'flex-start',
-                  gap: '8px',
-                  fontSize: 'var(--text-xs)',
-                  color: 'var(--text-secondary)',
-                  lineHeight: 1.4,
-                }}
-              >
-                <CheckCircle2
-                  size={14}
+            <p
+              style={{
+                fontSize: 'var(--text-xs)',
+                fontWeight: 600,
+                color: 'var(--text-muted)',
+                textTransform: 'uppercase',
+                letterSpacing: '0.04em',
+                marginBottom: 'var(--space-3)',
+              }}
+            >
+              What is Included:
+            </p>
+            <ul style={{ listStyle: 'none', padding: 0, margin: 0, display: 'flex', flexDirection: 'column', gap: 'var(--space-2)' }}>
+              {service.features.slice(0, 3).map((feat, idx) => (
+                <li
+                  key={idx}
                   style={{
-                    color: 'var(--saathi-maroon)',
-                    flexShrink: 0,
-                    marginTop: '2px',
+                    display: 'flex',
+                    alignItems: 'flex-start',
+                    gap: '8px',
+                    fontSize: 'var(--text-xs)',
+                    color: 'var(--text-secondary)',
+                    lineHeight: 1.4,
                   }}
-                />
-                <span>{feat}</span>
-              </li>
-            ))}
-          </ul>
-        </div>
+                >
+                  <CheckCircle2
+                    size={14}
+                    style={{
+                      color: 'var(--saathi-maroon)',
+                      flexShrink: 0,
+                      marginTop: '2px',
+                    }}
+                  />
+                  <span>{feat}</span>
+                </li>
+              ))}
+            </ul>
+          </div>
+        )}
       </div>
 
       {/* Action Footer */}
@@ -146,12 +158,13 @@ export const ServiceCard: React.FC<ServiceCardProps> = ({
           variant="outline"
           fullWidth
           size="md"
+          disabled={isComingSoon}
           rightIcon={<ArrowRight size={16} />}
-          onClick={() => onSelect(service)}
+          onClick={() => onSelect?.(service)}
         >
-          Explore Specialists
+          {ctaLabel}
         </Button>
       </div>
     </div>
   );
-};
+}

@@ -45,14 +45,17 @@ h1, h2, h3, h4, h5, h6 {
   font-weight: 600;
   line-height: var(--leading-tight);
   letter-spacing: var(--tracking-tight);
+  text-wrap: balance;
 }
 
 h1 {
-  font-size: clamp(2.25rem, 5vw, 3.75rem);
+  font-size: clamp(2.35rem, 5.2vw, 3.85rem);
+  letter-spacing: var(--tracking-tighter);
 }
 
 h2 {
   font-size: clamp(1.85rem, 3.8vw, 2.75rem);
+  letter-spacing: var(--tracking-tight);
 }
 
 h3 {
@@ -60,12 +63,56 @@ h3 {
 }
 
 h4 {
-  font-size: 1.25rem;
+  font-size: 1.2rem;
 }
 
 p {
   color: var(--text-secondary);
   line-height: var(--leading-relaxed);
+}
+
+/* Editorial Serif Accent Class */
+.font-serif-italic {
+  font-family: var(--font-serif);
+  font-style: italic;
+  font-weight: 500;
+}
+
+/* Luxury Editorial Eyebrow with hairline accents */
+.editorial-eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-3);
+  font-size: var(--text-xs);
+  font-weight: 600;
+  letter-spacing: var(--tracking-widest);
+  text-transform: uppercase;
+  color: var(--saathi-maroon);
+}
+
+.editorial-eyebrow::before,
+.editorial-eyebrow::after {
+  content: '';
+  display: inline-block;
+  width: 24px;
+  height: 1px;
+  background-color: var(--border-default);
+  opacity: 0.8;
+}
+
+/* Subtle Editorial Section Divider */
+.editorial-divider {
+  width: 100%;
+  height: 1px;
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    var(--border-subtle) 20%,
+    var(--border-strong) 50%,
+    var(--border-subtle) 80%,
+    transparent 100%
+  );
+  margin: var(--space-12) 0;
 }
 
 a {
@@ -199,3 +246,162 @@ img, svg {
 [data-theme="dark"] ::-webkit-scrollbar-thumb {
   background: var(--saathi-maroon);
 }
+
+/* ==========================================================================
+   A5 CATERING MODULE VISUAL HOVER/FOCUS SCOPING & MICRO-INTERACTIONS
+   ========================================================================== */
+
+/* 1. Focus-Visible Accessibility */
+.saathi-catering-page button:focus-visible,
+.saathi-catering-page input:focus-visible,
+.saathi-catering-page select:focus-visible,
+.saathi-catering-page textarea:focus-visible,
+.saathi-catering-page [tabindex="0"]:focus-visible,
+.saathi-catering-modal button:focus-visible,
+.saathi-catering-modal input:focus-visible,
+.saathi-catering-modal select:focus-visible,
+.saathi-catering-modal textarea:focus-visible,
+.saathi-catering-modal [tabindex="0"]:focus-visible {
+  outline: 2px solid var(--saathi-maroon) !important;
+  outline-offset: 2px !important;
+}
+
+/* 2. Premium Button & CTA Hover Treatments */
+.saathi-catering-page .saathi-btn,
+.saathi-catering-modal .saathi-btn {
+  transition: transform 200ms cubic-bezier(0.16, 1, 0.3, 1),
+              box-shadow 200ms cubic-bezier(0.16, 1, 0.3, 1),
+              background-color 200ms cubic-bezier(0.16, 1, 0.3, 1),
+              border-color 200ms cubic-bezier(0.16, 1, 0.3, 1),
+              color 200ms cubic-bezier(0.16, 1, 0.3, 1) !important;
+}
+
+.saathi-catering-page .saathi-btn--primary:hover,
+.saathi-catering-modal .saathi-btn--primary:hover {
+  background-color: var(--saathi-maroon-hover) !important;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 14px rgba(91, 58, 74, 0.28) !important;
+}
+
+.saathi-catering-page .saathi-btn--primary:hover svg,
+.saathi-catering-modal .saathi-btn--primary:hover svg {
+  transform: translateX(3px);
+  transition: transform 200ms ease;
+}
+
+.saathi-catering-page .saathi-btn--outline:hover,
+.saathi-catering-modal .saathi-btn--outline:hover {
+  background-color: var(--saathi-nude-tint) !important;
+  border-color: var(--saathi-maroon) !important;
+  color: var(--saathi-maroon) !important;
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-sm) !important;
+}
+
+.saathi-catering-page .saathi-btn--outline:hover svg,
+.saathi-catering-modal .saathi-btn--outline:hover svg {
+  transform: translateX(3px);
+  transition: transform 200ms ease;
+}
+
+/* 3. Interactive Cards Hover Elevation & Refinement */
+.saathi-catering-page .hover-lift {
+  transition: transform 220ms cubic-bezier(0.16, 1, 0.3, 1),
+              box-shadow 220ms cubic-bezier(0.16, 1, 0.3, 1),
+              border-color 220ms cubic-bezier(0.16, 1, 0.3, 1) !important;
+}
+
+.saathi-catering-page .hover-lift:hover {
+  transform: translateY(-3px) !important;
+  box-shadow: var(--shadow-lg) !important;
+  border-color: var(--border-strong) !important;
+}
+
+/* Category & Service Cards Micro-Interactions */
+.saathi-catering-categories .hover-lift:hover img,
+.saathi-food-services .hover-lift:hover img,
+.saathi-caterer-card:hover img,
+.saathi-food-card:hover img,
+.saathi-dessert-card:hover img,
+.saathi-gallery-card:hover img {
+  transform: scale(1.025) !important;
+  transition: transform 350ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.saathi-catering-categories .hover-lift:hover .saathi-action-arrow {
+  background-color: var(--saathi-maroon) !important;
+  color: #FFFFFF !important;
+  transform: translateX(3px);
+  transition: all 200ms ease;
+}
+
+/* 4. Food & Dessert Card Selection Buttons */
+.saathi-food-card-btn,
+.saathi-dessert-card-btn {
+  transition: all 180ms ease !important;
+}
+
+.saathi-food-card-btn:hover,
+.saathi-dessert-card-btn:hover {
+  transform: translateY(-1px);
+  box-shadow: var(--shadow-sm);
+  border-color: var(--saathi-maroon) !important;
+}
+
+/* 5. Gallery Card Subtle Emphasis */
+.saathi-gallery-card .saathi-gallery-eye {
+  transition: all 200ms ease !important;
+}
+
+.saathi-gallery-card:hover .saathi-gallery-eye {
+  background-color: var(--saathi-maroon) !important;
+  transform: scale(1.08);
+}
+
+/* 6. Final CTA Banner Buttons */
+#cta-get-catering-quote-btn {
+  transition: transform 200ms ease, box-shadow 200ms ease, background-color 200ms ease !important;
+}
+
+#cta-get-catering-quote-btn:hover svg {
+  transform: translateX(4px);
+  transition: transform 200ms ease;
+}
+
+#cta-explore-caterers-btn {
+  transition: transform 200ms ease, box-shadow 200ms ease, background-color 200ms ease, border-color 200ms ease !important;
+}
+
+#cta-explore-caterers-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+  border-color: rgba(255, 255, 255, 0.6) !important;
+}
+
+#cta-explore-caterers-btn:hover svg {
+  transform: scale(1.1);
+  transition: transform 200ms ease;
+}
+
+/* 7. Tabs & Filter Pills Hover */
+.saathi-tab-strip button {
+  transition: all 180ms ease !important;
+}
+
+.saathi-tab-strip button:hover {
+  border-color: var(--saathi-maroon) !important;
+  color: var(--text-primary) !important;
+  transform: translateY(-1px);
+}
+
+/* 8. Interactive Configurator Buttons */
+.saathi-custom-menu button {
+  transition: all 180ms ease !important;
+}
+
+.saathi-custom-menu button:hover:not(:disabled) {
+  border-color: var(--saathi-maroon) !important;
+  transform: translateY(-1px);
+}
+
+

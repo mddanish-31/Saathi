@@ -5,6 +5,8 @@ import { Avatar } from '../ui/Avatar';
 import { Rating } from '../ui/Rating';
 import { Button } from '../ui/Button';
 
+import { ImagePlaceholder } from '../ui/ImagePlaceholder';
+
 interface ProfessionalCardProps {
   professional: Professional;
   onViewProfile: (pro: Professional) => void;
@@ -27,24 +29,25 @@ export const ProfessionalCard: React.FC<ProfessionalCardProps> = ({
         justifyContent: 'space-between',
         backgroundColor: 'var(--bg-surface)',
         border: '1px solid var(--border-subtle)',
-        borderRadius: 'var(--radius-lg)',
+        borderRadius: 'var(--radius-xl)',
         boxShadow: 'var(--shadow-sm)',
         transition: 'all var(--transition-normal)',
         overflow: 'hidden',
         position: 'relative',
       }}
     >
-      {/* Cover Header Image if available */}
-      {professional.coverImageUrl && (
-        <div
-          style={{
-            height: '110px',
-            width: '100%',
-            overflow: 'hidden',
-            position: 'relative',
-            backgroundColor: 'var(--bg-surface-soft)',
-          }}
-        >
+      {/* Cover Header Image or Placeholder */}
+      <div
+        className="image-zoom-container"
+        style={{
+          height: '125px',
+          width: '100%',
+          overflow: 'hidden',
+          position: 'relative',
+          backgroundColor: 'var(--bg-surface-soft)',
+        }}
+      >
+        {professional.coverImageUrl ? (
           <img
             src={professional.coverImageUrl}
             alt={professional.brandName}
@@ -53,27 +56,36 @@ export const ProfessionalCard: React.FC<ProfessionalCardProps> = ({
               height: '100%',
               objectFit: 'cover',
               display: 'block',
-              transition: 'transform 0.4s ease',
             }}
           />
-          <div
-            style={{
-              position: 'absolute',
-              top: '10px',
-              right: '10px',
-              padding: '0.2rem 0.6rem',
-              borderRadius: 'var(--radius-full)',
-              backgroundColor: 'rgba(38, 26, 36, 0.75)',
-              color: '#FAF6F3',
-              fontSize: '0.7rem',
-              fontWeight: 600,
-              backdropFilter: 'blur(4px)',
-            }}
-          >
-            {professional.businessType}
-          </div>
+        ) : (
+          <ImagePlaceholder
+            variant="card"
+            label=""
+            style={{ border: 'none', borderRadius: 0 }}
+          />
+        )}
+        <div
+          style={{
+            position: 'absolute',
+            top: '10px',
+            right: '10px',
+            padding: '0.22rem 0.65rem',
+            borderRadius: 'var(--radius-full)',
+            backgroundColor: 'rgba(38, 26, 36, 0.78)',
+            color: '#FAF6F3',
+            fontSize: '0.6875rem',
+            fontWeight: 600,
+            letterSpacing: '0.04em',
+            textTransform: 'uppercase',
+            backdropFilter: 'blur(6px)',
+            border: '1px solid rgba(255, 255, 255, 0.12)',
+            zIndex: 2,
+          }}
+        >
+          {professional.businessType}
         </div>
-      )}
+      </div>
 
       {/* Main Body */}
       <div style={{ padding: 'var(--space-5)', flex: '1 0 auto' }}>

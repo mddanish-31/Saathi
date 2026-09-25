@@ -32,12 +32,12 @@ export const SearchBar: React.FC<SearchBarProps> = ({
         alignItems: 'center',
         flexWrap: 'wrap',
         background: 'var(--bg-surface)',
-        border: '1.5px solid var(--border-subtle)',
-        borderRadius: 'var(--radius-xl)',
-        padding: '0.45rem',
+        border: '1px solid var(--border-subtle)',
+        borderRadius: 'var(--radius-full)',
+        padding: '0.4rem 0.4rem 0.4rem 0.85rem',
         boxShadow: 'var(--shadow-md)',
         width: '100%',
-        maxWidth: '720px',
+        maxWidth: '740px',
         gap: '0.5rem',
         transition: 'border-color var(--transition-normal), box-shadow var(--transition-normal)',
       }}
@@ -50,11 +50,11 @@ export const SearchBar: React.FC<SearchBarProps> = ({
           gap: '0.65rem',
           flex: '1 1 240px',
           minWidth: '0',
-          paddingLeft: '0.85rem',
+          paddingLeft: '0.35rem',
           paddingRight: '0.5rem',
         }}
       >
-        <Search size={19} color="var(--saathi-maroon)" style={{ flexShrink: 0 }} />
+        <Search size={18} color="var(--saathi-maroon)" style={{ flexShrink: 0 }} />
         <input
           type="text"
           value={query}
@@ -90,9 +90,11 @@ export const SearchBar: React.FC<SearchBarProps> = ({
             gap: '0.4rem',
             flex: '0 0 auto',
             paddingRight: '0.5rem',
+            borderRight: '1px solid var(--border-subtle)',
+            marginRight: '0.25rem',
           }}
         >
-          <MapPin size={16} color="var(--text-muted)" />
+          <MapPin size={15} color="var(--text-muted)" />
           <select
             value={location}
             onChange={(e) => setLocation(e.target.value)}
@@ -123,8 +125,7 @@ export const SearchBar: React.FC<SearchBarProps> = ({
           type="submit"
           variant="primary"
           size="md"
-          style={{ borderRadius: 'var(--radius-lg)' }}
-          rightIcon={<Sparkles size={15} />}
+          rightIcon={<Sparkles size={14} />}
         >
           Search
         </Button>
