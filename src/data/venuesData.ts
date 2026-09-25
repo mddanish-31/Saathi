@@ -10,14 +10,61 @@ import { Professional, ServiceItem } from '../types';
  * "business" in SAATHI's marketplace sense) using the venue-specific optional
  * fields added to `Professional` in types/index.ts (venueType, minGuests,
  * maxGuests, capacityLabel, amenities, venueSpaces, policies). This means every
- * existing shared component \u2014 ProfessionalCard, ProfessionalGrid, FilterBar,
+ * existing shared component — ProfessionalCard, ProfessionalGrid, FilterBar,
  * ProfessionalProfile (gallery/reviews/enquiry), and the /professionals/:id and
- * /professionals/:id/enquire routes \u2014 works for venues with zero duplication,
+ * /professionals/:id/enquire routes — works for venues with zero duplication,
  * exactly the pattern already used for A1 and A3.
  */
 
-const unsplash = (photoId: string, width: number): string =>
-    `https://images.unsplash.com/${photoId}?auto=format&fit=crop&w=${width}&q=80`;
+const createVenuePlaceholder = (title: string, category: string, width = 800, height = 500): string => {
+    const bgColors = [
+        ['%234A2E35', '%232D1B22'],
+        ['%233D2630', '%235A3846'],
+        ['%23513340', '%23351F2A'],
+        ['%23422834', '%23633E4D'],
+    ];
+    let hash = 0;
+    for (let i = 0; i < title.length; i++) hash = (hash + title.charCodeAt(i)) % bgColors.length;
+    const [c1, c2] = bgColors[hash];
+    const safeTitle = encodeURIComponent(title);
+    const safeCat = encodeURIComponent(category.toUpperCase());
+
+    const svg = `<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 ${width} ${height}' width='${width}' height='${height}'>` +
+        `<defs>` +
+        `<linearGradient id='g_${hash}' x1='0%' y1='0%' x2='100%' y2='100%'>` +
+        `<stop offset='0%' stop-color='${c1}'/>` +
+        `<stop offset='100%' stop-color='${c2}'/>` +
+        `</linearGradient>` +
+        `<pattern id='p' width='40' height='40' patternUnits='userSpaceOnUse'>` +
+        `<path d='M0 20 L20 0 L40 20 L20 40 Z' fill='none' stroke='%23FFFFFF' stroke-width='0.5' stroke-opacity='0.05'/>` +
+        `</pattern>` +
+        `</defs>` +
+        `<rect width='100%' height='100%' fill='url(%23g_${hash})'/>` +
+        `<rect width='100%' height='100%' fill='url(%23p)'/>` +
+        `<circle cx='${width / 2}' cy='${height / 2 - 30}' r='36' fill='%23FFFFFF' fill-opacity='0.08'/>` +
+        `<path d='M${width / 2 - 16} ${height / 2 - 20} L${width / 2} ${height / 2 - 42} L${width / 2 + 16} ${height / 2 - 20} Z M${width / 2 - 12} ${height / 2 - 20} L${width / 2 - 12} ${height / 2 - 14} L${width / 2 + 12} ${height / 2 - 14} L${width / 2 + 12} ${height / 2 - 20} Z' fill='%23D4AF37' fill-opacity='0.85'/>` +
+        `<text x='50%' y='${height / 2 + 25}' text-anchor='middle' font-family='sans-serif' font-size='12' font-weight='600' letter-spacing='2' fill='%23D4AF37'>${safeCat}</text>` +
+        `<text x='50%' y='${height / 2 + 52}' text-anchor='middle' font-family='serif' font-size='18' font-weight='600' fill='%23FAF7F4'>${safeTitle}</text>` +
+        `<text x='50%' y='${height - 30}' text-anchor='middle' font-family='sans-serif' font-size='10' font-weight='500' letter-spacing='1.5' fill='%23FAF7F4' fill-opacity='0.4'>SAATHI VENUES</text>` +
+        `</svg>`;
+    return `data:image/svg+xml;utf8,${svg}`;
+};
+
+const createAvatarPlaceholder = (name: string): string => {
+    const initials = name.trim().split(/\s+/).map(w => w[0]).filter(Boolean).slice(0, 2).join('').toUpperCase();
+    const svg = `<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 200' width='200' height='200'>` +
+        `<defs>` +
+        `<linearGradient id='ag' x1='0%' y1='0%' x2='100%' y2='100%'>` +
+        `<stop offset='0%' stop-color='%235B3A4A'/>` +
+        `<stop offset='100%' stop-color='%233D2230'/>` +
+        `</linearGradient>` +
+        `</defs>` +
+        `<rect width='100%' height='100%' fill='url(%23ag)'/>` +
+        `<circle cx='100' cy='100' r='80' fill='%23FFFFFF' fill-opacity='0.05'/>` +
+        `<text x='50%' y='58%' text-anchor='middle' font-family='serif' font-size='56' font-weight='600' fill='%23FAF7F4'>${initials}</text>` +
+        `</svg>`;
+    return `data:image/svg+xml;utf8,${svg}`;
+};
 
 /* ==========================================================================
    A6 VENUE CATEGORIES
@@ -29,8 +76,8 @@ export const VENUE_CATEGORIES: ServiceItem[] = [
         title: 'Marriage Halls',
         shortDescription: 'Traditional indoor marriage halls built for ritual-heavy, multi-function weddings.',
         fullDescription:
-            'Purpose-built marriage halls with dedicated mandap zones, large dining areas, and ample parking \u2014 designed to comfortably host the full ritual sequence from baraat to vidaai under one roof.',
-        startingPrice: '\u20b91,20,000',
+            'Purpose-built marriage halls with dedicated mandap zones, large dining areas, and ample parking — designed to comfortably host the full ritual sequence from baraat to vidaai under one roof.',
+        startingPrice: '₹1,20,000',
         priceModel: 'Per day / Per function',
         categorySlug: 'weddings-events',
         subCategorySlug: 'wedding-venues',
@@ -51,7 +98,7 @@ export const VENUE_CATEGORIES: ServiceItem[] = [
         shortDescription: 'Polished indoor banquet halls for receptions, sangeets, and cocktail evenings.',
         fullDescription:
             'Elegant, climate-controlled banquet halls with flexible seating layouts, in-house AV and stage setups, ideal for receptions, sangeets, and formal dinners regardless of season or weather.',
-        startingPrice: '\u20b91,50,000',
+        startingPrice: '₹1,50,000',
         priceModel: 'Per day / Per event',
         categorySlug: 'weddings-events',
         subCategorySlug: 'wedding-venues',
@@ -71,8 +118,8 @@ export const VENUE_CATEGORIES: ServiceItem[] = [
         title: 'Wedding Venues',
         shortDescription: 'Standalone wedding properties, farmhouses & palaces built specifically for weddings.',
         fullDescription:
-            'Dedicated wedding properties \u2014 palace-style venues, private farmhouses, and destination estates \u2014 built ground-up for weddings, typically offering exclusive-use booking across an entire property.',
-        startingPrice: '\u20b93,50,000',
+            'Dedicated wedding properties — palace-style venues, private farmhouses, and destination estates — built ground-up for weddings, typically offering exclusive-use booking across an entire property.',
+        startingPrice: '₹3,50,000',
         priceModel: 'Per day / Full property buyout',
         categorySlug: 'weddings-events',
         subCategorySlug: 'wedding-venues',
@@ -92,8 +139,8 @@ export const VENUE_CATEGORIES: ServiceItem[] = [
         title: 'Resorts',
         shortDescription: 'Resort properties combining wedding venues with on-site guest stays.',
         fullDescription:
-            'Full-service resorts pairing wedding lawns, banquet spaces, and poolside decks with on-site rooms, spa, and dining \u2014 ideal for multi-day destination weddings where guests stay on property.',
-        startingPrice: '\u20b94,50,000',
+            'Full-service resorts pairing wedding lawns, banquet spaces, and poolside decks with on-site rooms, spa, and dining — ideal for multi-day destination weddings where guests stay on property.',
+        startingPrice: '₹4,50,000',
         priceModel: 'Per day / Room package',
         categorySlug: 'weddings-events',
         subCategorySlug: 'wedding-venues',
@@ -114,7 +161,7 @@ export const VENUE_CATEGORIES: ServiceItem[] = [
         shortDescription: 'Open-air lawns and garden venues for outdoor ceremonies and sangeet nights.',
         fullDescription:
             'Sprawling open-air lawns and landscaped gardens suited to outdoor mandaps, sundowner cocktail hours, and sangeet stages, typically paired with a covered banquet area as weather backup.',
-        startingPrice: '\u20b990,000',
+        startingPrice: '₹90,000',
         priceModel: 'Per day / Per function',
         categorySlug: 'weddings-events',
         subCategorySlug: 'wedding-venues',
@@ -135,7 +182,7 @@ export const VENUE_CATEGORIES: ServiceItem[] = [
         shortDescription: 'Budget-friendly community & society halls for intimate, cost-conscious celebrations.',
         fullDescription:
             'Simple, functional community and society halls offering an affordable, no-frills space for intimate weddings and functions, often bookable through local societies, trusts, or municipal bodies.',
-        startingPrice: '\u20b935,000',
+        startingPrice: '₹35,000',
         priceModel: 'Per day / Per function',
         categorySlug: 'weddings-events',
         subCategorySlug: 'wedding-venues',
@@ -147,7 +194,7 @@ export const VENUE_CATEGORIES: ServiceItem[] = [
             'Flexible booking through local trusts/societies',
         ],
         typicalTimeline: '3 to 8 weeks in advance',
-        idealFor: 'Intimate, cost-conscious weddings and functions that don\u2019t need a premium property.',
+        idealFor: 'Intimate, cost-conscious weddings and functions that don’t need a premium property.',
     },
 ];
 
@@ -162,34 +209,34 @@ export const VENUE_MOCK_PROFESSIONALS: Professional[] = [
         brandName: 'Shubh Mangal Marriage Hall',
         tagline: 'A traditional two-storey marriage hall built for full-sequence North Indian weddings.',
         businessType: 'Marriage Hall',
-        avatarUrl: unsplash('photo-1519167758481-83f550bb49b3', 400),
-        coverImageUrl: unsplash('photo-1519167758481-83f550bb49b3', 1200),
+        avatarUrl: createAvatarPlaceholder('Shubh Mangal Marriage Hall'),
+        coverImageUrl: createVenuePlaceholder('Shubh Mangal Marriage Hall', 'Marriage Hall', 1200, 500),
         location: 'Lucknow, Uttar Pradesh',
         citiesServed: ['Lucknow', 'Kanpur', 'Ayodhya'],
         rating: 4.6,
         reviewCount: 88,
         experienceYears: 16,
         eventsCompleted: 540,
-        startingPrice: '\u20b91,20,000',
-        priceRange: '\u20b91.2L - \u20b93.5L',
+        startingPrice: '₹1,20,000',
+        priceRange: '₹1.2L - ₹3.5L',
         priceModel: 'Per Day (venue only)',
         servicesOffered: ['marriage-halls'],
         about:
-            'Shubh Mangal Marriage Hall has hosted North Indian weddings for over 16 years, with a dedicated ground-floor mandap area, a first-floor banquet hall, and its own in-house catering kitchen. The hall accommodates the full ritual sequence \u2014 baraat entry, mandap, and reception \u2014 within one property.',
+            'Shubh Mangal Marriage Hall has hosted North Indian weddings for over 16 years, with a dedicated ground-floor mandap area, a first-floor banquet hall, and its own in-house catering kitchen. The hall accommodates the full ritual sequence — baraat entry, mandap, and reception — within one property.',
         specialties: ['Full Ritual Sequence Hosting', 'In-House Catering Kitchen', 'Ground-Floor Mandap', 'Baraat-Friendly Entrance'],
         availability: 'Booking winter 2026-27 wedding season',
         verified: true,
         venueType: 'Marriage Hall',
         minGuests: 200,
         maxGuests: 600,
-        capacityLabel: '200\u2013600 Guests',
+        capacityLabel: '200–600 Guests',
         amenities: ['Parking', 'AC', 'Catering', 'Power Backup', 'Bridal Room', 'Groom Room', 'Indoor Space'],
         venueSpaces: [
             { name: 'Ground Floor Mandap Hall', capacity: 'Up to 400 guests', description: 'Open-plan hall with a raised mandap platform and baraat-facing entrance.' },
             { name: 'First Floor Banquet Hall', capacity: 'Up to 600 guests', description: 'Air-conditioned banquet floor used for receptions and sit-down dinners.' },
         ],
         policies: [
-            'Outside catering not permitted \u2014 in-house kitchen only',
+            'Outside catering not permitted — in-house kitchen only',
             'Venue must be vacated by 12:30 AM',
             '50% advance required to confirm booking',
             'Decor vendors must be approved by venue management',
@@ -200,7 +247,7 @@ export const VENUE_MOCK_PROFESSIONALS: Professional[] = [
                 title: 'Ground Floor Mandap Setup',
                 category: 'Marriage Hall',
                 location: 'Lucknow, Uttar Pradesh',
-                imageUrl: unsplash('photo-1519167758481-83f550bb49b3', 800),
+                imageUrl: createVenuePlaceholder('Ground Floor Mandap Setup', 'Marriage Hall', 800, 500),
                 description: 'Traditional floral mandap staged for a 350-guest wedding ceremony.',
                 tags: ['Mandap', 'Traditional', 'Indoor'],
                 type: 'image',
@@ -210,7 +257,7 @@ export const VENUE_MOCK_PROFESSIONALS: Professional[] = [
                 title: 'First Floor Reception Layout',
                 category: 'Banquet Setup',
                 location: 'Lucknow, Uttar Pradesh',
-                imageUrl: unsplash('photo-1519741497674-611481863552', 800),
+                imageUrl: createVenuePlaceholder('First Floor Reception Layout', 'Banquet Setup', 800, 500),
                 description: 'Round-table reception layout for 500 guests with a raised stage.',
                 tags: ['Reception', 'Banquet', 'Indoor'],
                 type: 'image',
@@ -225,7 +272,7 @@ export const VENUE_MOCK_PROFESSIONALS: Professional[] = [
                 eventType: 'Wedding & Reception',
                 location: 'Lucknow, India',
                 comment:
-                    'The hall comfortably fit both our families\u2019 rituals and the reception on the same day without feeling cramped. Catering was good and the staff were experienced with the full ceremony flow.',
+                    'The hall comfortably fit both our families’ rituals and the reception on the same day without feeling cramped. Catering was good and the staff were experienced with the full ceremony flow.',
                 verified: true,
             },
         ],
@@ -236,16 +283,16 @@ export const VENUE_MOCK_PROFESSIONALS: Professional[] = [
         brandName: 'Anandam Mandapam',
         tagline: 'A South Indian mandapam purpose-built for Muhurtham ceremonies and traditional weddings.',
         businessType: 'Marriage Hall',
-        avatarUrl: unsplash('photo-1544717305-2782549b5136', 400),
-        coverImageUrl: unsplash('photo-1544717305-2782549b5136', 1200),
+        avatarUrl: createAvatarPlaceholder('Anandam Mandapam'),
+        coverImageUrl: createVenuePlaceholder('Anandam Mandapam', 'Marriage Hall', 1200, 500),
         location: 'Chennai, Tamil Nadu',
         citiesServed: ['Chennai', 'Coimbatore', 'Madurai'],
         rating: 4.75,
         reviewCount: 64,
         experienceYears: 12,
         eventsCompleted: 410,
-        startingPrice: '\u20b995,000',
-        priceRange: '\u20b995K - \u20b92.8L',
+        startingPrice: '₹95,000',
+        priceRange: '₹95K - ₹2.8L',
         priceModel: 'Per Day (venue only)',
         servicesOffered: ['marriage-halls'],
         about:
@@ -256,7 +303,7 @@ export const VENUE_MOCK_PROFESSIONALS: Professional[] = [
         venueType: 'Marriage Hall',
         minGuests: 150,
         maxGuests: 450,
-        capacityLabel: '150\u2013450 Guests',
+        capacityLabel: '150–450 Guests',
         amenities: ['Parking', 'AC', 'Catering', 'Rooms', 'Power Backup', 'Indoor Space'],
         venueSpaces: [
             { name: 'Main Mandapam Hall', capacity: 'Up to 350 guests', description: 'Raised sanctum-style stage with traditional pillar architecture.' },
@@ -273,7 +320,7 @@ export const VENUE_MOCK_PROFESSIONALS: Professional[] = [
                 title: 'Muhurtham Morning Setup',
                 category: 'Marriage Hall',
                 location: 'Chennai, Tamil Nadu',
-                imageUrl: unsplash('photo-1544717305-2782549b5136', 800),
+                imageUrl: createVenuePlaceholder('Muhurtham Morning Setup', 'Marriage Hall', 800, 500),
                 description: 'Sanctum-style stage decorated for a traditional Tamil Muhurtham ceremony.',
                 tags: ['Muhurtham', 'Traditional', 'South Indian'],
                 type: 'image',
@@ -300,16 +347,16 @@ export const VENUE_MOCK_PROFESSIONALS: Professional[] = [
         brandName: 'The Regal Banquet',
         tagline: 'A five-star style banquet hall built for receptions, sangeets & corporate galas alike.',
         businessType: 'Banquet Hall',
-        avatarUrl: unsplash('photo-1519378058457-4c29a0a2efac', 400),
-        coverImageUrl: unsplash('photo-1519378058457-4c29a0a2efac', 1200),
+        avatarUrl: createAvatarPlaceholder('The Regal Banquet'),
+        coverImageUrl: createVenuePlaceholder('The Regal Banquet', 'Banquet Hall', 1200, 500),
         location: 'Mumbai, Maharashtra',
         citiesServed: ['Mumbai', 'Thane', 'Navi Mumbai'],
         rating: 4.85,
         reviewCount: 112,
         experienceYears: 10,
         eventsCompleted: 380,
-        startingPrice: '\u20b91,50,000',
-        priceRange: '\u20b91.5L - \u20b95L',
+        startingPrice: '₹1,50,000',
+        priceRange: '₹1.5L - ₹5L',
         priceModel: 'Per Day (venue only)',
         servicesOffered: ['banquet-halls'],
         about:
@@ -320,7 +367,7 @@ export const VENUE_MOCK_PROFESSIONALS: Professional[] = [
         venueType: 'Banquet Hall',
         minGuests: 300,
         maxGuests: 900,
-        capacityLabel: '300\u2013900 Guests',
+        capacityLabel: '300–900 Guests',
         amenities: ['Parking', 'AC', 'Catering', 'Decoration', 'DJ', 'Power Backup', 'Indoor Space'],
         venueSpaces: [
             { name: 'Main Banquet Hall', capacity: 'Up to 900 guests', description: 'Pillar-less hall with a 40-foot stage and rigged truss lighting.' },
@@ -337,7 +384,7 @@ export const VENUE_MOCK_PROFESSIONALS: Professional[] = [
                 title: 'Sangeet Stage Production',
                 category: 'Banquet Hall',
                 location: 'Mumbai, Maharashtra',
-                imageUrl: unsplash('photo-1519378058457-4c29a0a2efac', 800),
+                imageUrl: createVenuePlaceholder('Sangeet Stage Production', 'Banquet Hall', 800, 500),
                 description: 'Full LED stage backdrop and truss lighting set up for a 600-guest sangeet.',
                 tags: ['Sangeet', 'Stage', 'Indoor'],
                 type: 'image',
@@ -347,7 +394,7 @@ export const VENUE_MOCK_PROFESSIONALS: Professional[] = [
                 title: 'Reception Round-Table Layout',
                 category: 'Banquet Hall',
                 location: 'Mumbai, Maharashtra',
-                imageUrl: unsplash('photo-1519671482749-fd09be7ccebf', 800),
+                imageUrl: createVenuePlaceholder('Reception Round-Table Layout', 'Banquet Hall', 800, 500),
                 description: 'Formal reception seating for 700 guests with a central dance floor.',
                 tags: ['Reception', 'Banquet'],
                 type: 'image',
@@ -372,16 +419,16 @@ export const VENUE_MOCK_PROFESSIONALS: Professional[] = [
         brandName: 'Crystal Banquet Hall',
         tagline: 'A modern, chandelier-lit banquet space for elegant sit-down receptions.',
         businessType: 'Banquet Hall',
-        avatarUrl: unsplash('photo-1519225421980-715cb0215aed', 400),
-        coverImageUrl: unsplash('photo-1519225421980-715cb0215aed', 1200),
+        avatarUrl: createAvatarPlaceholder('Crystal Banquet Hall'),
+        coverImageUrl: createVenuePlaceholder('Crystal Banquet Hall', 'Banquet Hall', 1200, 500),
         location: 'Bengaluru, Karnataka',
         citiesServed: ['Bengaluru', 'Mysuru'],
         rating: 4.7,
         reviewCount: 57,
         experienceYears: 7,
         eventsCompleted: 210,
-        startingPrice: '\u20b91,10,000',
-        priceRange: '\u20b91.1L - \u20b93.2L',
+        startingPrice: '₹1,10,000',
+        priceRange: '₹1.1L - ₹3.2L',
         priceModel: 'Per Day (venue only)',
         servicesOffered: ['banquet-halls'],
         about:
@@ -392,7 +439,7 @@ export const VENUE_MOCK_PROFESSIONALS: Professional[] = [
         venueType: 'Banquet Hall',
         minGuests: 150,
         maxGuests: 400,
-        capacityLabel: '150\u2013400 Guests',
+        capacityLabel: '150–400 Guests',
         amenities: ['Parking', 'AC', 'Catering', 'Decoration', 'Power Backup', 'Indoor Space'],
         venueSpaces: [
             { name: 'Main Hall', capacity: 'Up to 400 guests', description: 'Chandelier-lit hall with a central dance floor and raised stage.' },
@@ -407,8 +454,8 @@ export const VENUE_MOCK_PROFESSIONALS: Professional[] = [
                 title: 'Engagement Ceremony Setup',
                 category: 'Banquet Hall',
                 location: 'Bengaluru, Karnataka',
-                imageUrl: unsplash('photo-1519225421980-715cb0215aed', 800),
-                description: 'Elegant round-table engagement layout under the hall\u2019s signature chandeliers.',
+                imageUrl: createVenuePlaceholder('Engagement Ceremony Setup', 'Banquet Hall', 800, 500),
+                description: 'Elegant round-table engagement layout under the hall’s signature chandeliers.',
                 tags: ['Engagement', 'Banquet'],
                 type: 'image',
             },
@@ -434,27 +481,27 @@ export const VENUE_MOCK_PROFESSIONALS: Professional[] = [
         brandName: 'Rajmahal Wedding Estate',
         tagline: 'A heritage-style private estate built exclusively for multi-day wedding celebrations.',
         businessType: 'Dedicated Wedding Venue',
-        avatarUrl: unsplash('photo-1465495976277-4387d4b0b4c6', 400),
-        coverImageUrl: unsplash('photo-1465495976277-4387d4b0b4c6', 1200),
+        avatarUrl: createAvatarPlaceholder('Rajmahal Wedding Estate'),
+        coverImageUrl: createVenuePlaceholder('Rajmahal Wedding Estate', 'Dedicated Venue', 1200, 500),
         location: 'Udaipur, Rajasthan',
         citiesServed: ['Udaipur', 'Jodhpur', 'Jaipur'],
         rating: 4.95,
         reviewCount: 71,
         experienceYears: 14,
         eventsCompleted: 190,
-        startingPrice: '\u20b93,50,000',
-        priceRange: '\u20b93.5L - \u20b915L',
+        startingPrice: '₹3,50,000',
+        priceRange: '₹3.5L - ₹15L',
         priceModel: 'Per Day / Full Estate Buyout',
         servicesOffered: ['venues'],
         about:
-            'Rajmahal Wedding Estate is a private heritage-style property available on exclusive full-buyout, spanning courtyards, a lakeside lawn, and an indoor durbar hall \u2014 built specifically to host multi-day wedding celebrations from mehendi through reception.',
+            'Rajmahal Wedding Estate is a private heritage-style property available on exclusive full-buyout, spanning courtyards, a lakeside lawn, and an indoor durbar hall — built specifically to host multi-day wedding celebrations from mehendi through reception.',
         specialties: ['Full-Property Exclusive Buyout', 'Multi-Day Celebration Layout', 'Heritage Architecture', 'On-Site Guest Accommodation'],
         availability: 'Booking Q4 2026 & 2027 destination weddings',
         verified: true,
         venueType: 'Dedicated Wedding Venue',
         minGuests: 200,
         maxGuests: 800,
-        capacityLabel: '200\u2013800 Guests',
+        capacityLabel: '200–800 Guests',
         amenities: ['Parking', 'AC', 'Catering', 'Decoration', 'Rooms', 'DJ', 'Power Backup', 'Bridal Room', 'Groom Room', 'Indoor Space', 'Outdoor Space'],
         venueSpaces: [
             { name: 'Durbar Hall', capacity: 'Up to 400 guests', description: 'Indoor heritage hall with hand-painted ceilings, used for ceremonies and dinners.' },
@@ -462,7 +509,7 @@ export const VENUE_MOCK_PROFESSIONALS: Professional[] = [
             { name: 'Courtyard', capacity: 'Up to 250 guests', description: 'Intimate central courtyard used for mehendi and haldi functions.' },
         ],
         policies: [
-            'Full-property buyout only \u2014 no partial-day bookings',
+            'Full-property buyout only — no partial-day bookings',
             '30 on-site guest rooms included in base package',
             'Outside decor & catering vendors permitted with venue approval',
             '60% advance required to block dates',
@@ -473,7 +520,7 @@ export const VENUE_MOCK_PROFESSIONALS: Professional[] = [
                 title: 'Lakeside Lawn Sangeet',
                 category: 'Dedicated Venue',
                 location: 'Udaipur, Rajasthan',
-                imageUrl: unsplash('photo-1465495976277-4387d4b0b4c6', 800),
+                imageUrl: createVenuePlaceholder('Lakeside Lawn Sangeet', 'Dedicated Venue', 800, 500),
                 description: 'Sangeet stage set up on the lakeside lawn at sunset for a 3-day destination wedding.',
                 tags: ['Sangeet', 'Outdoor', 'Destination'],
                 type: 'image',
@@ -483,7 +530,7 @@ export const VENUE_MOCK_PROFESSIONALS: Professional[] = [
                 title: 'Durbar Hall Ceremony',
                 category: 'Dedicated Venue',
                 location: 'Udaipur, Rajasthan',
-                imageUrl: unsplash('photo-1524368535928-5b5e00ddc76b', 800),
+                imageUrl: createVenuePlaceholder('Durbar Hall Ceremony', 'Dedicated Venue', 800, 500),
                 description: 'Heritage durbar hall decorated for the main wedding ceremony.',
                 tags: ['Ceremony', 'Heritage', 'Indoor'],
                 type: 'image',
@@ -508,27 +555,27 @@ export const VENUE_MOCK_PROFESSIONALS: Professional[] = [
         brandName: 'Green Acres Farmhouse',
         tagline: 'A private farmhouse property with landscaped lawns, ideal for boutique weddings.',
         businessType: 'Dedicated Wedding Venue',
-        avatarUrl: unsplash('photo-1519167758481-83f550bb49b3', 400),
-        coverImageUrl: unsplash('photo-1519167758481-83f550bb49b3', 1200),
+        avatarUrl: createAvatarPlaceholder('Green Acres Farmhouse'),
+        coverImageUrl: createVenuePlaceholder('Green Acres Farmhouse', 'Dedicated Venue', 1200, 500),
         location: 'Gurugram, Haryana',
         citiesServed: ['Delhi NCR', 'Gurugram', 'Faridabad'],
         rating: 4.8,
         reviewCount: 49,
         experienceYears: 8,
         eventsCompleted: 145,
-        startingPrice: '\u20b92,80,000',
-        priceRange: '\u20b92.8L - \u20b98L',
+        startingPrice: '₹2,80,000',
+        priceRange: '₹2.8L - ₹8L',
         priceModel: 'Per Day / Full Property Buyout',
         servicesOffered: ['venues'],
         about:
-            'Green Acres Farmhouse is a private landscaped property on the outskirts of Delhi NCR, offering exclusive-use booking with a main lawn, a covered pavilion, and a boutique guesthouse \u2014 popular for intimate, design-forward weddings.',
+            'Green Acres Farmhouse is a private landscaped property on the outskirts of Delhi NCR, offering exclusive-use booking with a main lawn, a covered pavilion, and a boutique guesthouse — popular for intimate, design-forward weddings.',
         specialties: ['Boutique Intimate Weddings', 'Landscaped Private Lawn', 'Covered Pavilion Backup', 'Design-Forward Styling Friendly'],
         availability: 'Accepting bookings for 2026-27 season',
         verified: true,
         venueType: 'Dedicated Wedding Venue',
         minGuests: 80,
         maxGuests: 350,
-        capacityLabel: '80\u2013350 Guests',
+        capacityLabel: '80–350 Guests',
         amenities: ['Parking', 'Catering', 'Decoration', 'Rooms', 'Power Backup', 'Bridal Room', 'Outdoor Space'],
         venueSpaces: [
             { name: 'Main Lawn', capacity: 'Up to 350 guests', description: 'Landscaped open lawn with mature trees, used for ceremony and dinner.' },
@@ -536,7 +583,7 @@ export const VENUE_MOCK_PROFESSIONALS: Professional[] = [
         ],
         policies: [
             'Full-property buyout only',
-            'Outside vendors of the couple\u2019s choice permitted',
+            'Outside vendors of the couple’s choice permitted',
             '8 boutique guest rooms on property',
         ],
         portfolio: [
@@ -545,7 +592,7 @@ export const VENUE_MOCK_PROFESSIONALS: Professional[] = [
                 title: 'Boutique Lawn Wedding',
                 category: 'Dedicated Venue',
                 location: 'Gurugram, Haryana',
-                imageUrl: unsplash('photo-1519167758481-83f550bb49b3', 800),
+                imageUrl: createVenuePlaceholder('Boutique Lawn Wedding', 'Dedicated Venue', 800, 500),
                 description: 'An intimate 200-guest wedding styled on the main landscaped lawn.',
                 tags: ['Intimate', 'Outdoor', 'Boutique'],
                 type: 'image',
@@ -559,7 +606,7 @@ export const VENUE_MOCK_PROFESSIONALS: Professional[] = [
                 date: 'March 2026',
                 eventType: 'Boutique Wedding',
                 location: 'Gurugram, India',
-                comment: 'Exactly the intimate, private feel we wanted \u2014 having the whole property to ourselves made planning so much easier.',
+                comment: 'Exactly the intimate, private feel we wanted — having the whole property to ourselves made planning so much easier.',
                 verified: true,
             },
         ],
@@ -572,16 +619,16 @@ export const VENUE_MOCK_PROFESSIONALS: Professional[] = [
         brandName: 'Azure Bay Resort & Spa',
         tagline: 'A beachfront resort pairing wedding lawns with on-site guest stays and spa.',
         businessType: 'Resort',
-        avatarUrl: unsplash('photo-1571896349842-33c89424de2d', 400),
-        coverImageUrl: unsplash('photo-1571896349842-33c89424de2d', 1200),
+        avatarUrl: createAvatarPlaceholder('Azure Bay Resort & Spa'),
+        coverImageUrl: createVenuePlaceholder('Azure Bay Resort & Spa', 'Resort', 1200, 500),
         location: 'North Goa',
         citiesServed: ['North Goa', 'South Goa'],
         rating: 4.9,
         reviewCount: 96,
         experienceYears: 11,
         eventsCompleted: 230,
-        startingPrice: '\u20b94,50,000',
-        priceRange: '\u20b94.5L - \u20b918L',
+        startingPrice: '₹4,50,000',
+        priceRange: '₹4.5L - ₹18L',
         priceModel: 'Per Day / Room Package',
         servicesOffered: ['resorts'],
         about:
@@ -592,7 +639,7 @@ export const VENUE_MOCK_PROFESSIONALS: Professional[] = [
         venueType: 'Resort',
         minGuests: 100,
         maxGuests: 500,
-        capacityLabel: '100\u2013500 Guests',
+        capacityLabel: '100–500 Guests',
         amenities: ['Parking', 'AC', 'Catering', 'Decoration', 'Rooms', 'DJ', 'Power Backup', 'Outdoor Space', 'Indoor Space'],
         venueSpaces: [
             { name: 'Beachfront Lawn', capacity: 'Up to 500 guests', description: 'Open-air ceremony lawn facing the beach, best used at sunset.' },
@@ -601,7 +648,7 @@ export const VENUE_MOCK_PROFESSIONALS: Professional[] = [
         ],
         policies: [
             'Minimum 3-night room block required for wedding bookings',
-            'Outside catering not permitted \u2014 resort catering only',
+            'Outside catering not permitted — resort catering only',
             'Beach ceremony subject to tide and weather timing',
         ],
         portfolio: [
@@ -610,7 +657,7 @@ export const VENUE_MOCK_PROFESSIONALS: Professional[] = [
                 title: 'Beachfront Sunset Ceremony',
                 category: 'Resort',
                 location: 'North Goa',
-                imageUrl: unsplash('photo-1571896349842-33c89424de2d', 800),
+                imageUrl: createVenuePlaceholder('Beachfront Sunset Ceremony', 'Resort', 800, 500),
                 description: 'A sunset beachfront ceremony for 300 guests with a floral mandap facing the sea.',
                 tags: ['Beach Wedding', 'Sunset', 'Destination'],
                 type: 'image',
@@ -620,7 +667,7 @@ export const VENUE_MOCK_PROFESSIONALS: Professional[] = [
                 title: 'Poolside Cocktail Evening',
                 category: 'Resort',
                 location: 'North Goa',
-                imageUrl: unsplash('photo-1540541338287-41700207dee6', 800),
+                imageUrl: createVenuePlaceholder('Poolside Cocktail Evening', 'Resort', 800, 500),
                 description: 'Poolside cocktail setup with string lighting for a destination wedding welcome night.',
                 tags: ['Cocktail', 'Poolside'],
                 type: 'image',
@@ -634,7 +681,7 @@ export const VENUE_MOCK_PROFESSIONALS: Professional[] = [
                 date: 'January 2026',
                 eventType: '3-Day Destination Wedding',
                 location: 'Goa, India',
-                comment: 'Having 60 rooms on-site meant our entire guest list stayed together for three days \u2014 it made the whole wedding feel like one long celebration.',
+                comment: 'Having 60 rooms on-site meant our entire guest list stayed together for three days — it made the whole wedding feel like one long celebration.',
                 verified: true,
             },
         ],
@@ -645,27 +692,27 @@ export const VENUE_MOCK_PROFESSIONALS: Professional[] = [
         brandName: 'Pine Ridge Hill Resort',
         tagline: 'A hillside resort with panoramic valley views, ideal for intimate destination weddings.',
         businessType: 'Resort',
-        avatarUrl: unsplash('photo-1618773928121-c32242e63f39', 400),
-        coverImageUrl: unsplash('photo-1618773928121-c32242e63f39', 1200),
+        avatarUrl: createAvatarPlaceholder('Pine Ridge Hill Resort'),
+        coverImageUrl: createVenuePlaceholder('Pine Ridge Hill Resort', 'Resort', 1200, 500),
         location: 'Lonavala, Maharashtra',
         citiesServed: ['Lonavala', 'Khandala', 'Pune'],
         rating: 4.82,
         reviewCount: 53,
         experienceYears: 9,
         eventsCompleted: 130,
-        startingPrice: '\u20b93,80,000',
-        priceRange: '\u20b93.8L - \u20b912L',
+        startingPrice: '₹3,80,000',
+        priceRange: '₹3.8L - ₹12L',
         priceModel: 'Per Day / Room Package',
         servicesOffered: ['resorts'],
         about:
-            'Pine Ridge Hill Resort sits on a hillside overlooking the Western Ghats, offering a valley-view lawn, an indoor banquet hall, and 40 rooms on-site \u2014 a popular pick for couples wanting a scenic, weekend-getaway feel for guests.',
+            'Pine Ridge Hill Resort sits on a hillside overlooking the Western Ghats, offering a valley-view lawn, an indoor banquet hall, and 40 rooms on-site — a popular pick for couples wanting a scenic, weekend-getaway feel for guests.',
         specialties: ['Valley-View Ceremony Deck', 'Weekend-Getaway Guest Experience', 'On-Site Rooms & Dining', 'Monsoon-Friendly Covered Spaces'],
         availability: 'Booking weekends through 2026-27',
         verified: true,
         venueType: 'Resort',
         minGuests: 80,
         maxGuests: 300,
-        capacityLabel: '80\u2013300 Guests',
+        capacityLabel: '80–300 Guests',
         amenities: ['Parking', 'AC', 'Catering', 'Rooms', 'Power Backup', 'Outdoor Space', 'Indoor Space'],
         venueSpaces: [
             { name: 'Valley View Lawn', capacity: 'Up to 300 guests', description: 'Terraced lawn overlooking the valley, best for morning or sunset ceremonies.' },
@@ -681,7 +728,7 @@ export const VENUE_MOCK_PROFESSIONALS: Professional[] = [
                 title: 'Valley View Morning Ceremony',
                 category: 'Resort',
                 location: 'Lonavala, Maharashtra',
-                imageUrl: unsplash('photo-1618773928121-c32242e63f39', 800),
+                imageUrl: createVenuePlaceholder('Valley View Morning Ceremony', 'Resort', 800, 500),
                 description: 'A morning ceremony staged on the terraced lawn with the valley as backdrop.',
                 tags: ['Hillside', 'Morning Ceremony', 'Scenic'],
                 type: 'image',
@@ -695,7 +742,7 @@ export const VENUE_MOCK_PROFESSIONALS: Professional[] = [
                 date: 'October 2025',
                 eventType: 'Weekend Destination Wedding',
                 location: 'Lonavala, India',
-                comment: 'Our guests treated it like a weekend getaway \u2014 the view from the lawn made for the best photos of the whole wedding.',
+                comment: 'Our guests treated it like a weekend getaway — the view from the lawn made for the best photos of the whole wedding.',
                 verified: true,
             },
         ],
@@ -708,16 +755,16 @@ export const VENUE_MOCK_PROFESSIONALS: Professional[] = [
         brandName: 'Royal Palm Lawns',
         tagline: 'Sprawling landscaped lawns with a covered banquet backup for outdoor celebrations.',
         businessType: 'Lawn',
-        avatarUrl: unsplash('photo-1519741497674-611481863552', 400),
-        coverImageUrl: unsplash('photo-1519741497674-611481863552', 1200),
+        avatarUrl: createAvatarPlaceholder('Royal Palm Lawns'),
+        coverImageUrl: createVenuePlaceholder('Royal Palm Lawns', 'Lawn', 1200, 500),
         location: 'Jaipur, Rajasthan',
         citiesServed: ['Jaipur', 'Ajmer'],
         rating: 4.7,
         reviewCount: 66,
         experienceYears: 10,
         eventsCompleted: 260,
-        startingPrice: '\u20b990,000',
-        priceRange: '\u20b990K - \u20b92.5L',
+        startingPrice: '₹90,000',
+        priceRange: '₹90K - ₹2.5L',
         priceModel: 'Per Day (venue only)',
         servicesOffered: ['lawns'],
         about:
@@ -728,7 +775,7 @@ export const VENUE_MOCK_PROFESSIONALS: Professional[] = [
         venueType: 'Lawn',
         minGuests: 150,
         maxGuests: 700,
-        capacityLabel: '150\u2013700 Guests',
+        capacityLabel: '150–700 Guests',
         amenities: ['Parking', 'Catering', 'Decoration', 'Power Backup', 'Outdoor Space', 'Indoor Space'],
         venueSpaces: [
             { name: 'Main Lawn', capacity: 'Up to 700 guests', description: 'Open landscaped lawn with a dedicated mandap zone.' },
@@ -745,7 +792,7 @@ export const VENUE_MOCK_PROFESSIONALS: Professional[] = [
                 title: 'Open-Air Mandap Ceremony',
                 category: 'Lawn',
                 location: 'Jaipur, Rajasthan',
-                imageUrl: unsplash('photo-1519741497674-611481863552', 800),
+                imageUrl: createVenuePlaceholder('Open-Air Mandap Ceremony', 'Lawn', 800, 500),
                 description: 'A 500-guest outdoor mandap ceremony staged under the open sky, palm trees lining the aisle.',
                 tags: ['Outdoor', 'Mandap', 'Lawn'],
                 type: 'image',
@@ -770,16 +817,16 @@ export const VENUE_MOCK_PROFESSIONALS: Professional[] = [
         brandName: 'Greenfield Gardens',
         tagline: 'A budget-friendly garden lawn suited to sangeet nights and mid-sized celebrations.',
         businessType: 'Lawn',
-        avatarUrl: unsplash('photo-1511285560929-80b456fea0bc', 400),
-        coverImageUrl: unsplash('photo-1511285560929-80b456fea0bc', 1200),
+        avatarUrl: createAvatarPlaceholder('Greenfield Gardens'),
+        coverImageUrl: createVenuePlaceholder('Greenfield Gardens', 'Lawn', 1200, 500),
         location: 'Pune, Maharashtra',
         citiesServed: ['Pune', 'Pimpri-Chinchwad'],
         rating: 4.6,
         reviewCount: 41,
         experienceYears: 6,
         eventsCompleted: 150,
-        startingPrice: '\u20b965,000',
-        priceRange: '\u20b965K - \u20b91.8L',
+        startingPrice: '₹65,000',
+        priceRange: '₹65K - ₹1.8L',
         priceModel: 'Per Day (venue only)',
         servicesOffered: ['lawns'],
         about:
@@ -790,7 +837,7 @@ export const VENUE_MOCK_PROFESSIONALS: Professional[] = [
         venueType: 'Lawn',
         minGuests: 100,
         maxGuests: 350,
-        capacityLabel: '100\u2013350 Guests',
+        capacityLabel: '100–350 Guests',
         amenities: ['Parking', 'Catering', 'Power Backup', 'Outdoor Space'],
         venueSpaces: [
             { name: 'Garden Lawn', capacity: 'Up to 350 guests', description: 'Open garden lawn with a small covered stage area.' },
@@ -805,7 +852,7 @@ export const VENUE_MOCK_PROFESSIONALS: Professional[] = [
                 title: 'Sangeet Night Setup',
                 category: 'Lawn',
                 location: 'Pune, Maharashtra',
-                imageUrl: unsplash('photo-1511285560929-80b456fea0bc', 800),
+                imageUrl: createVenuePlaceholder('Sangeet Night Setup', 'Lawn', 800, 500),
                 description: 'String-lit sangeet stage setup on the garden lawn for a 250-guest function.',
                 tags: ['Sangeet', 'Outdoor', 'Budget-Friendly'],
                 type: 'image',
@@ -832,16 +879,16 @@ export const VENUE_MOCK_PROFESSIONALS: Professional[] = [
         brandName: 'Sarvodaya Community Hall',
         tagline: 'An affordable society community hall for simple, intimate wedding functions.',
         businessType: 'Community Hall',
-        avatarUrl: unsplash('photo-1509610973-11500ccff44e', 400),
-        coverImageUrl: unsplash('photo-1519378058457-4c29a0a2efac', 1200),
+        avatarUrl: createAvatarPlaceholder('Sarvodaya Community Hall'),
+        coverImageUrl: createVenuePlaceholder('Sarvodaya Community Hall', 'Community Hall', 1200, 500),
         location: 'Pune, Maharashtra',
         citiesServed: ['Pune'],
         rating: 4.4,
         reviewCount: 27,
         experienceYears: 5,
         eventsCompleted: 95,
-        startingPrice: '\u20b935,000',
-        priceRange: '\u20b935K - \u20b980K',
+        startingPrice: '₹35,000',
+        priceRange: '₹35K - ₹80K',
         priceModel: 'Per Day (venue only)',
         servicesOffered: ['community-halls'],
         about:
@@ -852,7 +899,7 @@ export const VENUE_MOCK_PROFESSIONALS: Professional[] = [
         venueType: 'Community Hall',
         minGuests: 50,
         maxGuests: 200,
-        capacityLabel: '50\u2013200 Guests',
+        capacityLabel: '50–200 Guests',
         amenities: ['Parking', 'Catering', 'Indoor Space'],
         venueSpaces: [
             { name: 'Main Hall', capacity: 'Up to 200 guests', description: 'Simple hall with a small stage and plastic/banquet chair seating.' },
@@ -868,7 +915,7 @@ export const VENUE_MOCK_PROFESSIONALS: Professional[] = [
                 title: 'Intimate Reception Setup',
                 category: 'Community Hall',
                 location: 'Pune, Maharashtra',
-                imageUrl: unsplash('photo-1519378058457-4c29a0a2efac', 800),
+                imageUrl: createVenuePlaceholder('Intimate Reception Setup', 'Community Hall', 800, 500),
                 description: 'A simple, tastefully decorated reception for 150 guests.',
                 tags: ['Budget-Friendly', 'Intimate'],
                 type: 'image',
@@ -893,16 +940,16 @@ export const VENUE_MOCK_PROFESSIONALS: Professional[] = [
         brandName: 'Janseva Samaj Hall',
         tagline: 'A trust-run community hall offering a cost-effective space for wedding functions.',
         businessType: 'Community Hall',
-        avatarUrl: unsplash('photo-1519225421980-715cb0215aed', 400),
-        coverImageUrl: unsplash('photo-1519225421980-715cb0215aed', 1200),
+        avatarUrl: createAvatarPlaceholder('Janseva Samaj Hall'),
+        coverImageUrl: createVenuePlaceholder('Janseva Samaj Hall', 'Community Hall', 1200, 500),
         location: 'Ahmedabad, Gujarat',
         citiesServed: ['Ahmedabad', 'Gandhinagar'],
         rating: 4.5,
         reviewCount: 33,
         experienceYears: 9,
         eventsCompleted: 175,
-        startingPrice: '\u20b940,000',
-        priceRange: '\u20b940K - \u20b91L',
+        startingPrice: '₹40,000',
+        priceRange: '₹40K - ₹1L',
         priceModel: 'Per Day (venue only)',
         servicesOffered: ['community-halls'],
         about:
@@ -913,7 +960,7 @@ export const VENUE_MOCK_PROFESSIONALS: Professional[] = [
         venueType: 'Community Hall',
         minGuests: 60,
         maxGuests: 250,
-        capacityLabel: '60\u2013250 Guests',
+        capacityLabel: '60–250 Guests',
         amenities: ['Parking', 'Catering', 'Power Backup', 'Indoor Space'],
         venueSpaces: [
             { name: 'Main Hall', capacity: 'Up to 250 guests', description: 'Functional hall with basic sound system and stage.' },
@@ -928,7 +975,7 @@ export const VENUE_MOCK_PROFESSIONALS: Professional[] = [
                 title: 'Community Wedding Function',
                 category: 'Community Hall',
                 location: 'Ahmedabad, Gujarat',
-                imageUrl: unsplash('photo-1519225421980-715cb0215aed', 800),
+                imageUrl: createVenuePlaceholder('Community Wedding Function', 'Community Hall', 800, 500),
                 description: 'A straightforward wedding function setup for 200 guests.',
                 tags: ['Community', 'Budget-Friendly'],
                 type: 'image',
