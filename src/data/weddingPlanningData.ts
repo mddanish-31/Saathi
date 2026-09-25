@@ -67,7 +67,8 @@ export const MASTER_WEDDINGS_CATEGORY = {
       code: 'A5',
       name: 'Catering, Food & Desserts',
       description: 'Artisanal regional caterers, beverage & bar catering, custom wedding cakes, and dessert bars.',
-      isActive: false,
+      isActive: true,
+      itemCount: '5 Dedicated Services',
     },
     {
       id: 'a6-wedding-venues',

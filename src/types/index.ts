@@ -158,6 +158,14 @@ export interface Professional {
   performanceDuration?: string;
   teamSize?: string;
   equipmentProvided?: string[];
+  /* Optional, backward-compatible catering & food metadata (A5). */
+  cuisines?: string[];
+  dietaryOptions?: string[];
+  pricePerPlate?: string;
+  minGuests?: number;
+  maxGuests?: number;
+  liveCounters?: string[];
+  dessertSpecialties?: string[];
 }
 
 /* ==========================================================================

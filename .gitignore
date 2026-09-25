@@ -44,5 +44,4 @@ Thumbs.db
 # Next.js
 .next/
 out/
-build/
-tsconfig.tsbuildinfo
+tsconfig.tsbuildinfo
