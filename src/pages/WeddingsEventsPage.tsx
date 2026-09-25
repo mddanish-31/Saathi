@@ -62,7 +62,8 @@ export const WeddingsEventsPage: React.FC<WeddingsEventsPageProps> = ({ onNaviga
               const isA1 = sub.slug === 'planning';
               const isPhotography = sub.slug === 'photography';
               const isEntertainment = sub.slug === 'entertainment';
-              const isFeatured = isA1 || isPhotography || isEntertainment;
+              const isBeauty = sub.slug === 'beauty-makeup-mehndi';
+              const isFeatured = isA1 || isPhotography || isEntertainment || isBeauty;
 
               return (
                 <div
@@ -75,6 +76,8 @@ export const WeddingsEventsPage: React.FC<WeddingsEventsPageProps> = ({ onNaviga
                       onNavigate('/categories/weddings-events/photography');
                     } else if (isEntertainment) {
                       onNavigate('/categories/weddings-events/entertainment');
+                    } else if (isBeauty) {
+                      onNavigate('/categories/weddings-events/beauty-makeup-mehndi');
                     } else {
                       onNavigate(`/categories/weddings-events/${sub.slug}`);
                     }

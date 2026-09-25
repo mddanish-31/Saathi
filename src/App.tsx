@@ -17,6 +17,7 @@ import { CustomerEnquiriesPage } from './pages/CustomerEnquiriesPage';
 import { PlaceholderPage } from './pages/PlaceholderPage';
 import { PhotographyPage } from './pages/PhotographyPage';
 import { MusicEntertainmentPage } from './pages/MusicEntertainmentPage';
+import { BeautyMakeupPage } from './pages/BeautyMakeupPage';
 import { MASTER_WEDDINGS_CATEGORY } from './data/weddingPlanningData';
 
 export const App: React.FC = () => {
@@ -124,6 +125,20 @@ export const App: React.FC = () => {
       return { type: 'music-entertainment-service', serviceSlug: entertainmentServiceMatch[1] };
     }
 
+    // 6d. Subcategory A4: Beauty, Makeup & Mehndi
+    if (
+      pathname === '/categories/weddings-events/beauty-makeup-mehndi' ||
+      pathname === '/categories/beauty-makeup-mehndi'
+    ) {
+      return { type: 'beauty-makeup' };
+    }
+    const beautyServiceMatch =
+      pathname.match(/^\/categories\/weddings-events\/beauty-makeup-mehndi\/([^/]+)$/) ||
+      pathname.match(/^\/categories\/beauty-makeup-mehndi\/([^/]+)$/);
+    if (beautyServiceMatch) {
+      return { type: 'beauty-makeup-service', serviceSlug: beautyServiceMatch[1] };
+    }
+
     // 7. Professionals Profile & Enquiry
     const proEnquireMatch = pathname.match(/^\/professionals\/([^/]+)\/enquire$/);
     if (proEnquireMatch) {
@@ -191,6 +206,10 @@ export const App: React.FC = () => {
         return <MusicEntertainmentPage onNavigate={navigate} />;
       case 'music-entertainment-service':
         return <MusicEntertainmentPage activeServiceSlug={route.serviceSlug} onNavigate={navigate} />;
+      case 'beauty-makeup':
+        return <BeautyMakeupPage onNavigate={navigate} />;
+      case 'beauty-makeup-service':
+        return <BeautyMakeupPage activeServiceSlug={route.serviceSlug} onNavigate={navigate} />;
       case 'professional-profile':
         return <ProfessionalProfilePage professionalId={route.professionalId!} onNavigate={navigate} />;
       case 'professional-enquire':

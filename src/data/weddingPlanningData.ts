@@ -1,4 +1,5 @@
 import { Professional, ServiceItem } from '../types';
+import { A4_SERVICES, A4_PROFESSIONALS } from './beautyMakeupData';
 
 /**
  * SAATHI DEMO DATA LAYER — A3: MUSIC & ENTERTAINMENT
@@ -94,9 +95,10 @@ export const MASTER_WEDDINGS_CATEGORY: MasterCategory = {
       name: 'Beauty, Makeup & Mehndi',
       title: 'Beauty, Makeup & Mehndi',
       slug: 'beauty-makeup-mehndi',
-      description: 'Bridal makeup artists, couture hairstylists, saree drapists, and traditional mehendi designers.',
-      badge: 'Coming Soon',
-      isActive: false,
+      description: 'Bridal makeup artists, couture hairstylists, organic henna designers, and complete vanity packages.',
+      badge: 'Active Flow',
+      isActive: true,
+      itemCount: '6 Curated Categories',
       image: unsplash('photo-1487412720507-e7ab37603c6f', 800),
       imageUrl: unsplash('photo-1487412720507-e7ab37603c6f', 800),
     },
@@ -1622,6 +1624,8 @@ export const MOCK_PROFESSIONALS: Professional[] = [
       },
     ],
   },
+  /* ----------------------- A4 Beauty & Makeup Professionals ----------------------- */
+  ...A4_PROFESSIONALS,
 ];
 
 /* ==========================================================================
@@ -1784,9 +1788,9 @@ export const A3_ENTERTAINMENT_DETAILS: Record<string, EntertainmentDetails> = {
 };
 
 /* ==========================================================================
-   COMBINED SERVICES (A1 + A3)
+   COMBINED SERVICES (A1 + A3 + A4)
    ========================================================================== */
-export const ALL_SERVICES: ServiceItem[] = [...A1_SERVICES, ...A3_SERVICES];
+export const ALL_SERVICES: ServiceItem[] = [...A1_SERVICES, ...A3_SERVICES, ...A4_SERVICES];
 
 /* ==========================================================================
    HELPER FUNCTIONS
