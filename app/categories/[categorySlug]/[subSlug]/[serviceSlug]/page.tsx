@@ -7,6 +7,7 @@ import { MusicEntertainmentPage } from '../../../../../src/views/MusicEntertainm
 import { BeautyMakeupPage } from '../../../../../src/views/BeautyMakeupPage';
 import { CateringPage } from '../../../../../src/views/CateringPage';
 import { WeddingVenuesPage } from '../../../../../src/views/WeddingVenuesPage';
+import { DecorStylingServicePage } from '../../../../../src/views/DecorStylingServicePage';
 import { PlaceholderPage } from '../../../../../src/views/PlaceholderPage';
 
 export default function Page() {
@@ -41,6 +42,9 @@ export default function Page() {
     }
     if (subSlug === 'wedding-venues') {
       return <WeddingVenuesPage activeCategorySlug={serviceSlug} onNavigate={handleNavigate} />;
+    }
+    if (subSlug === 'decor-styling-essentials') {
+      return <DecorStylingServicePage serviceSlug={serviceSlug} onNavigate={handleNavigate} />;
     }
   }
 

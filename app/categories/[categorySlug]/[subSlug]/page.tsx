@@ -8,6 +8,7 @@ import { BeautyMakeupPage } from '../../../../src/views/BeautyMakeupPage';
 import { CateringPage } from '../../../../src/views/CateringPage';
 import { WeddingVenuesPage } from '../../../../src/views/WeddingVenuesPage';
 import { TransportationPage } from '../../../../src/views/TransportationPage';
+import { DecorStylingLandingPage } from '../../../../src/views/DecorStylingLandingPage';
 import { PlaceholderPage } from '../../../../src/views/PlaceholderPage';
 import { getWeddingSubCategoryBySlug } from '../../../../src/data/categoryData';
 
@@ -45,6 +46,9 @@ export default function Page() {
     }
     if (subSlug === 'wedding-transportation') {
       return <TransportationPage onNavigate={handleNavigate} />;
+    }
+    if (subSlug === 'decor-styling-essentials') {
+      return <DecorStylingLandingPage onNavigate={handleNavigate} />;
     }
   }
 
