@@ -107,7 +107,7 @@ export const CateringCategories: React.FC<CateringCategoriesProps> = ({
                       right: '12px',
                       backgroundColor: 'rgba(38, 26, 36, 0.85)',
                       backdropFilter: 'blur(6px)',
-                      color: '#FAF6F3',
+                      color: 'var(--text-inverse)',
                       fontSize: '0.7rem',
                       fontWeight: 600,
                       padding: '0.25rem 0.65rem',
@@ -136,7 +136,7 @@ export const CateringCategories: React.FC<CateringCategoriesProps> = ({
                         fontFamily: 'var(--font-serif)',
                         fontSize: '1.3rem',
                         fontWeight: 600,
-                        color: '#FAF6F3',
+                        color: 'var(--text-inverse)',
                         textShadow: '0 2px 4px rgba(0, 0, 0, 0.4)',
                       }}
                     >
@@ -249,9 +249,9 @@ export const CateringCategories: React.FC<CateringCategoriesProps> = ({
                         height: '28px',
                         borderRadius: '50%',
                         backgroundColor: isSelected
-                          ? 'var(--saathi-maroon)'
-                          : 'var(--saathi-nude-tint)',
-                        color: isSelected ? '#FFFFFF' : 'var(--saathi-maroon)',
+                          ? 'var(--accent)'
+                          : 'var(--accent-soft)',
+                        color: isSelected ? 'var(--text-inverse)' : 'var(--accent)',
                         display: 'flex',
                         alignItems: 'center',
                         justifyContent: 'center',

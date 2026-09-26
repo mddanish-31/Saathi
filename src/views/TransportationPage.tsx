@@ -118,10 +118,10 @@ export const TransportationPage: React.FC<TransportationPageProps> = ({ onNaviga
     setIsSubmitted(false);
   };
 
-  const handleSubmitEnquiry = (e: React.FormEvent) => {
+  const handleSubmitEnquiry = async (e: React.FormEvent) => {
     e.preventDefault();
 
-    const newEnquiry = createEnquiry({
+    const newEnquiry = await createEnquiry({
       professionalId: 'pro-transportation-fleet',
       professionalName: 'Saathi Transportation Fleet & Logistics',
       professionalBrand: 'Saathi Wedding Transportation',
@@ -994,7 +994,7 @@ export const TransportationPage: React.FC<TransportationPageProps> = ({ onNaviga
                         padding: '0.25rem 0.85rem',
                         borderRadius: 'var(--radius-full)',
                         backgroundColor: 'var(--saathi-maroon)',
-                        color: '#FAF6F3',
+                        color: 'var(--text-inverse)',
                         fontSize: '0.7rem',
                         fontWeight: 700,
                         letterSpacing: '0.04em',
@@ -1298,7 +1298,7 @@ export const TransportationPage: React.FC<TransportationPageProps> = ({ onNaviga
               position: 'relative',
               borderRadius: 'var(--radius-2xl)',
               background: 'linear-gradient(135deg, var(--saathi-maroon) 0%, var(--saathi-deep-plum) 100%)',
-              color: '#FAF6F3',
+              color: 'var(--text-inverse)',
               padding: 'clamp(var(--space-8), 6vw, var(--space-16)) clamp(var(--space-6), 4vw, var(--space-12))',
               boxShadow: 'var(--shadow-xl)',
               textAlign: 'center',
@@ -1335,7 +1335,7 @@ export const TransportationPage: React.FC<TransportationPageProps> = ({ onNaviga
                   fontWeight: 600,
                   letterSpacing: '0.04em',
                   textTransform: 'uppercase',
-                  color: '#FAF6F3',
+                  color: 'var(--text-inverse)',
                   marginBottom: 'var(--space-4)',
                   border: '1px solid rgba(255, 255, 255, 0.2)',
                 }}
@@ -1349,7 +1349,7 @@ export const TransportationPage: React.FC<TransportationPageProps> = ({ onNaviga
                   fontFamily: 'var(--font-serif)',
                   fontSize: 'clamp(2rem, 4vw, 2.85rem)',
                   fontWeight: 600,
-                  color: '#FAF6F3',
+                  color: 'var(--text-inverse)',
                   lineHeight: 1.2,
                   letterSpacing: 'var(--tracking-tight)',
                   marginBottom: 'var(--space-4)',
@@ -1382,7 +1382,7 @@ export const TransportationPage: React.FC<TransportationPageProps> = ({ onNaviga
                 <Button
                   variant="outline"
                   size="lg"
-                  style={{ borderColor: 'rgba(255, 255, 255, 0.5)', color: '#FAF6F3' }}
+                  style={{ borderColor: 'rgba(255, 255, 255, 0.5)', color: 'var(--text-inverse)' }}
                   onClick={() => onNavigate('/categories/weddings-events')}
                 >
                   Back to All Verticals

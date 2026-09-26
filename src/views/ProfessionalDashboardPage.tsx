@@ -149,9 +149,9 @@ export const ProfessionalDashboardPage: React.FC<ProfessionalDashboardPageProps>
           >
             <div style={{ display: 'flex', justifyContent: 'space-between', color: 'var(--text-muted)', marginBottom: 'var(--space-2)' }}>
               <span style={{ fontSize: 'var(--text-xs)' }}>Response Rate</span>
-              <CheckCircle2 size={16} style={{ color: '#2E7D32' }} />
+              <CheckCircle2 size={16} style={{ color: 'var(--status-success)' }} />
             </div>
-            <strong style={{ fontSize: '1.75rem', color: '#2E7D32', fontFamily: 'var(--font-serif)' }}>
+            <strong style={{ fontSize: '1.75rem', color: 'var(--status-success)', fontFamily: 'var(--font-serif)' }}>
               94%
             </strong>
           </div>

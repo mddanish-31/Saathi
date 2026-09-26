@@ -246,7 +246,7 @@ export const ProfessionalProfile: React.FC<ProfessionalProfileProps> = ({
                     cursor: 'pointer',
                   }}
                 >
-                  {copied ? <Check size={14} style={{ color: '#2E7D32' }} /> : <Share2 size={14} />}
+                  {copied ? <Check size={14} style={{ color: 'var(--status-success)' }} /> : <Share2 size={14} />}
                   <span>{copied ? 'Link Copied' : 'Share Profile'}</span>
                 </button>
 

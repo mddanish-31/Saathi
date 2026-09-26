@@ -206,7 +206,7 @@ export const SignupPage: React.FC<SignupPageProps> = ({ onNavigate, returnTo: pr
                   borderRadius: 'var(--radius-sm)',
                   backgroundColor: 'rgba(229, 62, 62, 0.1)',
                   border: '1px solid rgba(229, 62, 62, 0.3)',
-                  color: '#C53030',
+                  color: 'var(--status-error)',
                   fontSize: 'var(--text-xs)',
                   fontWeight: 500,
                 }}

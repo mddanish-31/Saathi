@@ -136,9 +136,9 @@ export const CustomerEnquiriesPage: React.FC<CustomerEnquiriesPageProps> = ({
                   letterSpacing: '0.04em',
                   backgroundColor:
                     enquiry.status === 'pending'
-                      ? 'var(--saathi-nude-tint)'
-                      : 'rgba(46, 125, 50, 0.15)',
-                  color: enquiry.status === 'pending' ? 'var(--saathi-maroon)' : '#2E7D32',
+                      ? 'var(--accent-soft)'
+                      : 'rgba(74, 122, 94, 0.15)',
+                  color: enquiry.status === 'pending' ? 'var(--accent)' : 'var(--status-success)',
                 }}
               >
                 Status: {enquiry.status}
@@ -317,9 +317,9 @@ export const CustomerEnquiriesPage: React.FC<CustomerEnquiriesPageProps> = ({
                       textTransform: 'capitalize',
                       backgroundColor:
                         enq.status === 'pending'
-                          ? 'var(--saathi-nude-tint)'
-                          : 'rgba(46, 125, 50, 0.15)',
-                      color: enq.status === 'pending' ? 'var(--saathi-maroon)' : '#2E7D32',
+                          ? 'var(--accent-soft)'
+                          : 'rgba(74, 122, 94, 0.15)',
+                      color: enq.status === 'pending' ? 'var(--accent)' : 'var(--status-success)',
                     }}
                   >
                     {enq.status}

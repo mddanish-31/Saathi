@@ -74,7 +74,7 @@ export const ProfessionalCard: React.FC<ProfessionalCardProps> = ({
             padding: '0.22rem 0.65rem',
             borderRadius: 'var(--radius-full)',
             backgroundColor: 'rgba(38, 26, 36, 0.78)',
-            color: '#FAF6F3',
+            color: 'var(--text-inverse)',
             fontSize: '0.6875rem',
             fontWeight: 600,
             letterSpacing: '0.04em',

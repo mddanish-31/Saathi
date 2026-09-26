@@ -150,10 +150,10 @@ export const CustomerDashboardPage: React.FC<CustomerDashboardPageProps> = ({ on
                   fontWeight: isActive ? 700 : 500,
                   whiteSpace: 'nowrap',
                   cursor: 'pointer',
-                  backgroundColor: isActive ? 'var(--saathi-maroon)' : 'var(--bg-surface)',
-                  color: isActive ? '#FAF6F3' : 'var(--text-secondary)',
+                  backgroundColor: isActive ? 'var(--accent)' : 'var(--bg-surface)',
+                  color: isActive ? 'var(--text-inverse)' : 'var(--text-muted)',
                   border: '1px solid',
-                  borderColor: isActive ? 'var(--saathi-maroon)' : 'var(--border-subtle)',
+                  borderColor: isActive ? 'var(--accent)' : 'var(--border)',
                   transition: 'all var(--transition-fast)',
                 }}
               >
@@ -166,8 +166,8 @@ export const CustomerDashboardPage: React.FC<CustomerDashboardPageProps> = ({ on
                       borderRadius: 'var(--radius-full)',
                       fontSize: '0.65rem',
                       fontWeight: 700,
-                      backgroundColor: isActive ? 'rgba(255,255,255,0.25)' : 'var(--saathi-nude-tint)',
-                      color: isActive ? '#FAF6F3' : 'var(--saathi-maroon)',
+                      backgroundColor: isActive ? 'rgba(255,255,255,0.25)' : 'var(--accent-soft)',
+                      color: isActive ? 'var(--text-inverse)' : 'var(--accent)',
                     }}
                   >
                     {tab.badgeCount}
@@ -369,9 +369,9 @@ export const CustomerDashboardPage: React.FC<CustomerDashboardPageProps> = ({ on
                             textTransform: 'capitalize',
                             backgroundColor:
                               enq.status === 'pending'
-                                ? 'rgba(210, 179, 167, 0.25)'
-                                : 'rgba(46, 125, 50, 0.15)',
-                            color: enq.status === 'pending' ? 'var(--saathi-maroon)' : '#2E7D32',
+                                ? 'var(--accent-soft)'
+                                : 'rgba(74, 122, 94, 0.15)',
+                            color: enq.status === 'pending' ? 'var(--accent)' : 'var(--status-success)',
                           }}
                         >
                           {enq.status}
@@ -611,9 +611,9 @@ export const CustomerDashboardPage: React.FC<CustomerDashboardPageProps> = ({ on
                           textTransform: 'capitalize',
                           backgroundColor:
                             enq.status === 'pending'
-                              ? 'rgba(210, 179, 167, 0.25)'
-                              : 'rgba(46, 125, 50, 0.15)',
-                          color: enq.status === 'pending' ? 'var(--saathi-maroon)' : '#2E7D32',
+                              ? 'var(--accent-soft)'
+                              : 'rgba(74, 122, 94, 0.15)',
+                          color: enq.status === 'pending' ? 'var(--accent)' : 'var(--status-success)',
                         }}
                       >
                         {enq.status}

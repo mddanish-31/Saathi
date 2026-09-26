@@ -80,7 +80,7 @@ export const CatererCard: React.FC<CatererCardProps> = ({
             padding: '0.2rem 0.6rem',
             borderRadius: 'var(--radius-full)',
             backgroundColor: 'rgba(38, 26, 36, 0.85)',
-            color: '#FAF6F3',
+            color: 'var(--text-inverse)',
             fontSize: '0.6875rem',
             fontWeight: 600,
             backdropFilter: 'blur(4px)',

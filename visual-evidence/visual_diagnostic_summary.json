@@ -1,0 +1,428 @@
+{
+  "navbar": {
+    "pass": true,
+    "overlayVisible": true,
+    "box": {
+      "x": 0,
+      "y": 0,
+      "width": 375,
+      "height": 812
+    },
+    "isFullScreenOverlay": true,
+    "links": [
+      {
+        "text": "",
+        "width": 36,
+        "height": 36
+      },
+      {
+        "text": "",
+        "width": 40,
+        "height": 40
+      },
+      {
+        "text": "Home",
+        "width": 327,
+        "height": 57
+      },
+      {
+        "text": "All Weddings & Events",
+        "width": 327,
+        "height": 57
+      },
+      {
+        "text": "Wedding Planning & Coordination",
+        "width": 327,
+        "height": 57
+      },
+      {
+        "text": "Music & Entertainment",
+        "width": 327,
+        "height": 57
+      },
+      {
+        "text": "Frequently Asked Questions",
+        "width": 327,
+        "height": 57
+      },
+      {
+        "text": "Concierge Desk",
+        "width": 327,
+        "height": 57
+      },
+      {
+        "text": "Login",
+        "width": 158,
+        "height": 42
+      },
+      {
+        "text": "Get Started",
+        "width": 158,
+        "height": 42
+      }
+    ],
+    "screenshot": "/Users/kyzenn/Projects/Saathi/visual-evidence/01_navbar_mobile_overlay_375px.png"
+  },
+  "themeToggle": {
+    "pass": true,
+    "loads": [
+      {
+        "docClass": "__variable_35b0e9",
+        "dataTheme": "light",
+        "bg": "rgb(251, 246, 243)",
+        "text": "rgb(46, 31, 39)"
+      },
+      {
+        "docClass": "__variable_35b0e9",
+        "dataTheme": "light",
+        "bg": "rgb(251, 246, 243)",
+        "text": "rgb(46, 31, 39)"
+      },
+      {
+        "docClass": "__variable_35b0e9",
+        "dataTheme": "light",
+        "bg": "rgb(251, 246, 243)",
+        "text": "rgb(46, 31, 39)"
+      }
+    ],
+    "midTransitionScreenshot": "/Users/kyzenn/Projects/Saathi/visual-evidence/02_theme_mid_transition.png",
+    "finalDarkScreenshot": "/Users/kyzenn/Projects/Saathi/visual-evidence/02_theme_dark_complete.png",
+    "finalComputedBg": "rgb(36, 24, 35)",
+    "transitionStyle": "background-color 0.3s, color 0.3s, border-color 0.3s"
+  },
+  "bentoGrid": {
+    "pass": true,
+    "breakpoints": {
+      "mobile": {
+        "width": 375,
+        "gridTemplateColumns": "343px",
+        "childCount": 6,
+        "children": [
+          {
+            "index": 0,
+            "title": "Wedding Planning & Coordination",
+            "width": 343,
+            "height": 380,
+            "top": -230,
+            "left": 16
+          },
+          {
+            "index": 1,
+            "title": "Music & Entertainment",
+            "width": 343,
+            "height": 230,
+            "top": 24,
+            "left": 16
+          },
+          {
+            "index": 2,
+            "title": "Photography & Cinematography",
+            "width": 343,
+            "height": 230,
+            "top": 278,
+            "left": 16
+          },
+          {
+            "index": 3,
+            "title": "Decor, Mandap & Styling",
+            "width": 343,
+            "height": 230,
+            "top": 532,
+            "left": 16
+          },
+          {
+            "index": 4,
+            "title": "Fine Catering & Desserts",
+            "width": 343,
+            "height": 230,
+            "top": 786,
+            "left": 16
+          },
+          {
+            "index": 5,
+            "title": "Venues & Heritage Palaces",
+            "width": 343,
+            "height": 230,
+            "top": 1040,
+            "left": 16
+          }
+        ],
+        "screenshot": "/Users/kyzenn/Projects/Saathi/visual-evidence/03_bento_grid_375px_mobile.png"
+      },
+      "tablet": {
+        "width": 768,
+        "gridTemplateColumns": "162px 162px 162px 162px",
+        "childCount": 6,
+        "children": [
+          {
+            "index": 0,
+            "title": "Wedding Planning & Coordination",
+            "width": 348,
+            "height": 484,
+            "top": 221,
+            "left": 24
+          },
+          {
+            "index": 1,
+            "title": "Music & Entertainment",
+            "width": 348,
+            "height": 230,
+            "top": 221,
+            "left": 396
+          },
+          {
+            "index": 2,
+            "title": "Photography & Cinematography",
+            "width": 348,
+            "height": 230,
+            "top": 475,
+            "left": 396
+          },
+          {
+            "index": 3,
+            "title": "Decor, Mandap & Styling",
+            "width": 162,
+            "height": 230,
+            "top": 729,
+            "left": 24
+          },
+          {
+            "index": 4,
+            "title": "Fine Catering & Desserts",
+            "width": 162,
+            "height": 230,
+            "top": 729,
+            "left": 210
+          },
+          {
+            "index": 5,
+            "title": "Venues & Heritage Palaces",
+            "width": 348,
+            "height": 230,
+            "top": 729,
+            "left": 396
+          }
+        ],
+        "screenshot": "/Users/kyzenn/Projects/Saathi/visual-evidence/03_bento_grid_768px_tablet.png"
+      },
+      "laptop": {
+        "width": 1024,
+        "gridTemplateColumns": "222px 222px 222px 222px",
+        "childCount": 6,
+        "children": [
+          {
+            "index": 0,
+            "title": "Wedding Planning & Coordination",
+            "width": 468,
+            "height": 484,
+            "top": 93,
+            "left": 32
+          },
+          {
+            "index": 1,
+            "title": "Music & Entertainment",
+            "width": 468,
+            "height": 230,
+            "top": 93,
+            "left": 524
+          },
+          {
+            "index": 2,
+            "title": "Photography & Cinematography",
+            "width": 468,
+            "height": 230,
+            "top": 347,
+            "left": 524
+          },
+          {
+            "index": 3,
+            "title": "Decor, Mandap & Styling",
+            "width": 222,
+            "height": 230,
+            "top": 601,
+            "left": 32
+          },
+          {
+            "index": 4,
+            "title": "Fine Catering & Desserts",
+            "width": 222,
+            "height": 230,
+            "top": 601,
+            "left": 278
+          },
+          {
+            "index": 5,
+            "title": "Venues & Heritage Palaces",
+            "width": 468,
+            "height": 230,
+            "top": 601,
+            "left": 524
+          }
+        ],
+        "screenshot": "/Users/kyzenn/Projects/Saathi/visual-evidence/03_bento_grid_1024px_laptop.png"
+      },
+      "desktop": {
+        "width": 1440,
+        "gridTemplateColumns": "286px 286px 286px 286px",
+        "childCount": 6,
+        "children": [
+          {
+            "index": 0,
+            "title": "Wedding Planning & Coordination",
+            "width": 596,
+            "height": 484,
+            "top": 158,
+            "left": 112
+          },
+          {
+            "index": 1,
+            "title": "Music & Entertainment",
+            "width": 596,
+            "height": 230,
+            "top": 158,
+            "left": 732
+          },
+          {
+            "index": 2,
+            "title": "Photography & Cinematography",
+            "width": 596,
+            "height": 230,
+            "top": 412,
+            "left": 732
+          },
+          {
+            "index": 3,
+            "title": "Decor, Mandap & Styling",
+            "width": 286,
+            "height": 230,
+            "top": 666,
+            "left": 112
+          },
+          {
+            "index": 4,
+            "title": "Fine Catering & Desserts",
+            "width": 286,
+            "height": 230,
+            "top": 666,
+            "left": 422
+          },
+          {
+            "index": 5,
+            "title": "Venues & Heritage Palaces",
+            "width": 596,
+            "height": 230,
+            "top": 666,
+            "left": 732
+          }
+        ],
+        "screenshot": "/Users/kyzenn/Projects/Saathi/visual-evidence/03_bento_grid_1440px_desktop.png"
+      }
+    }
+  },
+  "heroPerformance": {
+    "pass": true,
+    "cpuThrottle": "4x slowdown",
+    "measuredAvgFps": 73,
+    "droppedFrames": 0,
+    "totalFrames": 73,
+    "blendTransform": {
+      "transform": "matrix(0.824833, 0, 0, 0.824833, 0, 30.0287)",
+      "opacity": "1"
+    },
+    "screenshots": {
+      "0%": "/Users/kyzenn/Projects/Saathi/visual-evidence/04_hero_scroll_0pct.png",
+      "50%": "/Users/kyzenn/Projects/Saathi/visual-evidence/04_hero_scroll_50pct.png",
+      "100%": "/Users/kyzenn/Projects/Saathi/visual-evidence/04_hero_scroll_100pct.png"
+    }
+  },
+  "typography": {
+    "pass": true,
+    "metrics": {
+      "text": "Saathi curates India’s foremost wedding planners, musicians, caterers, and production studios — vett...",
+      "fontFamily": "\"General Sans\", -apple-system, \"system-ui\", \"Segoe UI\", Roboto, sans-serif",
+      "fontSize": "18px",
+      "lineHeight": "28px",
+      "calculatedLineHeightRatio": "1.56",
+      "maxWidth": "576px",
+      "renderedWidth": 576,
+      "renderedHeight": 84
+    },
+    "screenshot": "/Users/kyzenn/Projects/Saathi/visual-evidence/05_typography_body_paragraph.png"
+  },
+  "reviews": {
+    "pass": true,
+    "mobileScrollSnap": {
+      "scrollSnapType": "x mandatory",
+      "overflowX": "auto"
+    },
+    "desktopColumns": "389.328px 389.328px 389.344px",
+    "avatarsFound": [
+      {
+        "initials": "PM",
+        "width": 40,
+        "height": 40
+      },
+      {
+        "initials": "AR",
+        "width": 40,
+        "height": 40
+      },
+      {
+        "initials": "AS",
+        "width": 40,
+        "height": 40
+      },
+      {
+        "initials": "RD",
+        "width": 40,
+        "height": 40
+      },
+      {
+        "initials": "MK",
+        "width": 40,
+        "height": 40
+      }
+    ],
+    "screenshots": {
+      "mobile": "/Users/kyzenn/Projects/Saathi/visual-evidence/06_reviews_mobile_carousel.png",
+      "desktop": "/Users/kyzenn/Projects/Saathi/visual-evidence/06_reviews_desktop_3col.png"
+    }
+  },
+  "policyPages": {
+    "pass": true,
+    "privacyNav": {
+      "asidePosition": "sticky",
+      "activeSectionText": "02\nCategories of Personal Data"
+    },
+    "screenshots": {
+      "privacy": "/Users/kyzenn/Projects/Saathi/visual-evidence/07_privacy_sticky_nav_scroll.png",
+      "cookies": "/Users/kyzenn/Projects/Saathi/visual-evidence/07_cookies_sticky_nav_scroll.png"
+    }
+  },
+  "pageTransitions": {
+    "pass": true,
+    "screenshots": {
+      "mid": "/Users/kyzenn/Projects/Saathi/visual-evidence/08_route_transition_mid_fade.png",
+      "complete": "/Users/kyzenn/Projects/Saathi/visual-evidence/08_route_transition_complete.png"
+    }
+  },
+  "contrast": {
+    "lightMode": {
+      "textPrimary": "#2e1f27",
+      "bgBase": "#fbf6f3",
+      "contrastRatio": "14.59:1",
+      "wcagAAPassBody": true
+    },
+    "darkMode": {
+      "accent": "#d2b3a7",
+      "bgBase": "#241823",
+      "contrastRatio": "8.74:1",
+      "wcagAAPassLarge": true
+    }
+  },
+  "consoleAudit": {
+    "routesChecked": 8,
+    "totalEvents": 0,
+    "events": []
+  }
+}

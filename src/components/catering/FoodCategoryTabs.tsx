@@ -166,9 +166,9 @@ export const FoodCategoryTabs: React.FC<FoodCategoryTabsProps> = ({
                       fontWeight: 600,
                       cursor: 'pointer',
                       border: '1px solid',
-                      backgroundColor: isSelected ? 'var(--saathi-maroon)' : 'var(--bg-surface)',
-                      color: isSelected ? '#FFFFFF' : 'var(--text-secondary)',
-                      borderColor: isSelected ? 'var(--saathi-maroon)' : 'var(--border-default)',
+                      backgroundColor: isSelected ? 'var(--accent)' : 'var(--bg-surface)',
+                      color: isSelected ? 'var(--text-inverse)' : 'var(--text-muted)',
+                      borderColor: isSelected ? 'var(--accent)' : 'var(--border)',
                       whiteSpace: 'nowrap',
                       flexShrink: 0,
                       transition: 'all var(--transition-fast)',
@@ -192,9 +192,9 @@ export const FoodCategoryTabs: React.FC<FoodCategoryTabsProps> = ({
                       fontWeight: 600,
                       cursor: 'pointer',
                       border: '1px solid',
-                      backgroundColor: isSelected ? 'var(--saathi-maroon)' : 'var(--bg-surface)',
-                      color: isSelected ? '#FFFFFF' : 'var(--text-secondary)',
-                      borderColor: isSelected ? 'var(--saathi-maroon)' : 'var(--border-default)',
+                      backgroundColor: isSelected ? 'var(--accent)' : 'var(--bg-surface)',
+                      color: isSelected ? 'var(--text-inverse)' : 'var(--text-muted)',
+                      borderColor: isSelected ? 'var(--accent)' : 'var(--border)',
                       whiteSpace: 'nowrap',
                       flexShrink: 0,
                       transition: 'all var(--transition-fast)',
@@ -236,8 +236,8 @@ export const FoodCategoryTabs: React.FC<FoodCategoryTabsProps> = ({
                   fontWeight: 600,
                   cursor: 'pointer',
                   border: 'none',
-                  backgroundColor: activeDiet === 'all' ? 'var(--saathi-maroon)' : 'transparent',
-                  color: activeDiet === 'all' ? '#FFFFFF' : 'var(--text-secondary)',
+                  backgroundColor: activeDiet === 'all' ? 'var(--accent)' : 'transparent',
+                  color: activeDiet === 'all' ? 'var(--text-inverse)' : 'var(--text-muted)',
                   transition: 'all var(--transition-fast)',
                 }}
               >
@@ -253,8 +253,8 @@ export const FoodCategoryTabs: React.FC<FoodCategoryTabsProps> = ({
                   fontWeight: 600,
                   cursor: 'pointer',
                   border: 'none',
-                  backgroundColor: activeDiet === 'veg' ? '#2E7D32' : 'transparent',
-                  color: activeDiet === 'veg' ? '#FFFFFF' : 'var(--text-secondary)',
+                  backgroundColor: activeDiet === 'veg' ? 'var(--food-veg)' : 'transparent',
+                  color: activeDiet === 'veg' ? 'var(--text-inverse)' : 'var(--text-muted)',
                   display: 'flex',
                   alignItems: 'center',
                   gap: '4px',
@@ -266,7 +266,7 @@ export const FoodCategoryTabs: React.FC<FoodCategoryTabsProps> = ({
                     width: '6px',
                     height: '6px',
                     borderRadius: '50%',
-                    backgroundColor: activeDiet === 'veg' ? '#FFFFFF' : '#2E7D32',
+                    backgroundColor: activeDiet === 'veg' ? 'var(--text-inverse)' : 'var(--food-veg)',
                   }}
                 />
                 Veg
@@ -281,8 +281,8 @@ export const FoodCategoryTabs: React.FC<FoodCategoryTabsProps> = ({
                   fontWeight: 600,
                   cursor: 'pointer',
                   border: 'none',
-                  backgroundColor: activeDiet === 'non-veg' ? '#C62828' : 'transparent',
-                  color: activeDiet === 'non-veg' ? '#FFFFFF' : 'var(--text-secondary)',
+                  backgroundColor: activeDiet === 'non-veg' ? 'var(--food-non-veg)' : 'transparent',
+                  color: activeDiet === 'non-veg' ? 'var(--text-inverse)' : 'var(--text-muted)',
                   display: 'flex',
                   alignItems: 'center',
                   gap: '4px',
@@ -294,7 +294,7 @@ export const FoodCategoryTabs: React.FC<FoodCategoryTabsProps> = ({
                     width: '6px',
                     height: '6px',
                     borderRadius: '50%',
-                    backgroundColor: activeDiet === 'non-veg' ? '#FFFFFF' : '#C62828',
+                    backgroundColor: activeDiet === 'non-veg' ? 'var(--text-inverse)' : 'var(--food-non-veg)',
                   }}
                 />
                 Non-Veg

@@ -1,30 +1,24 @@
 import type { Metadata, Viewport } from 'next';
-import { Playfair_Display, Plus_Jakarta_Sans } from 'next/font/google';
+import { Fraunces } from 'next/font/google';
 import '../src/styles/global.css';
 import { Providers } from '../src/components/Providers';
 import { AppShell } from './AppShell';
+import { CookieBanner } from '../src/components/common/CookieBanner';
 
-const playfair = Playfair_Display({
+const fraunces = Fraunces({
   subsets: ['latin'],
-  variable: '--font-playfair',
+  variable: '--font-fraunces',
   display: 'swap',
-  weight: ['500', '600', '700'],
+  axes: ['opsz'],
   style: ['normal', 'italic'],
 });
 
-const plusJakarta = Plus_Jakarta_Sans({
-  subsets: ['latin'],
-  variable: '--font-jakarta',
-  display: 'swap',
-  weight: ['300', '400', '500', '600', '700'],
-});
-
 export const metadata: Metadata = {
-  title: 'SAATHI — Find the Right People for Every Occasion',
+  title: 'Saathi — Simpler 2 Gather | Wedding & Events Marketplace',
   description:
-    'SAATHI is a premium platform connecting you with trusted professionals and specialists for all occasions, events, and everyday needs.',
+    'Saathi is India’s editorial marketplace connecting couples and event hosts with verified wedding planners, entertainers, caterers, and milestone specialists.',
   icons: {
-    icon: "data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='8' fill='%235B3A4A'/><text x='16' y='22' text-anchor='middle' font-family='serif' font-size='18' font-weight='bold' fill='%23FAF7F4'>S</text></svg>",
+    icon: "data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='8' fill='%235B3A4A'/><text x='16' y='22' text-anchor='middle' font-family='serif' font-size='18' font-weight='bold' fill='%23FBF6F3'>S∞</text></svg>",
   },
 };
 
@@ -40,10 +34,25 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en" className={`${playfair.variable} ${plusJakarta.variable}`}>
+    <html lang="en" className={fraunces.variable}>
+      <head>
+        <link rel="preconnect" href="https://api.fontshare.com" crossOrigin="anonymous" />
+        <link
+          rel="stylesheet"
+          href="https://api.fontshare.com/v2/css?f[]=general-sans@400,500,600,700&display=swap"
+        />
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `(function(){try{var t=localStorage.getItem('saathi_theme_preference');if(t==='dark'||(!t&&window.matchMedia('(prefers-color-scheme: dark)').matches)){document.documentElement.setAttribute('data-theme','dark');document.documentElement.classList.add('dark');}else{document.documentElement.setAttribute('data-theme','light');document.documentElement.classList.remove('dark');}}catch(e){}})();`,
+          }}
+        />
+      </head>
       <body>
         <Providers>
-          <AppShell>{children}</AppShell>
+          <AppShell>
+            {children}
+            <CookieBanner />
+          </AppShell>
         </Providers>
       </body>
     </html>

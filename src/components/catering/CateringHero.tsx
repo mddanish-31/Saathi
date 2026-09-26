@@ -275,7 +275,7 @@ export const CateringHero: React.FC<CateringHeroProps> = ({
                   left: '16px',
                   backgroundColor: 'rgba(38, 26, 36, 0.82)',
                   backdropFilter: 'blur(8px)',
-                  color: '#FAF6F3',
+                  color: 'var(--text-inverse)',
                   padding: '0.5rem 0.85rem',
                   borderRadius: 'var(--radius-lg)',
                   display: 'flex',
@@ -294,7 +294,7 @@ export const CateringHero: React.FC<CateringHeroProps> = ({
                     display: 'flex',
                     alignItems: 'center',
                     justifyContent: 'center',
-                    color: '#FAF6F3',
+                    color: 'var(--text-inverse)',
                   }}
                 >
                   <Sparkles size={14} />

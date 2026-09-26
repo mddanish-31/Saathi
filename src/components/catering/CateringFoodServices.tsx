@@ -137,7 +137,7 @@ export const CateringFoodServices: React.FC<CateringFoodServicesProps> = ({
                       right: '12px',
                       backgroundColor: 'rgba(38, 26, 36, 0.85)',
                       backdropFilter: 'blur(6px)',
-                      color: '#FAF6F3',
+                      color: 'var(--text-inverse)',
                       fontSize: 'var(--text-xs)',
                       fontWeight: 600,
                       padding: '0.25rem 0.65rem',

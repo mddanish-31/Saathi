@@ -13,15 +13,15 @@ export const ThemeProvider: React.FC<{ children: React.ReactNode }> = ({ childre
   useEffect(() => {
     try {
       const savedTheme = localStorage.getItem(THEME_STORAGE_KEY) as Theme | null;
+      let initial: Theme = 'light';
       if (savedTheme === 'light' || savedTheme === 'dark') {
-        setThemeState(savedTheme);
-        document.documentElement.setAttribute('data-theme', savedTheme);
+        initial = savedTheme;
       } else if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
-        setThemeState('dark');
-        document.documentElement.setAttribute('data-theme', 'dark');
-      } else {
-        document.documentElement.setAttribute('data-theme', 'light');
+        initial = 'dark';
       }
+      setThemeState(initial);
+      document.documentElement.setAttribute('data-theme', initial);
+      document.documentElement.classList.toggle('dark', initial === 'dark');
     } catch {
       // ignore
     }
@@ -32,6 +32,7 @@ export const ThemeProvider: React.FC<{ children: React.ReactNode }> = ({ childre
       const nextTheme = prevTheme === 'light' ? 'dark' : 'light';
       try {
         document.documentElement.setAttribute('data-theme', nextTheme);
+        document.documentElement.classList.toggle('dark', nextTheme === 'dark');
         localStorage.setItem(THEME_STORAGE_KEY, nextTheme);
       } catch {
         // ignore
@@ -44,6 +45,7 @@ export const ThemeProvider: React.FC<{ children: React.ReactNode }> = ({ childre
     setThemeState(newTheme);
     try {
       document.documentElement.setAttribute('data-theme', newTheme);
+      document.documentElement.classList.toggle('dark', newTheme === 'dark');
       localStorage.setItem(THEME_STORAGE_KEY, newTheme);
     } catch {
       // ignore

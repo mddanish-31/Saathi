@@ -49,14 +49,14 @@ export const Input = React.forwardRef<HTMLInputElement, InputProps>(
             style={{
               fontSize: 'var(--text-sm)',
               fontWeight: 500,
-              color: error ? '#C53030' : 'var(--text-primary)',
+              color: error ? 'var(--status-error)' : 'var(--text-primary)',
               display: 'flex',
               alignItems: 'center',
               gap: '4px',
             }}
           >
             {label}
-            {required && <span style={{ color: 'var(--saathi-maroon)' }}>*</span>}
+            {required && <span style={{ color: 'var(--accent)' }}>*</span>}
           </label>
         )}
 
@@ -95,7 +95,7 @@ export const Input = React.forwardRef<HTMLInputElement, InputProps>(
               fontSize: 'var(--text-sm)',
               backgroundColor: 'var(--bg-surface)',
               color: 'var(--text-primary)',
-              border: `1.5px solid ${error ? '#E53E3E' : 'var(--border-default)'}`,
+              border: `1.5px solid ${error ? 'var(--status-error)' : 'var(--border)'}`,
               borderRadius: 'var(--radius-md)',
               outline: 'none',
               transition: 'border-color var(--transition-fast), box-shadow var(--transition-fast)',
@@ -142,7 +142,7 @@ export const Input = React.forwardRef<HTMLInputElement, InputProps>(
           <span
             style={{
               fontSize: 'var(--text-xs)',
-              color: '#E53E3E',
+              color: 'var(--status-error)',
               fontWeight: 500,
             }}
             role="alert"

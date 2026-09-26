@@ -84,7 +84,7 @@ export const CateringPackages: React.FC<CateringPackagesProps> = ({
                         : isPopular
                         ? 'var(--saathi-deep-plum)'
                         : 'var(--bg-surface-soft)',
-                      color: '#FFFFFF',
+                      color: 'var(--text-inverse)',
                       fontSize: '0.6875rem',
                       fontWeight: 700,
                       letterSpacing: '0.06em',

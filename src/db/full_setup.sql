@@ -317,6 +317,18 @@ CREATE POLICY "Customers can insert enquiry" ON public.enquiries
     auth.uid() = customer_id
   );
 
+-- Allow anonymous visitors (guests) to submit enquiries without login
+DROP POLICY IF EXISTS "Anon can insert guest enquiry" ON public.enquiries;
+CREATE POLICY "Anon can insert guest enquiry" ON public.enquiries
+  FOR INSERT TO anon
+  WITH CHECK (
+    customer_id IS NULL
+    AND customer_name IS NOT NULL
+    AND customer_email IS NOT NULL
+    AND customer_phone IS NOT NULL
+    AND message IS NOT NULL
+  );
+
 DROP POLICY IF EXISTS "Owning professional can update enquiry" ON public.enquiries;
 CREATE POLICY "Owning professional can update enquiry" ON public.enquiries
   FOR UPDATE TO authenticated

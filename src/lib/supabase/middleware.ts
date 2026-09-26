@@ -34,9 +34,9 @@ export async function updateSession(request: NextRequest) {
 
   const pathname = request.nextUrl.pathname;
 
-  // Protect /customer and /professional routes
-  const isCustomerRoute = pathname.startsWith('/customer');
-  const isProfessionalRoute = pathname.startsWith('/professional');
+  // Protect /customer and /professional portal routes (not public /professionals directory)
+  const isCustomerRoute = pathname === '/customer' || pathname.startsWith('/customer/');
+  const isProfessionalRoute = pathname === '/professional' || pathname.startsWith('/professional/');
 
   if (isCustomerRoute || isProfessionalRoute) {
     if (!user) {

@@ -331,13 +331,13 @@ export const CustomMenu: React.FC<CustomMenuProps> = ({
                       border: '1px solid',
                       backgroundColor:
                         menuState.guestCount === preset
-                          ? 'var(--saathi-maroon)'
+                          ? 'var(--accent)'
                           : 'var(--bg-surface)',
-                      color: menuState.guestCount === preset ? '#FFFFFF' : 'var(--text-secondary)',
+                      color: menuState.guestCount === preset ? 'var(--text-inverse)' : 'var(--text-muted)',
                       borderColor:
                         menuState.guestCount === preset
-                          ? 'var(--saathi-maroon)'
-                          : 'var(--border-default)',
+                          ? 'var(--accent)'
+                          : 'var(--border)',
                     }}
                   >
                     {preset} Guests
@@ -364,9 +364,9 @@ export const CustomMenu: React.FC<CustomMenuProps> = ({
 
               <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(140px, 1fr))', gap: 'var(--space-2)' }}>
                 {[
-                  { id: 'pure-veg', label: '100% Pure Veg', dot: '#2E7D32' },
-                  { id: 'veg-non-veg', label: 'Veg + Non-Veg', dot: '#C62828' },
-                  { id: 'jain-friendly', label: 'Jain Friendly', dot: '#E65100' },
+                  { id: 'pure-veg', label: '100% Pure Veg', dot: 'var(--food-veg)' },
+                  { id: 'veg-non-veg', label: 'Veg + Non-Veg', dot: 'var(--food-non-veg)' },
+                  { id: 'jain-friendly', label: 'Jain Friendly', dot: 'var(--food-jain)' },
                 ].map((diet) => {
                   const isSelected = menuState.dietPreference === diet.id;
                   return (
@@ -444,9 +444,9 @@ export const CustomMenu: React.FC<CustomMenuProps> = ({
                         display: 'inline-flex',
                         alignItems: 'center',
                         gap: '5px',
-                        backgroundColor: isSelected ? 'var(--saathi-maroon)' : 'var(--bg-surface)',
-                        color: isSelected ? '#FFFFFF' : 'var(--text-secondary)',
-                        borderColor: isSelected ? 'var(--saathi-maroon)' : 'var(--border-default)',
+                        backgroundColor: isSelected ? 'var(--accent)' : 'var(--bg-surface)',
+                        color: isSelected ? 'var(--text-inverse)' : 'var(--text-muted)',
+                        borderColor: isSelected ? 'var(--accent)' : 'var(--border)',
                         transition: 'all var(--transition-fast)',
                       }}
                     >
@@ -578,12 +578,12 @@ export const CustomMenu: React.FC<CustomMenuProps> = ({
                           width: '14px',
                           height: '14px',
                           borderRadius: '3px',
-                          border: isChecked ? '1px solid var(--saathi-maroon)' : '1px solid var(--border-default)',
-                          backgroundColor: isChecked ? 'var(--saathi-maroon)' : '#FFFFFF',
+                          border: isChecked ? '1px solid var(--accent)' : '1px solid var(--border)',
+                          backgroundColor: isChecked ? 'var(--accent)' : 'var(--bg-surface)',
                           display: 'flex',
                           alignItems: 'center',
                           justifyContent: 'center',
-                          color: '#FFFFFF',
+                          color: 'var(--text-inverse)',
                           flexShrink: 0,
                         }}
                       >
@@ -837,14 +837,14 @@ export const CustomMenu: React.FC<CustomMenuProps> = ({
             {isSubmitted ? (
               <div
                 style={{
-                  backgroundColor: '#E8F5E9',
-                  border: '1px solid #A5D6A7',
+                  backgroundColor: 'rgba(74, 122, 94, 0.12)',
+                  border: '1px solid var(--status-success)',
                   borderRadius: 'var(--radius-md)',
                   padding: 'var(--space-3)',
                   display: 'flex',
                   alignItems: 'center',
                   gap: '8px',
-                  color: '#1B5E20',
+                  color: 'var(--status-success)',
                   fontSize: 'var(--text-xs)',
                   fontWeight: 600,
                 }}

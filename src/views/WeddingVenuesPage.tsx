@@ -303,9 +303,9 @@ export const WeddingVenuesPage: React.FC<WeddingVenuesPageProps> = ({
                                         fontSize: '0.75rem',
                                         padding: '0.3rem 0.75rem',
                                         borderRadius: 'var(--radius-full)',
-                                        border: `1px solid ${active ? 'var(--saathi-maroon)' : 'var(--border-subtle)'}`,
-                                        backgroundColor: active ? 'var(--saathi-maroon)' : 'var(--bg-surface)',
-                                        color: active ? '#FAF6F3' : 'var(--text-secondary)',
+                                        border: `1px solid ${active ? 'var(--accent)' : 'var(--border)'}`,
+                                        backgroundColor: active ? 'var(--accent)' : 'var(--bg-surface)',
+                                        color: active ? 'var(--text-inverse)' : 'var(--text-muted)',
                                         cursor: 'pointer',
                                         fontWeight: active ? 600 : 500,
                                     }}

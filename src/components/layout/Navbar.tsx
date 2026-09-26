@@ -1,11 +1,11 @@
 "use client";
 
 import React, { useState, useEffect, useRef } from 'react';
-import { Menu, X, User, LogOut, ChevronDown, Sparkles, Home, Heart, ArrowRight } from 'lucide-react';
+import Link from 'next/link';
+import { motion, AnimatePresence } from 'framer-motion';
+import { Menu, X, User, LogOut, ChevronDown, Sparkles, ArrowRight, Phone, Mail } from 'lucide-react';
 import { Logo } from '../brand/Logo';
-import { Button } from '../ui/Button';
 import { ThemeToggle } from '../ui/ThemeToggle';
-import { Container } from '../ui/Container';
 import { useAuth } from '../../context/AuthContext';
 
 interface NavbarProps {
@@ -26,22 +26,8 @@ const WEDDING_VERTICALS: VerticalItem[] = [
   { code: 'A4', title: 'Beauty, Makeup & Mehndi', slug: '/categories/weddings-events/beauty-makeup-mehndi' },
   { code: 'A5', title: 'Catering, Food & Desserts', slug: '/categories/weddings-events/catering-food-desserts' },
   { code: 'A6', title: 'Wedding Venues', slug: '/categories/weddings-events/wedding-venues' },
-  { code: 'A7', title: 'Decor, Styling & Wedding Essentials', slug: '/categories/weddings-events/decor-styling-essentials' },
+  { code: 'A7', title: 'Decor & Mandap Styling', slug: '/categories/weddings-events/decor-styling-essentials' },
   { code: 'A8', title: 'Wedding Transportation', slug: '/categories/weddings-events/wedding-transportation' },
-];
-
-const HOME_SERVICES = [
-  { name: 'Interior Designers & Decorators', href: '/categories/home-spaces', desc: 'Full home & apartment transformations' },
-  { name: 'Landscape & Garden Architects', href: '/categories/home-spaces', desc: 'Terrace, villa, and outdoor styling' },
-  { name: 'Bespoke Carpentry & Furniture', href: '/categories/home-spaces', desc: 'Custom woodcraft and modular fittings' },
-  { name: 'Renovation & Space Planning', href: '/categories/home-spaces', desc: 'Architectural consulting and upgrades' },
-];
-
-const WELLNESS_SERVICES = [
-  { name: 'Personal Care & Wellness Guides', href: '/categories/wellness-lifestyle', desc: 'Holistic lifestyle and rejuvenation' },
-  { name: 'Classical Yoga & Fitness Trainers', href: '/categories/wellness-lifestyle', desc: 'Private 1-on-1 and group instructors' },
-  { name: 'Grooming & Spa At-Home', href: '/categories/wellness-lifestyle', desc: 'Specialist care in personal comfort' },
-  { name: 'Nutrition & Diet Consultants', href: '/categories/wellness-lifestyle', desc: 'Custom milestone nutrition planning' },
 ];
 
 export const Navbar: React.FC<NavbarProps> = ({ currentPath, onNavigate }) => {
@@ -49,7 +35,6 @@ export const Navbar: React.FC<NavbarProps> = ({ currentPath, onNavigate }) => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [activeDropdown, setActiveDropdown] = useState<string | null>(null);
-  const [mobileExpandedCat, setMobileExpandedCat] = useState<string | null>(null);
   const navContainerRef = useRef<HTMLElement | null>(null);
   const dropdownTimeoutRef = useRef<number | null>(null);
 
@@ -61,7 +46,18 @@ export const Navbar: React.FC<NavbarProps> = ({ currentPath, onNavigate }) => {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
-  // Handle outside click & Escape key for dropdowns
+  // Lock body scroll when mobile menu is open
+  useEffect(() => {
+    if (mobileMenuOpen) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = '';
+    }
+    return () => {
+      document.body.style.overflow = '';
+    };
+  }, [mobileMenuOpen]);
+
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
       if (navContainerRef.current && !navContainerRef.current.contains(event.target as Node)) {
@@ -89,12 +85,10 @@ export const Navbar: React.FC<NavbarProps> = ({ currentPath, onNavigate }) => {
       if (currentPath !== '/') {
         onNavigate('/');
         setTimeout(() => {
-          const el = document.querySelector(href);
-          el?.scrollIntoView({ behavior: 'smooth' });
+          document.querySelector(href)?.scrollIntoView({ behavior: 'smooth' });
         }, 100);
       } else {
-        const el = document.querySelector(href);
-        el?.scrollIntoView({ behavior: 'smooth' });
+        document.querySelector(href)?.scrollIntoView({ behavior: 'smooth' });
       }
     } else {
       onNavigate(href);
@@ -125,31 +119,11 @@ export const Navbar: React.FC<NavbarProps> = ({ currentPath, onNavigate }) => {
   // Minimal Navbar on /login and /signup
   if (isAuthPage) {
     return (
-      <header
-        style={{
-          position: 'sticky',
-          top: 0,
-          zIndex: 'var(--z-nav)',
-          backgroundColor: isScrolled ? 'var(--nav-bg)' : 'var(--bg-app)',
-          backdropFilter: isScrolled ? 'blur(12px)' : 'none',
-          WebkitBackdropFilter: isScrolled ? 'blur(12px)' : 'none',
-          borderBottom: isScrolled ? '1px solid var(--nav-border)' : '1px solid transparent',
-          transition: 'all var(--transition-normal)',
-        }}
-      >
-        <Container>
-          <div
-            style={{
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'space-between',
-              height: '72px',
-            }}
-          >
-            <Logo variant="full" size="md" onClick={() => handleNavClick('/')} />
-            <ThemeToggle />
-          </div>
-        </Container>
+      <header className="sticky top-0 z-40 bg-[var(--bg-surface)] border-b border-[var(--border)] transition-colors duration-300">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-18 flex items-center justify-between">
+          <Logo size="md" asLink={true} />
+          <ThemeToggle />
+        </div>
       </header>
     );
   }
@@ -157,782 +131,312 @@ export const Navbar: React.FC<NavbarProps> = ({ currentPath, onNavigate }) => {
   return (
     <header
       ref={navContainerRef}
-      style={{
-        position: 'sticky',
-        top: 0,
-        zIndex: 'var(--z-nav)',
-        backgroundColor: isScrolled ? 'var(--nav-bg)' : 'var(--bg-app)',
-        backdropFilter: isScrolled ? 'blur(12px)' : 'none',
-        WebkitBackdropFilter: isScrolled ? 'blur(12px)' : 'none',
-        borderBottom: isScrolled ? '1px solid var(--nav-border)' : '1px solid transparent',
-        transition: 'all var(--transition-normal)',
-      }}
+      className={`sticky top-0 z-40 transition-colors duration-300 ${
+        isScrolled
+          ? 'bg-[var(--bg-surface)]/95 backdrop-blur-md border-b border-[var(--border)]'
+          : 'bg-[var(--bg-surface)] border-b border-[var(--border)]'
+      }`}
     >
-      <Container>
-        <div
-          style={{
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'space-between',
-            height: '72px',
-          }}
-        >
-          {/* Brand Logo */}
-          <div style={{ display: 'flex', alignItems: 'center', flexShrink: 0 }}>
-            <Logo variant="full" size="md" onClick={() => handleNavClick('/')} />
-          </div>
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-18 flex items-center justify-between">
+        {/* Left: Brand Logo */}
+        <div className="flex items-center flex-shrink-0">
+          <Logo size="md" showTagline={true} asLink={true} />
+        </div>
 
-          {/* Desktop Navigation Links — Only shown for Authenticated Marketplace Users */}
-          {isAuthenticated ? (
-            <nav
-              aria-label="Marketplace Navigation"
-              style={{
-                display: 'none',
-                alignItems: 'center',
-                gap: 'clamp(var(--space-3), 1.6vw, var(--space-6))',
-                position: 'relative',
-              }}
-              className="saathi-desktop-nav"
-            >
-              {/* Mega Menu Trigger: Weddings & Events */}
-              <div
-                style={{ position: 'relative' }}
-                onMouseEnter={() => handleMouseEnter('weddings')}
-                onMouseLeave={handleMouseLeave}
-              >
-                <button
-                  type="button"
-                  onClick={() => handleNavClick('/categories/weddings-events')}
-                  aria-expanded={activeDropdown === 'weddings'}
-                  aria-haspopup="true"
-                  style={{
-                    display: 'inline-flex',
-                    alignItems: 'center',
-                    gap: '4px',
-                    fontSize: 'var(--text-sm)',
-                    fontWeight: currentPath.startsWith('/categories/weddings-events') ? 600 : 500,
-                    color: currentPath.startsWith('/categories/weddings-events')
-                      ? 'var(--saathi-maroon)'
-                      : 'var(--text-secondary)',
-                    cursor: 'pointer',
-                    padding: '8px 0',
-                    transition: 'color var(--transition-fast)',
-                    whiteSpace: 'nowrap',
-                  }}
-                  onMouseEnter={(e) => (e.currentTarget.style.color = 'var(--saathi-maroon)')}
-                  onMouseLeave={(e) =>
-                    (e.currentTarget.style.color = currentPath.startsWith('/categories/weddings-events')
-                      ? 'var(--saathi-maroon)'
-                      : 'var(--text-secondary)')
-                  }
-                >
-                  <span>Weddings & Events</span>
-                  <ChevronDown
-                    size={14}
-                    style={{
-                      transform: activeDropdown === 'weddings' ? 'rotate(180deg)' : 'rotate(0deg)',
-                      transition: 'transform var(--transition-fast)',
-                    }}
-                  />
-                </button>
-
-                {/* WEDDINGS MEGA MENU DROPDOWN — 2-COLUMN x 4-ROW */}
-                {activeDropdown === 'weddings' && (
-                  <div
-                    className="animate-slide-down"
-                    role="menu"
-                    style={{
-                      position: 'absolute',
-                      top: '100%',
-                      left: '-60px',
-                      width: '560px',
-                      maxWidth: 'calc(100vw - 32px)',
-                      backgroundColor: 'var(--bg-surface)',
-                      border: '1px solid var(--border-subtle)',
-                      borderRadius: 'var(--radius-xl)',
-                      boxShadow: 'var(--shadow-xl)',
-                      padding: 'var(--space-5)',
-                      zIndex: 100,
-                    }}
-                  >
-                    <div
-                      style={{
-                        display: 'flex',
-                        alignItems: 'center',
-                        justifyContent: 'space-between',
-                        paddingBottom: 'var(--space-3)',
-                        marginBottom: 'var(--space-4)',
-                        borderBottom: '1px solid var(--border-subtle)',
-                      }}
-                    >
-                      <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-                        <Sparkles size={16} color="var(--saathi-maroon)" />
-                        <span
-                          style={{
-                            fontFamily: 'var(--font-serif)',
-                            fontSize: 'var(--text-base)',
-                            fontWeight: 600,
-                            color: 'var(--text-headings)',
-                          }}
-                        >
-                          Weddings & Events Directory
-                        </span>
-                      </div>
-                      <button
-                        type="button"
-                        onClick={() => handleNavClick('/categories/weddings-events')}
-                        style={{
-                          fontSize: 'var(--text-xs)',
-                          fontWeight: 600,
-                          color: 'var(--saathi-maroon)',
-                          cursor: 'pointer',
-                          display: 'inline-flex',
-                          alignItems: 'center',
-                          gap: '4px',
-                        }}
-                      >
-                        <span>View All Verticals</span>
-                        <ArrowRight size={13} />
-                      </button>
-                    </div>
-
-                    {/* 2-Column Grid for A1 to A8 */}
-                    <div
-                      style={{
-                        display: 'grid',
-                        gridTemplateColumns: 'repeat(2, 1fr)',
-                        gap: 'var(--space-2)',
-                      }}
-                    >
-                      {WEDDING_VERTICALS.map((subcat) => (
-                        <button
-                          key={subcat.code}
-                          type="button"
-                          role="menuitem"
-                          onClick={() => handleNavClick(subcat.slug)}
-                          style={{
-                            textAlign: 'left',
-                            display: 'flex',
-                            alignItems: 'center',
-                            gap: '8px',
-                            padding: '0.6rem 0.75rem',
-                            borderRadius: 'var(--radius-md)',
-                            backgroundColor: 'var(--bg-surface-soft)',
-                            border: '1px solid var(--border-subtle)',
-                            cursor: 'pointer',
-                            transition: 'all var(--transition-fast)',
-                          }}
-                          onMouseEnter={(e) => {
-                            e.currentTarget.style.backgroundColor = 'var(--saathi-nude-tint)';
-                            e.currentTarget.style.borderColor = 'var(--saathi-maroon)';
-                          }}
-                          onMouseLeave={(e) => {
-                            e.currentTarget.style.backgroundColor = 'var(--bg-surface-soft)';
-                            e.currentTarget.style.borderColor = 'var(--border-subtle)';
-                          }}
-                        >
-                          <span
-                            style={{
-                              fontSize: 'var(--text-xs)',
-                              fontWeight: 700,
-                              color: 'var(--saathi-maroon)',
-                              backgroundColor: 'var(--bg-surface)',
-                              padding: '2px 6px',
-                              borderRadius: 'var(--radius-sm)',
-                              border: '1px solid var(--border-subtle)',
-                              flexShrink: 0,
-                            }}
-                          >
-                            {subcat.code}
-                          </span>
-                          <span
-                            style={{
-                              fontSize: 'var(--text-xs)',
-                              fontWeight: 600,
-                              color: 'var(--text-headings)',
-                              whiteSpace: 'nowrap',
-                              overflow: 'hidden',
-                              textOverflow: 'ellipsis',
-                            }}
-                          >
-                            {subcat.title}
-                          </span>
-                        </button>
-                      ))}
-                    </div>
-                  </div>
-                )}
-              </div>
-
-              {/* Dropdown: Home & Living */}
-              <div
-                style={{ position: 'relative' }}
-                onMouseEnter={() => handleMouseEnter('home')}
-                onMouseLeave={handleMouseLeave}
-              >
-                <button
-                  type="button"
-                  onClick={() => handleNavClick('/categories/home-spaces')}
-                  aria-expanded={activeDropdown === 'home'}
-                  aria-haspopup="true"
-                  style={{
-                    display: 'inline-flex',
-                    alignItems: 'center',
-                    gap: '4px',
-                    fontSize: 'var(--text-sm)',
-                    fontWeight: currentPath.startsWith('/categories/home-spaces') ? 600 : 500,
-                    color: currentPath.startsWith('/categories/home-spaces')
-                      ? 'var(--saathi-maroon)'
-                      : 'var(--text-secondary)',
-                    cursor: 'pointer',
-                    padding: '8px 0',
-                    transition: 'color var(--transition-fast)',
-                    whiteSpace: 'nowrap',
-                  }}
-                  onMouseEnter={(e) => (e.currentTarget.style.color = 'var(--saathi-maroon)')}
-                  onMouseLeave={(e) =>
-                    (e.currentTarget.style.color = currentPath.startsWith('/categories/home-spaces')
-                      ? 'var(--saathi-maroon)'
-                      : 'var(--text-secondary)')
-                  }
-                >
-                  <span>Home & Living</span>
-                  <ChevronDown
-                    size={14}
-                    style={{
-                      transform: activeDropdown === 'home' ? 'rotate(180deg)' : 'rotate(0deg)',
-                      transition: 'transform var(--transition-fast)',
-                    }}
-                  />
-                </button>
-
-                {activeDropdown === 'home' && (
-                  <div
-                    className="animate-slide-down"
-                    role="menu"
-                    style={{
-                      position: 'absolute',
-                      top: '100%',
-                      left: 0,
-                      width: '320px',
-                      backgroundColor: 'var(--bg-surface)',
-                      border: '1px solid var(--border-subtle)',
-                      borderRadius: 'var(--radius-lg)',
-                      boxShadow: 'var(--shadow-lg)',
-                      padding: 'var(--space-4)',
-                      zIndex: 100,
-                      display: 'flex',
-                      flexDirection: 'column',
-                      gap: 'var(--space-3)',
-                    }}
-                  >
-                    <div style={{ display: 'flex', alignItems: 'center', gap: '6px', marginBottom: '2px' }}>
-                      <Home size={15} color="var(--saathi-maroon)" />
-                      <span style={{ fontSize: 'var(--text-xs)', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.04em', color: 'var(--text-muted)' }}>
-                        Home & Living Spaces
-                      </span>
-                    </div>
-                    {HOME_SERVICES.map((srv) => (
-                      <button
-                        key={srv.name}
-                        type="button"
-                        role="menuitem"
-                        onClick={() => handleNavClick(srv.href)}
-                        style={{
-                          textAlign: 'left',
-                          padding: 'var(--space-2)',
-                          borderRadius: 'var(--radius-md)',
-                          backgroundColor: 'var(--bg-surface-soft)',
-                          cursor: 'pointer',
-                        }}
-                        onMouseEnter={(e) => (e.currentTarget.style.backgroundColor = 'var(--saathi-nude-tint)')}
-                        onMouseLeave={(e) => (e.currentTarget.style.backgroundColor = 'var(--bg-surface-soft)')}
-                      >
-                        <div style={{ fontSize: 'var(--text-xs)', fontWeight: 600, color: 'var(--text-headings)' }}>
-                          {srv.name}
-                        </div>
-                        <div style={{ fontSize: '0.7rem', color: 'var(--text-secondary)', marginTop: '2px' }}>
-                          {srv.desc}
-                        </div>
-                      </button>
-                    ))}
-                  </div>
-                )}
-              </div>
-
-              {/* Dropdown: Wellness & Beauty */}
-              <div
-                style={{ position: 'relative' }}
-                onMouseEnter={() => handleMouseEnter('wellness')}
-                onMouseLeave={handleMouseLeave}
-              >
-                <button
-                  type="button"
-                  onClick={() => handleNavClick('/categories/wellness-lifestyle')}
-                  aria-expanded={activeDropdown === 'wellness'}
-                  aria-haspopup="true"
-                  style={{
-                    display: 'inline-flex',
-                    alignItems: 'center',
-                    gap: '4px',
-                    fontSize: 'var(--text-sm)',
-                    fontWeight: currentPath.startsWith('/categories/wellness-lifestyle') ? 600 : 500,
-                    color: currentPath.startsWith('/categories/wellness-lifestyle')
-                      ? 'var(--saathi-maroon)'
-                      : 'var(--text-secondary)',
-                    cursor: 'pointer',
-                    padding: '8px 0',
-                    transition: 'color var(--transition-fast)',
-                    whiteSpace: 'nowrap',
-                  }}
-                  onMouseEnter={(e) => (e.currentTarget.style.color = 'var(--saathi-maroon)')}
-                  onMouseLeave={(e) =>
-                    (e.currentTarget.style.color = currentPath.startsWith('/categories/wellness-lifestyle')
-                      ? 'var(--saathi-maroon)'
-                      : 'var(--text-secondary)')
-                  }
-                >
-                  <span>Wellness & Beauty</span>
-                  <ChevronDown
-                    size={14}
-                    style={{
-                      transform: activeDropdown === 'wellness' ? 'rotate(180deg)' : 'rotate(0deg)',
-                      transition: 'transform var(--transition-fast)',
-                    }}
-                  />
-                </button>
-
-                {activeDropdown === 'wellness' && (
-                  <div
-                    className="animate-slide-down"
-                    role="menu"
-                    style={{
-                      position: 'absolute',
-                      top: '100%',
-                      left: 0,
-                      width: '320px',
-                      backgroundColor: 'var(--bg-surface)',
-                      border: '1px solid var(--border-subtle)',
-                      borderRadius: 'var(--radius-lg)',
-                      boxShadow: 'var(--shadow-lg)',
-                      padding: 'var(--space-4)',
-                      zIndex: 100,
-                      display: 'flex',
-                      flexDirection: 'column',
-                      gap: 'var(--space-3)',
-                    }}
-                  >
-                    <div style={{ display: 'flex', alignItems: 'center', gap: '6px', marginBottom: '2px' }}>
-                      <Heart size={15} color="var(--saathi-maroon)" />
-                      <span style={{ fontSize: 'var(--text-xs)', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.04em', color: 'var(--text-muted)' }}>
-                        Personal Wellness & Care
-                      </span>
-                    </div>
-                    {WELLNESS_SERVICES.map((srv) => (
-                      <button
-                        key={srv.name}
-                        type="button"
-                        role="menuitem"
-                        onClick={() => handleNavClick(srv.href)}
-                        style={{
-                          textAlign: 'left',
-                          padding: 'var(--space-2)',
-                          borderRadius: 'var(--radius-md)',
-                          backgroundColor: 'var(--bg-surface-soft)',
-                          cursor: 'pointer',
-                        }}
-                        onMouseEnter={(e) => (e.currentTarget.style.backgroundColor = 'var(--saathi-nude-tint)')}
-                        onMouseLeave={(e) => (e.currentTarget.style.backgroundColor = 'var(--bg-surface-soft)')}
-                      >
-                        <div style={{ fontSize: 'var(--text-xs)', fontWeight: 600, color: 'var(--text-headings)' }}>
-                          {srv.name}
-                        </div>
-                        <div style={{ fontSize: '0.7rem', color: 'var(--text-secondary)', marginTop: '2px' }}>
-                          {srv.desc}
-                        </div>
-                      </button>
-                    ))}
-                  </div>
-                )}
-              </div>
-            </nav>
-          ) : null}
-
-          {/* Desktop Right Actions: EXACTLY ONE ThemeToggle */}
+        {/* Center: Desktop Navigation Links (Underline-grow-on-hover, no SaaS pill backgrounds) */}
+        <nav aria-label="Primary Navigation" className="hidden lg:flex items-center gap-8 relative">
+          {/* Mega Menu Trigger: Weddings & Events */}
           <div
-            style={{
-              display: 'none',
-              alignItems: 'center',
-              gap: 'var(--space-4)',
-              flexShrink: 0,
-            }}
-            className="saathi-desktop-actions"
+            className="relative py-2"
+            onMouseEnter={() => handleMouseEnter('weddings')}
+            onMouseLeave={handleMouseLeave}
           >
-            <ThemeToggle />
+            <button
+              type="button"
+              onClick={() => handleNavClick('/categories/weddings-events')}
+              aria-expanded={activeDropdown === 'weddings'}
+              aria-haspopup="true"
+              className="relative py-1 text-xs font-semibold uppercase tracking-wider text-[var(--text-primary)] hover:text-[var(--accent)] transition-colors flex items-center gap-1 group"
+            >
+              <span>Weddings & Events</span>
+              <ChevronDown
+                size={13}
+                className={`transition-transform duration-200 ${
+                  activeDropdown === 'weddings' ? 'rotate-180 text-[var(--accent)]' : ''
+                }`}
+              />
+              {/* Editorial underline indicator */}
+              <span
+                className={`absolute bottom-0 left-0 h-[2px] bg-[var(--accent)] transition-all duration-250 ${
+                  currentPath.startsWith('/categories/weddings-events')
+                    ? 'w-full'
+                    : 'w-0 group-hover:w-full'
+                }`}
+              />
+            </button>
 
-            {isAuthenticated ? (
-              <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--space-3)' }}>
-                <Button
-                  variant="outline"
-                  size="sm"
-                  leftIcon={<User size={14} />}
-                  onClick={() => handleNavClick(dashboardPath)}
-                >
-                  {user?.role === 'professional' ? 'Pro Portal' : 'My Account'}
-                </Button>
-                <button
-                  type="button"
-                  onClick={() => {
-                    logout();
-                    onNavigate('/');
-                  }}
-                  style={{
-                    display: 'inline-flex',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    padding: '0.45rem',
-                    borderRadius: 'var(--radius-md)',
-                    backgroundColor: 'transparent',
-                    color: 'var(--text-muted)',
-                    cursor: 'pointer',
-                    transition: 'color var(--transition-fast)',
-                  }}
-                  onMouseEnter={(e) => (e.currentTarget.style.color = 'var(--saathi-maroon)')}
-                  onMouseLeave={(e) => (e.currentTarget.style.color = 'var(--text-muted)')}
-                  title="Sign Out"
-                  aria-label="Sign Out"
-                >
-                  <LogOut size={16} />
-                </button>
-              </div>
-            ) : (
-              <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--space-3)' }}>
-                <Button variant="ghost" size="sm" onClick={() => handleNavClick('/login')}>
-                  Login
-                </Button>
-                <Button variant="primary" size="sm" onClick={() => handleNavClick('/signup')}>
-                  Get Started
-                </Button>
+            {/* Weddings Mega Menu Dropdown */}
+            {activeDropdown === 'weddings' && (
+              <div
+                className="animate-slide-down absolute top-full left-0 w-[540px] bg-[var(--bg-surface)] border border-[var(--border)] rounded-2xl shadow-lg p-5 z-50"
+                role="menu"
+              >
+                <div className="flex items-center justify-between pb-3 mb-3 border-b border-[var(--border)]">
+                  <div className="flex items-center gap-2 text-xs font-heading font-semibold text-[var(--text-primary)]">
+                    <Sparkles size={14} className="text-[var(--accent)]" />
+                    <span>Curated Milestone Verticals</span>
+                  </div>
+                  <Link
+                    href="/categories/weddings-events"
+                    onClick={() => setActiveDropdown(null)}
+                    className="text-[11px] font-semibold text-[var(--accent)] hover:underline inline-flex items-center gap-1"
+                  >
+                    <span>Directory</span>
+                    <ArrowRight size={12} strokeWidth={2} />
+                  </Link>
+                </div>
+
+                <div className="grid grid-cols-2 gap-2">
+                  {WEDDING_VERTICALS.map((subcat) => (
+                    <Link
+                      key={subcat.code}
+                      href={subcat.slug}
+                      role="menuitem"
+                      onClick={() => setActiveDropdown(null)}
+                      className="flex items-center gap-2.5 p-2 rounded-xl border border-transparent hover:border-[var(--border)] hover:bg-[var(--bg-base)] transition-all group"
+                    >
+                      <span className="text-[10px] font-bold text-[var(--accent)] bg-[var(--bg-base)] px-1.5 py-0.5 rounded border border-[var(--border)]">
+                        {subcat.code}
+                      </span>
+                      <span className="text-xs font-medium text-[var(--text-primary)] group-hover:text-[var(--accent)] transition-colors truncate">
+                        {subcat.title}
+                      </span>
+                    </Link>
+                  ))}
+                </div>
               </div>
             )}
           </div>
 
-          {/* Mobile Right Actions: Exactly ONE ThemeToggle + ONE Menu Button */}
-          <div
-            style={{
-              display: 'flex',
-              alignItems: 'center',
-              gap: 'var(--space-2)',
-              flexShrink: 0,
-            }}
-            className="saathi-mobile-actions"
+          {/* Direct Link: Music & Entertainment */}
+          <Link
+            href="/categories/weddings-events/entertainment"
+            className="relative py-1 text-xs font-semibold uppercase tracking-wider text-[var(--text-primary)] hover:text-[var(--accent)] transition-colors group"
           >
-            <ThemeToggle />
-            <button
-              type="button"
-              onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-              aria-label={mobileMenuOpen ? 'Close menu' : 'Open menu'}
-              aria-expanded={mobileMenuOpen}
-              style={{
-                display: 'inline-flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                width: '40px',
-                height: '40px',
-                borderRadius: 'var(--radius-md)',
-                backgroundColor: 'var(--bg-surface-soft)',
-                color: 'var(--text-primary)',
-                cursor: 'pointer',
-              }}
-            >
-              {mobileMenuOpen ? <X size={20} /> : <Menu size={20} />}
-            </button>
-          </div>
+            <span>Music & Live Acts</span>
+            <span
+              className={`absolute bottom-0 left-0 h-[2px] bg-[var(--accent)] transition-all duration-250 ${
+                currentPath === '/categories/weddings-events/entertainment'
+                  ? 'w-full'
+                  : 'w-0 group-hover:w-full'
+              }`}
+            />
+          </Link>
+
+          {/* Direct Link: FAQ */}
+          <Link
+            href="/faq"
+            className="relative py-1 text-xs font-semibold uppercase tracking-wider text-[var(--text-primary)] hover:text-[var(--accent)] transition-colors group"
+          >
+            <span>FAQ</span>
+            <span
+              className={`absolute bottom-0 left-0 h-[2px] bg-[var(--accent)] transition-all duration-250 ${
+                currentPath === '/faq' ? 'w-full' : 'w-0 group-hover:w-full'
+              }`}
+            />
+          </Link>
+
+          {/* Direct Link: Contact */}
+          <Link
+            href="/contact"
+            className="relative py-1 text-xs font-semibold uppercase tracking-wider text-[var(--text-primary)] hover:text-[var(--accent)] transition-colors group"
+          >
+            <span>Concierge</span>
+            <span
+              className={`absolute bottom-0 left-0 h-[2px] bg-[var(--accent)] transition-all duration-250 ${
+                currentPath === '/contact' ? 'w-full' : 'w-0 group-hover:w-full'
+              }`}
+            />
+          </Link>
+        </nav>
+
+        {/* Right: Actions (Clean editorial CTA, not heavy filled blocks) */}
+        <div className="hidden lg:flex items-center gap-4">
+          <ThemeToggle />
+
+          {isAuthenticated ? (
+            <div className="flex items-center gap-3">
+              <Link
+                href={dashboardPath}
+                className="px-4 py-2 rounded-xl border border-[var(--border)] text-xs font-semibold text-[var(--text-primary)] hover:border-[var(--accent)] hover:text-[var(--accent)] active:scale-[0.97] transition-all inline-flex items-center gap-1.5"
+              >
+                <User size={13} strokeWidth={2} />
+                <span>{user?.role === 'professional' ? 'Pro Portal' : 'My Account'}</span>
+              </Link>
+              <button
+                type="button"
+                onClick={() => {
+                  logout();
+                  onNavigate('/');
+                }}
+                className="p-2 rounded-xl text-[var(--text-muted)] hover:text-[var(--accent)] transition-colors"
+                title="Sign Out"
+                aria-label="Sign Out"
+              >
+                <LogOut size={16} strokeWidth={1.75} />
+              </button>
+            </div>
+          ) : (
+            <div className="flex items-center gap-3">
+              <Link
+                href="/login"
+                className="px-3 py-2 text-xs font-semibold text-[var(--text-primary)] hover:text-[var(--accent)] transition-colors"
+              >
+                Login
+              </Link>
+              <Link
+                href="/signup"
+                className="px-4 py-2 rounded-xl border border-[var(--accent)] text-[var(--accent)] hover:bg-[var(--accent)] hover:text-[var(--text-inverse)] active:scale-[0.97] text-xs font-semibold transition-all"
+              >
+                Get Started
+              </Link>
+            </div>
+          )}
         </div>
 
-        {/* Mobile Navigation Drawer */}
-        {mobileMenuOpen && (
-          <div
-            className="animate-slide-down"
-            style={{
-              padding: 'var(--space-6) 0',
-              borderTop: '1px solid var(--border-subtle)',
-              display: 'flex',
-              flexDirection: 'column',
-              gap: 'var(--space-3)',
-              maxHeight: 'calc(100vh - 80px)',
-              overflowY: 'auto',
-            }}
+        {/* Mobile Toggle Button */}
+        <div className="flex lg:hidden items-center gap-2">
+          <ThemeToggle />
+          <button
+            type="button"
+            onClick={() => setMobileMenuOpen(true)}
+            aria-label="Open navigation menu"
+            className="w-10 h-10 rounded-xl border border-[var(--border)] bg-[var(--bg-surface)] flex items-center justify-center text-[var(--text-primary)] active:scale-95 transition-transform"
           >
-            {/* Authenticated Marketplace Navigation for Mobile */}
-            {isAuthenticated ? (
-              <>
-                {/* Expandable Accordion: Weddings & Events */}
-                <div>
-                  <button
-                    type="button"
-                    onClick={() =>
-                      setMobileExpandedCat(mobileExpandedCat === 'weddings' ? null : 'weddings')
-                    }
-                    style={{
-                      width: '100%',
-                      display: 'flex',
-                      alignItems: 'center',
-                      justifyContent: 'space-between',
-                      padding: 'var(--space-2) 0',
-                      fontSize: 'var(--text-base)',
-                      fontWeight: 600,
-                      color: 'var(--text-headings)',
-                      cursor: 'pointer',
-                    }}
-                  >
-                    <span>Weddings & Events</span>
-                    <ChevronDown
-                      size={16}
-                      style={{
-                        transform: mobileExpandedCat === 'weddings' ? 'rotate(180deg)' : 'rotate(0deg)',
-                        transition: 'transform var(--transition-fast)',
-                      }}
-                    />
-                  </button>
+            <Menu size={20} strokeWidth={1.75} />
+          </button>
+        </div>
+      </div>
 
-                  {mobileExpandedCat === 'weddings' && (
-                    <div
-                      style={{
-                        padding: 'var(--space-3)',
-                        backgroundColor: 'var(--bg-surface-soft)',
-                        borderRadius: 'var(--radius-md)',
-                        marginTop: 'var(--space-1)',
-                        display: 'flex',
-                        flexDirection: 'column',
-                        gap: 'var(--space-2)',
-                      }}
-                    >
-                      {WEDDING_VERTICALS.map((subcat) => (
-                        <button
-                          key={subcat.code}
-                          type="button"
-                          onClick={() => handleNavClick(subcat.slug)}
-                          style={{
-                            textAlign: 'left',
-                            display: 'flex',
-                            alignItems: 'center',
-                            gap: '8px',
-                            padding: '0.5rem 0.65rem',
-                            borderRadius: 'var(--radius-sm)',
-                            backgroundColor: 'var(--bg-surface)',
-                            border: '1px solid var(--border-subtle)',
-                            cursor: 'pointer',
-                          }}
-                        >
-                          <span
-                            style={{
-                              fontSize: '0.7rem',
-                              fontWeight: 700,
-                              color: 'var(--saathi-maroon)',
-                              flexShrink: 0,
-                            }}
-                          >
-                            {subcat.code}
-                          </span>
-                          <span
-                            style={{
-                              fontSize: 'var(--text-xs)',
-                              fontWeight: 600,
-                              color: 'var(--text-headings)',
-                            }}
-                          >
-                            {subcat.title}
-                          </span>
-                        </button>
-                      ))}
-                      <button
-                        type="button"
-                        onClick={() => handleNavClick('/categories/weddings-events')}
-                        style={{
-                          fontSize: 'var(--text-xs)',
-                          fontWeight: 700,
-                          color: 'var(--saathi-maroon)',
-                          textAlign: 'center',
-                          padding: 'var(--space-2)',
-                          borderTop: '1px solid var(--border-subtle)',
-                          marginTop: 'var(--space-1)',
-                          cursor: 'pointer',
-                        }}
-                      >
-                        View All Weddings & Events →
-                      </button>
-                    </div>
-                  )}
-                </div>
+      {/* =====================================================================
+          MOBILE FULL-SCREEN EDITORIAL OVERLAY MENU
+          No capsule buttons, generous padding, full-tap-width, staggered animation
+          ===================================================================== */}
+      <AnimatePresence>
+        {mobileMenuOpen && (
+          <motion.div
+            initial={{ opacity: 0, y: -10 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -10 }}
+            transition={{ duration: 0.25, ease: [0.4, 0, 0.2, 1] }}
+            className="fixed inset-0 z-50 bg-[var(--bg-surface)] flex flex-col justify-between p-6 sm:p-8 overflow-y-auto lg:hidden"
+          >
+            {/* Top Bar inside Overlay */}
+            <div className="flex items-center justify-between pb-6 border-b border-[var(--border)]">
+              <Logo size="md" showTagline={false} asLink={true} onClick={() => setMobileMenuOpen(false)} />
+              <div className="flex items-center gap-3">
+                <ThemeToggle />
+                <button
+                  type="button"
+                  onClick={() => setMobileMenuOpen(false)}
+                  aria-label="Close navigation menu"
+                  className="w-10 h-10 rounded-xl border border-[var(--border)] bg-[var(--bg-base)] flex items-center justify-center text-[var(--text-primary)] active:scale-95 transition-transform"
+                >
+                  <X size={20} strokeWidth={2} />
+                </button>
+              </div>
+            </div>
 
-                {/* Expandable Accordion: Home & Living */}
-                <div>
-                  <button
-                    type="button"
-                    onClick={() => setMobileExpandedCat(mobileExpandedCat === 'home' ? null : 'home')}
-                    style={{
-                      width: '100%',
-                      display: 'flex',
-                      alignItems: 'center',
-                      justifyContent: 'space-between',
-                      padding: 'var(--space-2) 0',
-                      fontSize: 'var(--text-base)',
-                      fontWeight: 600,
-                      color: 'var(--text-headings)',
-                      cursor: 'pointer',
-                    }}
-                  >
-                    <span>Home & Living</span>
-                    <ChevronDown
-                      size={16}
-                      style={{
-                        transform: mobileExpandedCat === 'home' ? 'rotate(180deg)' : 'rotate(0deg)',
-                        transition: 'transform var(--transition-fast)',
-                      }}
-                    />
-                  </button>
-
-                  {mobileExpandedCat === 'home' && (
-                    <div
-                      style={{
-                        padding: 'var(--space-3)',
-                        backgroundColor: 'var(--bg-surface-soft)',
-                        borderRadius: 'var(--radius-md)',
-                        marginTop: 'var(--space-1)',
-                        display: 'flex',
-                        flexDirection: 'column',
-                        gap: 'var(--space-2)',
-                      }}
-                    >
-                      {HOME_SERVICES.map((srv) => (
-                        <button
-                          key={srv.name}
-                          type="button"
-                          onClick={() => handleNavClick(srv.href)}
-                          style={{
-                            textAlign: 'left',
-                            fontSize: 'var(--text-xs)',
-                            color: 'var(--text-secondary)',
-                            padding: '4px 0',
-                            cursor: 'pointer',
-                          }}
-                        >
-                          • {srv.name}
-                        </button>
-                      ))}
-                    </div>
-                  )}
-                </div>
-
-                {/* Expandable Accordion: Wellness & Beauty */}
-                <div>
-                  <button
-                    type="button"
-                    onClick={() => setMobileExpandedCat(mobileExpandedCat === 'wellness' ? null : 'wellness')}
-                    style={{
-                      width: '100%',
-                      display: 'flex',
-                      alignItems: 'center',
-                      justifyContent: 'space-between',
-                      padding: 'var(--space-2) 0',
-                      fontSize: 'var(--text-base)',
-                      fontWeight: 600,
-                      color: 'var(--text-headings)',
-                      cursor: 'pointer',
-                    }}
-                  >
-                    <span>Wellness & Beauty</span>
-                    <ChevronDown
-                      size={16}
-                      style={{
-                        transform: mobileExpandedCat === 'wellness' ? 'rotate(180deg)' : 'rotate(0deg)',
-                        transition: 'transform var(--transition-fast)',
-                      }}
-                    />
-                  </button>
-
-                  {mobileExpandedCat === 'wellness' && (
-                    <div
-                      style={{
-                        padding: 'var(--space-3)',
-                        backgroundColor: 'var(--bg-surface-soft)',
-                        borderRadius: 'var(--radius-md)',
-                        marginTop: 'var(--space-1)',
-                        display: 'flex',
-                        flexDirection: 'column',
-                        gap: 'var(--space-2)',
-                      }}
-                    >
-                      {WELLNESS_SERVICES.map((srv) => (
-                        <button
-                          key={srv.name}
-                          type="button"
-                          onClick={() => handleNavClick(srv.href)}
-                          style={{
-                            textAlign: 'left',
-                            fontSize: 'var(--text-xs)',
-                            color: 'var(--text-secondary)',
-                            padding: '4px 0',
-                            cursor: 'pointer',
-                          }}
-                        >
-                          • {srv.name}
-                        </button>
-                      ))}
-                    </div>
-                  )}
-                </div>
-              </>
-            ) : null}
-
-            {/* Mobile Auth CTAs */}
-            <div
-              style={{
-                display: 'flex',
-                flexDirection: 'column',
-                gap: 'var(--space-3)',
-                paddingTop: 'var(--space-4)',
-                borderTop: '1px solid var(--border-subtle)',
+            {/* Vertical Stacked Navigation Links (Generous padding, full-tap-width) */}
+            <motion.div
+              initial="closed"
+              animate="open"
+              variants={{
+                open: {
+                  transition: { staggerChildren: 0.04, delayChildren: 0.05 },
+                },
+                closed: {},
               }}
+              className="py-6 space-y-1 flex-1 flex flex-col justify-center"
             >
-              {isAuthenticated ? (
-                <>
-                  <Button
-                    variant="primary"
-                    fullWidth
-                    leftIcon={<User size={16} />}
-                    onClick={() => handleNavClick(dashboardPath)}
+              {[
+                { title: 'Home', href: '/' },
+                { title: 'All Weddings & Events', href: '/categories/weddings-events' },
+                { title: 'Wedding Planning & Coordination', href: '/categories/weddings-events/planning' },
+                { title: 'Music & Entertainment', href: '/categories/weddings-events/entertainment' },
+                { title: 'Frequently Asked Questions', href: '/faq' },
+                { title: 'Concierge Desk', href: '/contact' },
+              ].map((item, idx) => (
+                <motion.div
+                  key={idx}
+                  variants={{
+                    open: { opacity: 1, y: 0 },
+                    closed: { opacity: 0, y: 12 },
+                  }}
+                  transition={{ duration: 0.25, ease: [0.4, 0, 0.2, 1] }}
+                >
+                  <Link
+                    href={item.href}
+                    onClick={() => setMobileMenuOpen(false)}
+                    className="block w-full py-3.5 px-2 text-xl font-heading font-medium text-[var(--text-primary)] hover:text-[var(--accent)] border-b border-[var(--border)]/50 transition-colors"
                   >
-                    Go to {user?.role === 'professional' ? 'Pro Portal' : 'My Account'}
-                  </Button>
-                  <Button
-                    variant="ghost"
-                    fullWidth
-                    leftIcon={<LogOut size={16} />}
+                    {item.title}
+                  </Link>
+                </motion.div>
+              ))}
+            </motion.div>
+
+            {/* Bottom Actions inside Overlay */}
+            <div className="pt-6 border-t border-[var(--border)] space-y-4">
+              {isAuthenticated ? (
+                <div className="space-y-3">
+                  <Link
+                    href={dashboardPath}
+                    onClick={() => setMobileMenuOpen(false)}
+                    className="w-full py-3.5 px-4 rounded-xl border border-[var(--border)] text-sm font-semibold text-[var(--text-primary)] flex items-center justify-center gap-2 hover:border-[var(--accent)] transition-colors"
+                  >
+                    <User size={16} />
+                    <span>{user?.role === 'professional' ? 'Pro Portal' : 'My Account'}</span>
+                  </Link>
+                  <button
+                    type="button"
                     onClick={() => {
                       logout();
                       setMobileMenuOpen(false);
                       onNavigate('/');
                     }}
+                    className="w-full py-2.5 text-xs font-semibold text-[var(--text-muted)] hover:text-[var(--accent)] text-center transition-colors"
                   >
                     Sign Out
-                  </Button>
-                </>
+                  </button>
+                </div>
               ) : (
-                <>
-                  <Button variant="ghost" fullWidth onClick={() => handleNavClick('/login')}>
+                <div className="grid grid-cols-2 gap-3">
+                  <Link
+                    href="/login"
+                    onClick={() => setMobileMenuOpen(false)}
+                    className="py-3 px-4 rounded-xl border border-[var(--border)] text-xs font-semibold text-[var(--text-primary)] text-center hover:border-[var(--accent)] transition-colors"
+                  >
                     Login
-                  </Button>
-                  <Button variant="primary" fullWidth onClick={() => handleNavClick('/signup')}>
+                  </Link>
+                  <Link
+                    href="/signup"
+                    onClick={() => setMobileMenuOpen(false)}
+                    className="py-3 px-4 rounded-xl border border-[var(--accent)] text-[var(--accent)] hover:bg-[var(--accent)] hover:text-[var(--text-inverse)] text-xs font-semibold text-center transition-all"
+                  >
                     Get Started
-                  </Button>
-                </>
+                  </Link>
+                </div>
               )}
+
+              <div className="flex items-center justify-between text-[11px] text-[var(--text-muted)] pt-2">
+                <span>Saathi • Simpler 2 Gather</span>
+                <span>BKC, Mumbai</span>
+              </div>
             </div>
-          </div>
+          </motion.div>
         )}
-      </Container>
+      </AnimatePresence>
     </header>
   );
 };
