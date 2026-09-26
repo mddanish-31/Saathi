@@ -85,7 +85,8 @@ export const MASTER_WEDDINGS_CATEGORY = {
       code: 'A7',
       name: 'Decor, Styling & Wedding Essentials',
       description: 'Decoration & styling, floral mandaps, ambient lighting, furniture rental, wedding fashion, jewellery, and invites.',
-      isActive: false,
+      isActive: true,
+      itemCount: '7 Dedicated Services',
     },
     {
       id: 'a8-wedding-transportation',

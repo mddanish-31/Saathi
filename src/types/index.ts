@@ -172,6 +172,16 @@ export interface Professional {
   amenities?: string[];
   venueSpaces?: VenueSpace[];
   policies?: string[];
+  /* Optional, backward-compatible decor, styling & wedding essentials metadata (A7). */
+  decorStyles?: string[];
+  eventFunctions?: string[];
+  serviceSpecialties?: string[];
+  venueTypesSupported?: string[];
+  rentalOrPurchase?: 'Purchase' | 'Rental' | 'Both';
+  productTypes?: string[];
+  lightingTypes?: string[];
+  furnitureTypes?: string[];
+  flowerPreferences?: string[];
 }
 
 export interface VenueSpace {

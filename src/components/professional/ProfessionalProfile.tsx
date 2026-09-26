@@ -636,6 +636,105 @@ export const ProfessionalProfile: React.FC<ProfessionalProfileProps> = ({
                   </div>
                 )}
 
+                {/* Decor & Styling Details — optional, only rendered when a professional supplies them (A7) */}
+                {(professional.decorStyles || professional.eventFunctions || professional.serviceSpecialties) && (
+                  <div
+                    style={{
+                      backgroundColor: 'var(--bg-surface)',
+                      padding: 'var(--space-6)',
+                      borderRadius: 'var(--radius-lg)',
+                      border: '1px solid var(--border-subtle)',
+                    }}
+                  >
+                    <h3
+                      style={{
+                        fontFamily: 'var(--font-serif)',
+                        fontSize: 'var(--text-lg)',
+                        color: 'var(--text-headings)',
+                        marginBottom: 'var(--space-4)',
+                      }}
+                    >
+                      Decor, Styling & Celebration Capabilities
+                    </h3>
+
+                    {professional.decorStyles && professional.decorStyles.length > 0 && (
+                      <div style={{ marginBottom: 'var(--space-4)' }}>
+                        <span style={{ fontSize: '0.75rem', color: 'var(--text-muted)', display: 'block', marginBottom: 'var(--space-2)' }}>
+                          Signature Aesthetics & Decor Styles
+                        </span>
+                        <div style={{ display: 'flex', flexWrap: 'wrap', gap: '6px' }}>
+                          {professional.decorStyles.map((style) => (
+                            <span
+                              key={style}
+                              style={{
+                                fontSize: '0.75rem',
+                                padding: '0.3rem 0.7rem',
+                                borderRadius: 'var(--radius-full)',
+                                backgroundColor: 'var(--saathi-nude-tint)',
+                                color: 'var(--saathi-maroon)',
+                                fontWeight: 600,
+                                border: '1px solid var(--border-subtle)',
+                              }}
+                            >
+                              {style}
+                            </span>
+                          ))}
+                        </div>
+                      </div>
+                    )}
+
+                    {professional.eventFunctions && professional.eventFunctions.length > 0 && (
+                      <div style={{ marginBottom: 'var(--space-4)' }}>
+                        <span style={{ fontSize: '0.75rem', color: 'var(--text-muted)', display: 'block', marginBottom: 'var(--space-2)' }}>
+                          Specialized Celebration Functions
+                        </span>
+                        <div style={{ display: 'flex', flexWrap: 'wrap', gap: '6px' }}>
+                          {professional.eventFunctions.map((fn) => (
+                            <span
+                              key={fn}
+                              style={{
+                                fontSize: '0.75rem',
+                                padding: '0.25rem 0.65rem',
+                                borderRadius: 'var(--radius-md)',
+                                backgroundColor: 'var(--bg-surface-soft)',
+                                color: 'var(--text-secondary)',
+                                border: '1px solid var(--border-subtle)',
+                              }}
+                            >
+                              {fn}
+                            </span>
+                          ))}
+                        </div>
+                      </div>
+                    )}
+
+                    {professional.serviceSpecialties && professional.serviceSpecialties.length > 0 && (
+                      <div>
+                        <span style={{ fontSize: '0.75rem', color: 'var(--text-muted)', display: 'block', marginBottom: 'var(--space-2)' }}>
+                          Core Deliverables & Capabilities
+                        </span>
+                        <ul style={{ listStyle: 'none', padding: 0, margin: 0, display: 'flex', flexDirection: 'column', gap: '6px' }}>
+                          {professional.serviceSpecialties.map((spec) => (
+                            <li
+                              key={spec}
+                              style={{
+                                fontSize: 'var(--text-xs)',
+                                color: 'var(--text-secondary)',
+                                display: 'flex',
+                                alignItems: 'center',
+                                gap: '6px',
+                              }}
+                            >
+                              <CheckCircle2 size={13} style={{ color: 'var(--saathi-maroon)' }} />
+                              <span>{spec}</span>
+                            </li>
+                          ))}
+                        </ul>
+                      </div>
+                    )}
+                  </div>
+                )}
+
                 {/* Cities Served */}
                 <div
                   style={{

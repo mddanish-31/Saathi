@@ -137,8 +137,8 @@ export const WEDDING_SUBCATEGORIES_CANONICAL: MarketplaceSubCategory[] = [
     slug: 'decor-styling-essentials',
     description:
       'Visionary floral designers, thematic mandap architects, ambient lighting specialists, furniture rentals, and bespoke invitations.',
-    badge: 'Coming Soon',
-    isActive: false,
+    badge: 'Active Flow',
+    isActive: true,
     plannedServices: [
       'Decoration & Styling',
       'Florists',
