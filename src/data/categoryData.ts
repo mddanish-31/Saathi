@@ -156,8 +156,8 @@ export const WEDDING_SUBCATEGORIES_CANONICAL: MarketplaceSubCategory[] = [
     slug: 'wedding-transportation',
     description:
       'Vintage bridal cars, luxury guest transit coaches, chauffeur services, and seamless airport reception convoys.',
-    badge: 'Coming Soon',
-    isActive: false,
+    badge: 'Active Flow',
+    isActive: true,
     plannedServices: [
       'Wedding Cars',
       'Luxury Cars',

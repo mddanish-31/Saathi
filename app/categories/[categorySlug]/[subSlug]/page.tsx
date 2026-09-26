@@ -6,6 +6,7 @@ import { PhotographyPage } from '../../../../src/views/PhotographyPage';
 import { MusicEntertainmentPage } from '../../../../src/views/MusicEntertainmentPage';
 import { CateringPage } from '../../../../src/views/CateringPage';
 import { WeddingVenuesPage } from '../../../../src/views/WeddingVenuesPage';
+import { TransportationPage } from '../../../../src/views/TransportationPage';
 import { PlaceholderPage } from '../../../../src/views/PlaceholderPage';
 import { getWeddingSubCategoryBySlug } from '../../../../src/data/categoryData';
 
@@ -37,6 +38,9 @@ export default function Page() {
     }
     if (subSlug === 'wedding-venues') {
       return <WeddingVenuesPage onNavigate={handleNavigate} />;
+    }
+    if (subSlug === 'wedding-transportation') {
+      return <TransportationPage onNavigate={handleNavigate} />;
     }
   }
 

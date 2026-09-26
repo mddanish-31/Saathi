@@ -93,7 +93,8 @@ export const MASTER_WEDDINGS_CATEGORY = {
       code: 'A8',
       name: 'Wedding Transportation',
       description: 'Vintage & luxury wedding cars, professional chauffeurs, and coordinated guest fleet logistics.',
-      isActive: false,
+      isActive: true,
+      itemCount: '6 Fleet Options',
     },
   ] as SubCategoryItem[],
 };
