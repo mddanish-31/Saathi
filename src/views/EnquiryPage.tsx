@@ -9,7 +9,7 @@ import { EnquiryForm } from '../components/enquiry/EnquiryForm';
 import { SuccessState } from '../components/enquiry/SuccessState';
 import { Container } from '../components/ui/Container';
 import { Button } from '../components/ui/Button';
-import { EnquiryData } from '../types';
+import { EnquiryData, Professional } from '../types';
 
 interface EnquiryPageProps {
   professionalId: string;
@@ -24,8 +24,28 @@ export const EnquiryPage: React.FC<EnquiryPageProps> = ({
   const { createEnquiry } = useEnquiry();
 
   const [submittedEnquiry, setSubmittedEnquiry] = useState<EnquiryData | null>(null);
+  const [professional, setProfessional] = useState<Professional | null>(() => getProfessionalById(professionalId) || null);
 
-  const professional = getProfessionalById(professionalId);
+  useEffect(() => {
+    let isMounted = true;
+    async function fetchProfessional() {
+      try {
+        const res = await fetch(`/api/professionals/${professionalId}`);
+        if (res.ok) {
+          const data = await res.json();
+          if (isMounted && data && data.id) {
+            setProfessional(data);
+          }
+        }
+      } catch (err) {
+        console.error('Failed to fetch professional for enquiry:', err);
+      }
+    }
+    fetchProfessional();
+    return () => {
+      isMounted = false;
+    };
+  }, [professionalId]);
 
   // Auth Protection: If user is logged out, redirect to login preserving returnTo
   useEffect(() => {
@@ -114,8 +134,8 @@ export const EnquiryPage: React.FC<EnquiryPageProps> = ({
     );
   }
 
-  const handleEnquirySubmit = (payload: Omit<EnquiryData, 'id' | 'createdAt' | 'status'>) => {
-    const created = createEnquiry(payload);
+  const handleEnquirySubmit = async (payload: Omit<EnquiryData, 'id' | 'createdAt' | 'status'>) => {
+    const created = await createEnquiry(payload);
     setSubmittedEnquiry(created);
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };

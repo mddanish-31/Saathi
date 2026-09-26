@@ -31,7 +31,7 @@ export const SignupPage: React.FC<SignupPageProps> = ({ onNavigate, returnTo: pr
       ? new URLSearchParams(window.location.search).get('returnTo') || undefined
       : undefined);
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!name.trim()) {
       setError('Please enter your full name.');
@@ -64,13 +64,19 @@ export const SignupPage: React.FC<SignupPageProps> = ({ onNavigate, returnTo: pr
 
     setError(null);
 
-    signup({
+    const res = await signup({
       name,
       email,
       phone,
       role,
       businessName: role === 'professional' ? businessName : undefined,
+      password,
     });
+
+    if (res && res.error) {
+      setError(res.error);
+      return;
+    }
 
     if (role === 'professional') {
       onNavigate('/professional/dashboard');

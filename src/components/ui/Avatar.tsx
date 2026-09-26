@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import Image from 'next/image';
 
 interface AvatarProps {
   src?: string;
@@ -22,6 +23,8 @@ export const Avatar: React.FC<AvatarProps> = ({
     if (words.length === 1) return words[0].charAt(0).toUpperCase();
     return (words[0].charAt(0) + words[1].charAt(0)).toUpperCase();
   };
+
+  const dimension = size === 'sm' ? 32 : size === 'lg' ? 64 : 48;
 
   const getSizeStyles = (): React.CSSProperties => {
     switch (size) {
@@ -71,10 +74,13 @@ export const Avatar: React.FC<AvatarProps> = ({
       title={name}
     >
       {showImage ? (
-        <img
-          src={src}
+        <Image
+          src={src!}
           alt={name}
+          width={dimension}
+          height={dimension}
           onError={() => setImageError(true)}
+          unoptimized={src?.startsWith('data:') || src?.startsWith('blob:')}
           style={{
             width: '100%',
             height: '100%',

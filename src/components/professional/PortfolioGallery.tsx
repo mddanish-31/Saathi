@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import Image from 'next/image';
 import { X, MapPin, ZoomIn, Play, Music2, Camera } from 'lucide-react';
 import { PortfolioItem } from '../../types';
 import { ImagePlaceholder } from '../ui/ImagePlaceholder';
@@ -77,14 +78,14 @@ export const PortfolioGallery: React.FC<PortfolioGalleryProps> = ({
               }}
             >
               {item.imageUrl ? (
-                <img
+                <Image
                   src={item.imageUrl}
                   alt={item.title}
+                  fill
+                  sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                  unoptimized={item.imageUrl.startsWith('data:')}
                   style={{
-                    width: '100%',
-                    height: '100%',
                     objectFit: 'cover',
-                    display: 'block',
                   }}
                 />
               ) : (
@@ -301,15 +302,16 @@ export const PortfolioGallery: React.FC<PortfolioGalleryProps> = ({
               <X size={18} />
             </button>
 
-            {/* High-res Image Preview (or Video/Audio placeholder \u2014 mock UI, no real playback) */}
+            {/* High-res Image Preview (or Video/Audio placeholder — mock UI, no real playback) */}
             <div style={{ width: '100%', height: '360px', backgroundColor: 'var(--bg-surface-soft)', overflow: 'hidden', position: 'relative' }}>
               {selectedItem.imageUrl ? (
-                <img
+                <Image
                   src={selectedItem.imageUrl}
                   alt={selectedItem.title}
+                  fill
+                  sizes="(max-width: 768px) 100vw, 700px"
+                  unoptimized={selectedItem.imageUrl.startsWith('data:')}
                   style={{
-                    width: '100%',
-                    height: '100%',
                     objectFit: 'cover',
                     filter: selectedItem.type === 'video' || selectedItem.type === 'audio' ? 'brightness(0.55)' : undefined,
                   }}

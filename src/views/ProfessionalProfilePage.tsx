@@ -1,7 +1,7 @@
 "use client";
 
-import React from 'react';
-import { ArrowLeft, UserX } from 'lucide-react';
+import React, { useState, useEffect } from 'react';
+import { ArrowLeft, UserX, Loader2 } from 'lucide-react';
 import { getProfessionalById } from '../data/professionalDirectory';
 import { ProfessionalProfile } from '../components/professional/ProfessionalProfile';
 import { Container } from '../components/ui/Container';
@@ -17,11 +17,43 @@ export const ProfessionalProfilePage: React.FC<ProfessionalProfilePageProps> = (
   professionalId,
   onNavigate,
 }) => {
-  const professional = getProfessionalById(professionalId);
+  const [professional, setProfessional] = useState<Professional | null>(() => getProfessionalById(professionalId) || null);
+  const [loading, setLoading] = useState<boolean>(true);
+
+  useEffect(() => {
+    let isMounted = true;
+    async function fetchProfessional() {
+      try {
+        const res = await fetch(`/api/professionals/${professionalId}`);
+        if (res.ok) {
+          const data = await res.json();
+          if (isMounted && data && data.id) {
+            setProfessional(data);
+          }
+        }
+      } catch (err) {
+        console.error('Failed to fetch professional profile:', err);
+      } finally {
+        if (isMounted) setLoading(false);
+      }
+    }
+    fetchProfessional();
+    return () => {
+      isMounted = false;
+    };
+  }, [professionalId]);
 
   const handleEnquire = (pro: Professional) => {
     onNavigate(`/professionals/${pro.id}/enquire`);
   };
+
+  if (loading && !professional) {
+    return (
+      <div style={{ minHeight: '60vh', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+        <Loader2 className="animate-spin text-saathi-maroon" size={36} />
+      </div>
+    );
+  }
 
   if (!professional) {
     return (

@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useMemo } from 'react';
+import React, { useState, useMemo, useEffect } from 'react';
 import { A3_SERVICES, A3_MOCK_PROFESSIONALS } from '../data/musicEntertainmentData';
 import { CategoryHero } from '../components/category/CategoryHero';
 import { ServiceCard } from '../components/category/ServiceCard';
@@ -19,8 +19,41 @@ export const MusicEntertainmentPage: React.FC<MusicEntertainmentPageProps> = ({
   activeServiceSlug,
   onNavigate,
 }) => {
+  const [services, setServices] = useState<ServiceItem[]>(A3_SERVICES);
+  const [professionals, setProfessionals] = useState<Professional[]>(A3_MOCK_PROFESSIONALS);
+
+  useEffect(() => {
+    let isMounted = true;
+    async function loadData() {
+      try {
+        const [prosRes, srvsRes] = await Promise.all([
+          fetch('/api/professionals?category=music-entertainment&limit=20'),
+          fetch('/api/services?category=music-entertainment'),
+        ]);
+        if (prosRes.ok) {
+          const prosData = await prosRes.json();
+          if (isMounted && prosData.professionals?.length > 0) {
+            setProfessionals(prosData.professionals);
+          }
+        }
+        if (srvsRes.ok) {
+          const srvsData = await srvsRes.json();
+          if (isMounted && Array.isArray(srvsData) && srvsData.length > 0) {
+            setServices(srvsData);
+          }
+        }
+      } catch (err) {
+        console.error('Failed to load entertainment data from API:', err);
+      }
+    }
+    loadData();
+    return () => {
+      isMounted = false;
+    };
+  }, []);
+
   const currentService = activeServiceSlug
-    ? A3_SERVICES.find((s) => s.slug === activeServiceSlug)
+    ? services.find((s) => s.slug === activeServiceSlug)
     : undefined;
 
   const [filters, setFilters] = useState<FilterState>({
@@ -79,9 +112,9 @@ export const MusicEntertainmentPage: React.FC<MusicEntertainmentPageProps> = ({
 
 
 
-  // Filter & Sort Logic (mirrors WeddingPlanningPage; frontend-only/mock, no backend filtering)
+  // Filter & Sort Logic
   const filteredProfessionals = useMemo(() => {
-    return A3_MOCK_PROFESSIONALS.filter((pro) => {
+    return professionals.filter((pro) => {
       // 1. Service Filter
       if (activeServiceSlug && !pro.servicesOffered.includes(activeServiceSlug)) {
         return false;
@@ -185,7 +218,7 @@ export const MusicEntertainmentPage: React.FC<MusicEntertainmentPageProps> = ({
                   gap: 'var(--space-6)',
                 }}
               >
-                {A3_SERVICES.map((service) => (
+                {services.map((service) => (
                   <ServiceCard
                     key={service.id}
                     service={service}

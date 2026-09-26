@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useMemo } from 'react';
+import React, { useState, useMemo, useEffect } from 'react';
 import { A1_SERVICES, MOCK_PROFESSIONALS } from '../data/weddingPlanningData';
 import { CategoryHero } from '../components/category/CategoryHero';
 import { ServiceCard } from '../components/category/ServiceCard';
@@ -19,8 +19,41 @@ export const WeddingPlanningPage: React.FC<WeddingPlanningPageProps> = ({
   activeServiceSlug,
   onNavigate,
 }) => {
+  const [services, setServices] = useState<ServiceItem[]>(A1_SERVICES);
+  const [professionals, setProfessionals] = useState<Professional[]>(MOCK_PROFESSIONALS);
+
+  useEffect(() => {
+    let isMounted = true;
+    async function loadData() {
+      try {
+        const [prosRes, srvsRes] = await Promise.all([
+          fetch('/api/professionals?category=weddings-events&limit=20'),
+          fetch('/api/services?category=weddings-events'),
+        ]);
+        if (prosRes.ok) {
+          const prosData = await prosRes.json();
+          if (isMounted && prosData.professionals?.length > 0) {
+            setProfessionals(prosData.professionals);
+          }
+        }
+        if (srvsRes.ok) {
+          const srvsData = await srvsRes.json();
+          if (isMounted && Array.isArray(srvsData) && srvsData.length > 0) {
+            setServices(srvsData);
+          }
+        }
+      } catch (err) {
+        console.error('Failed to load planning data from API:', err);
+      }
+    }
+    loadData();
+    return () => {
+      isMounted = false;
+    };
+  }, []);
+
   const currentService = activeServiceSlug
-    ? A1_SERVICES.find((s) => s.slug === activeServiceSlug)
+    ? services.find((s) => s.slug === activeServiceSlug)
     : undefined;
 
   const [filters, setFilters] = useState<FilterState>({
@@ -64,7 +97,7 @@ export const WeddingPlanningPage: React.FC<WeddingPlanningPageProps> = ({
 
   // Filter & Sort Logic
   const filteredProfessionals = useMemo(() => {
-    return MOCK_PROFESSIONALS.filter((pro) => {
+    return professionals.filter((pro) => {
       // 1. Service Filter
       if (activeServiceSlug && !pro.servicesOffered.includes(activeServiceSlug)) {
         return false;
@@ -151,7 +184,7 @@ export const WeddingPlanningPage: React.FC<WeddingPlanningPageProps> = ({
                   gap: 'var(--space-6)',
                 }}
               >
-                {A1_SERVICES.map((service) => (
+                {services.map((service) => (
                   <ServiceCard
                     key={service.id}
                     service={service}

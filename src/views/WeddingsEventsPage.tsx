@@ -1,6 +1,6 @@
 "use client";
 
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { ArrowRight } from 'lucide-react';
 import { MASTER_WEDDINGS_CATEGORY, MOCK_PROFESSIONALS } from '../data/weddingPlanningData';
 import { CategoryHero } from '../components/category/CategoryHero';
@@ -15,6 +15,28 @@ interface WeddingsEventsPageProps {
 }
 
 export const WeddingsEventsPage: React.FC<WeddingsEventsPageProps> = ({ onNavigate }) => {
+  const [professionals, setProfessionals] = useState<Professional[]>(() => MOCK_PROFESSIONALS.slice(0, 3));
+
+  useEffect(() => {
+    let isMounted = true;
+    async function loadPros() {
+      try {
+        const res = await fetch('/api/professionals?category=weddings-events&limit=6');
+        if (res.ok) {
+          const data = await res.json();
+          if (isMounted && data.professionals && data.professionals.length > 0) {
+            setProfessionals(data.professionals);
+          }
+        }
+      } catch (err) {
+        console.error('Failed to load professionals for WeddingsEventsPage:', err);
+      }
+    }
+    loadPros();
+    return () => {
+      isMounted = false;
+    };
+  }, []);
   const handleViewProfile = (pro: Professional) => {
     onNavigate(`/professionals/${pro.id}`);
   };
@@ -207,7 +229,7 @@ export const WeddingsEventsPage: React.FC<WeddingsEventsPageProps> = ({ onNaviga
               marginBottom: 'var(--space-8)',
             }}
           >
-            {MOCK_PROFESSIONALS.slice(0, 3).map((pro) => (
+            {professionals.slice(0, 3).map((pro) => (
               <ProfessionalCard
                 key={pro.id}
                 professional={pro}

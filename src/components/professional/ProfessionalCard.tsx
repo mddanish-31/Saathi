@@ -1,4 +1,5 @@
 import React from 'react';
+import Image from 'next/image';
 import { MapPin, Award, ArrowUpRight, MessageSquare } from 'lucide-react';
 import { Professional } from '../../types';
 import { Avatar } from '../ui/Avatar';
@@ -48,14 +49,14 @@ export const ProfessionalCard: React.FC<ProfessionalCardProps> = ({
         }}
       >
         {professional.coverImageUrl ? (
-          <img
+          <Image
             src={professional.coverImageUrl}
             alt={professional.brandName}
+            fill
+            sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+            unoptimized={professional.coverImageUrl.startsWith('data:')}
             style={{
-              width: '100%',
-              height: '100%',
               objectFit: 'cover',
-              display: 'block',
             }}
           />
         ) : (

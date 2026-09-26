@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { Search, MapPin, Sparkles } from 'lucide-react';
 import { Button } from './Button';
 
@@ -6,18 +6,49 @@ interface SearchBarProps {
   onSearch?: (query: string, location?: string) => void;
   placeholder?: string;
   className?: string;
+  debounceMs?: number;
 }
 
 export const SearchBar: React.FC<SearchBarProps> = ({
   onSearch,
   placeholder = 'Try "Bridal stylist", "Interior designer", "Candid photographer"...',
   className = '',
+  debounceMs = 350,
 }) => {
   const [query, setQuery] = useState('');
   const [location, setLocation] = useState('All India');
+  const timerRef = useRef<NodeJS.Timeout | null>(null);
+  const isFirstRender = useRef(true);
+
+  // Debounced auto-trigger on typing
+  useEffect(() => {
+    if (isFirstRender.current) {
+      isFirstRender.current = false;
+      return;
+    }
+
+    if (!onSearch) return;
+
+    if (timerRef.current) {
+      clearTimeout(timerRef.current);
+    }
+
+    timerRef.current = setTimeout(() => {
+      onSearch(query, location);
+    }, debounceMs);
+
+    return () => {
+      if (timerRef.current) {
+        clearTimeout(timerRef.current);
+      }
+    };
+  }, [query, location, debounceMs, onSearch]);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
+    if (timerRef.current) {
+      clearTimeout(timerRef.current);
+    }
     if (onSearch) {
       onSearch(query, location);
     }

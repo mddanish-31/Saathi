@@ -28,7 +28,7 @@ export const LoginPage: React.FC<LoginPageProps> = ({ onNavigate, returnTo: prop
       ? new URLSearchParams(window.location.search).get('returnTo') || undefined
       : undefined);
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!identifier.trim()) {
       setError('Please enter your email or phone number.');
@@ -40,7 +40,11 @@ export const LoginPage: React.FC<LoginPageProps> = ({ onNavigate, returnTo: prop
     }
 
     setError(null);
-    login(identifier, role);
+    const res = await login(identifier, password, role);
+    if (res && res.error) {
+      setError(res.error);
+      return;
+    }
 
     if (returnTo) {
       onNavigate(returnTo);

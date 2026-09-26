@@ -81,9 +81,10 @@ export interface AuthUser {
 export interface AuthContextType {
   user: AuthUser | null;
   isAuthenticated: boolean;
-  login: (email: string, role?: UserRole, name?: string, returnTo?: string) => void;
-  signup: (userData: { name: string; email: string; phone?: string; role: UserRole; businessName?: string }) => void;
-  logout: () => void;
+  isLoading?: boolean;
+  login: (email: string, passwordOrRole?: string | UserRole, roleOrName?: UserRole | string, name?: string) => Promise<{ error?: string } | void> | void;
+  signup: (userData: { name: string; email: string; phone?: string; role: UserRole; businessName?: string; password?: string }) => Promise<{ error?: string } | void> | void;
+  logout: () => Promise<void> | void;
 }
 
 /* ==========================================================================
@@ -204,7 +205,9 @@ export interface EnquiryData {
 
 export interface EnquiryContextType {
   enquiries: EnquiryData[];
-  createEnquiry: (data: Omit<EnquiryData, 'id' | 'createdAt' | 'status'>) => EnquiryData;
+  createEnquiry: (data: Omit<EnquiryData, 'id' | 'createdAt' | 'status'>) => Promise<EnquiryData> | EnquiryData;
   getEnquiryById: (id: string) => EnquiryData | undefined;
   getEnquiriesByProfessional: (proId: string) => EnquiryData[];
+  updateEnquiryStatus?: (id: string, status: EnquiryData['status']) => Promise<void>;
+  unreadNotificationCount?: number;
 }

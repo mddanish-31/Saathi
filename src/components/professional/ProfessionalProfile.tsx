@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import Image from 'next/image';
 import {
   MapPin,
   CheckCircle2,
@@ -64,10 +65,14 @@ export const ProfessionalProfile: React.FC<ProfessionalProfileProps> = ({
         }}
       >
         {professional.coverImageUrl ? (
-          <img
+          <Image
             src={professional.coverImageUrl}
             alt={professional.brandName}
-            style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+            fill
+            priority
+            sizes="100vw"
+            unoptimized={professional.coverImageUrl.startsWith('data:')}
+            style={{ objectFit: 'cover' }}
           />
         ) : (
           <div
