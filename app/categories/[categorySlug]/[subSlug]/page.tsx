@@ -4,6 +4,7 @@ import { useRouter, useParams } from 'next/navigation';
 import { WeddingPlanningPage } from '../../../../src/views/WeddingPlanningPage';
 import { PhotographyPage } from '../../../../src/views/PhotographyPage';
 import { MusicEntertainmentPage } from '../../../../src/views/MusicEntertainmentPage';
+import { BeautyMakeupPage } from '../../../../src/views/BeautyMakeupPage';
 import { CateringPage } from '../../../../src/views/CateringPage';
 import { WeddingVenuesPage } from '../../../../src/views/WeddingVenuesPage';
 import { TransportationPage } from '../../../../src/views/TransportationPage';
@@ -32,6 +33,9 @@ export default function Page() {
     }
     if (subSlug === 'entertainment') {
       return <MusicEntertainmentPage onNavigate={handleNavigate} />;
+    }
+    if (subSlug === 'beauty-makeup-mehndi') {
+      return <BeautyMakeupPage onNavigate={handleNavigate} />;
     }
     if (subSlug === 'catering-food-desserts') {
       return <CateringPage onNavigate={handleNavigate} />;

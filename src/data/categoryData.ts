@@ -76,8 +76,8 @@ export const WEDDING_SUBCATEGORIES_CANONICAL: MarketplaceSubCategory[] = [
     slug: 'beauty-makeup-mehndi',
     description:
       'Master bridal hair & makeup artists, couture saree drapers, and celebrated henna artists creating royal ceremonial looks.',
-    badge: 'Coming Soon',
-    isActive: false,
+    badge: 'Active Flow',
+    isActive: true,
     plannedServices: [
       'Makeup Artists',
       'Bridal Makeup',

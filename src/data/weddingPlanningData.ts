@@ -58,8 +58,9 @@ export const MASTER_WEDDINGS_CATEGORY = {
       slug: 'beauty-makeup-mehndi',
       code: 'A4',
       name: 'Beauty, Makeup & Mehndi',
-      description: 'Bridal makeup, groom makeup, celebrity artists, couture hairstylists, and mehendi artists.',
-      isActive: false,
+      description: 'Bridal makeup artists, couture hairstylists, organic henna designers, and complete vanity packages.',
+      isActive: true,
+      itemCount: '6 Curated Categories',
     },
     {
       id: 'a5-catering-food-desserts',
