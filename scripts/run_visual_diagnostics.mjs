@@ -187,12 +187,22 @@ async function runDiagnostics() {
 
     for (const bp of breakpoints) {
       const page = await browser.newPage({ viewport: { width: bp.width, height: bp.height } });
+      await page.addInitScript(() => {
+        try {
+          localStorage.setItem('saathi_cookie_consent_v1', JSON.stringify({
+            analytics: true,
+            marketing: true,
+            functional: true,
+            timestamp: Date.now(),
+          }));
+        } catch (e) {}
+      });
       await page.goto(BASE_URL, { waitUntil: 'load' });
       await page.waitForTimeout(500);
 
       const categorySection = page.locator('#categories');
       await categorySection.scrollIntoViewIfNeeded();
-      await page.waitForTimeout(300);
+      await page.waitForTimeout(1500);
 
       const ssPath = path.join(OUTPUT_DIR, `03_bento_grid_${bp.width}px_${bp.name}.png`);
       await categorySection.screenshot({ path: ssPath });

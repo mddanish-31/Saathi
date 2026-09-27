@@ -131,10 +131,12 @@ export const Navbar: React.FC<NavbarProps> = ({ currentPath, onNavigate }) => {
   return (
     <header
       ref={navContainerRef}
-      className={`sticky top-0 z-40 transition-colors duration-300 ${
+      className={`sticky top-0 z-40 transition-all duration-300 ${
         isScrolled
-          ? 'bg-[var(--bg-surface)]/95 backdrop-blur-md border-b border-[var(--border)]'
-          : 'bg-[var(--bg-surface)] border-b border-[var(--border)]'
+          ? 'bg-[var(--bg-surface)]/95 backdrop-blur-md border-b border-[var(--border)] shadow-sm'
+          : currentPath === '/'
+          ? 'bg-transparent border-b border-transparent'
+          : 'bg-[var(--bg-surface)]/95 backdrop-blur-md border-b border-[var(--border)]'
       }`}
     >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-18 flex items-center justify-between">
@@ -143,7 +145,7 @@ export const Navbar: React.FC<NavbarProps> = ({ currentPath, onNavigate }) => {
           <Logo size="md" showTagline={true} asLink={true} />
         </div>
 
-        {/* Center: Desktop Navigation Links (Underline-grow-on-hover, no SaaS pill backgrounds) */}
+        {/* Center: Desktop Navigation Links (Underline-grow-on-hover & Tab focus, distinct active indicators) */}
         <nav aria-label="Primary Navigation" className="hidden lg:flex items-center gap-8 relative">
           {/* Mega Menu Trigger: Weddings & Events */}
           <div
@@ -156,7 +158,11 @@ export const Navbar: React.FC<NavbarProps> = ({ currentPath, onNavigate }) => {
               onClick={() => handleNavClick('/categories/weddings-events')}
               aria-expanded={activeDropdown === 'weddings'}
               aria-haspopup="true"
-              className="relative py-1 text-xs font-semibold uppercase tracking-wider text-[var(--text-primary)] hover:text-[var(--accent)] transition-colors flex items-center gap-1 group"
+              className={`relative py-1 text-xs uppercase tracking-wider transition-colors flex items-center gap-1 group focus:outline-none focus-visible:outline-none focus-visible:text-[var(--accent)] ${
+                currentPath.startsWith('/categories/weddings-events')
+                  ? 'text-[var(--accent)] font-bold'
+                  : 'font-semibold text-[var(--text-primary)] hover:text-[var(--accent)]'
+              }`}
             >
               <span>Weddings & Events</span>
               <ChevronDown
@@ -165,12 +171,12 @@ export const Navbar: React.FC<NavbarProps> = ({ currentPath, onNavigate }) => {
                   activeDropdown === 'weddings' ? 'rotate-180 text-[var(--accent)]' : ''
                 }`}
               />
-              {/* Editorial underline indicator */}
+              {/* Editorial underline indicator (active + hover + keyboard tab focus) */}
               <span
                 className={`absolute bottom-0 left-0 h-[2px] bg-[var(--accent)] transition-all duration-250 ${
                   currentPath.startsWith('/categories/weddings-events')
                     ? 'w-full'
-                    : 'w-0 group-hover:w-full'
+                    : 'w-0 group-hover:w-full group-focus-visible:w-full'
                 }`}
               />
             </button>
@@ -189,7 +195,7 @@ export const Navbar: React.FC<NavbarProps> = ({ currentPath, onNavigate }) => {
                   <Link
                     href="/categories/weddings-events"
                     onClick={() => setActiveDropdown(null)}
-                    className="text-[11px] font-semibold text-[var(--accent)] hover:underline inline-flex items-center gap-1"
+                    className="text-[11px] font-semibold text-[var(--accent)] hover:underline inline-flex items-center gap-1 focus:outline-none focus-visible:ring-1 focus-visible:ring-[var(--accent)] rounded"
                   >
                     <span>Directory</span>
                     <ArrowRight size={12} strokeWidth={2} />
@@ -203,12 +209,12 @@ export const Navbar: React.FC<NavbarProps> = ({ currentPath, onNavigate }) => {
                       href={subcat.slug}
                       role="menuitem"
                       onClick={() => setActiveDropdown(null)}
-                      className="flex items-center gap-2.5 p-2 rounded-xl border border-transparent hover:border-[var(--border)] hover:bg-[var(--bg-base)] transition-all group"
+                      className="flex items-center gap-2.5 p-2 rounded-xl border border-transparent hover:border-[var(--border)] hover:bg-[var(--bg-base)] focus-visible:border-[var(--accent)] focus:outline-none transition-all group"
                     >
                       <span className="text-[10px] font-bold text-[var(--accent)] bg-[var(--bg-base)] px-1.5 py-0.5 rounded border border-[var(--border)]">
                         {subcat.code}
                       </span>
-                      <span className="text-xs font-medium text-[var(--text-primary)] group-hover:text-[var(--accent)] transition-colors truncate">
+                      <span className="text-xs font-medium text-[var(--text-primary)] group-hover:text-[var(--accent)] group-focus-visible:text-[var(--accent)] transition-colors truncate">
                         {subcat.title}
                       </span>
                     </Link>
@@ -221,14 +227,19 @@ export const Navbar: React.FC<NavbarProps> = ({ currentPath, onNavigate }) => {
           {/* Direct Link: Music & Entertainment */}
           <Link
             href="/categories/weddings-events/entertainment"
-            className="relative py-1 text-xs font-semibold uppercase tracking-wider text-[var(--text-primary)] hover:text-[var(--accent)] transition-colors group"
+            prefetch={false}
+            className={`relative py-1 text-xs uppercase tracking-wider transition-colors group focus:outline-none focus-visible:outline-none focus-visible:text-[var(--accent)] ${
+              currentPath === '/categories/weddings-events/entertainment'
+                ? 'text-[var(--accent)] font-bold'
+                : 'font-semibold text-[var(--text-primary)] hover:text-[var(--accent)]'
+            }`}
           >
             <span>Music & Live Acts</span>
             <span
               className={`absolute bottom-0 left-0 h-[2px] bg-[var(--accent)] transition-all duration-250 ${
                 currentPath === '/categories/weddings-events/entertainment'
                   ? 'w-full'
-                  : 'w-0 group-hover:w-full'
+                  : 'w-0 group-hover:w-full group-focus-visible:w-full'
               }`}
             />
           </Link>
@@ -236,12 +247,19 @@ export const Navbar: React.FC<NavbarProps> = ({ currentPath, onNavigate }) => {
           {/* Direct Link: FAQ */}
           <Link
             href="/faq"
-            className="relative py-1 text-xs font-semibold uppercase tracking-wider text-[var(--text-primary)] hover:text-[var(--accent)] transition-colors group"
+            prefetch={false}
+            className={`relative py-1 text-xs uppercase tracking-wider transition-colors group focus:outline-none focus-visible:outline-none focus-visible:text-[var(--accent)] ${
+              currentPath === '/faq'
+                ? 'text-[var(--accent)] font-bold'
+                : 'font-semibold text-[var(--text-primary)] hover:text-[var(--accent)]'
+            }`}
           >
             <span>FAQ</span>
             <span
               className={`absolute bottom-0 left-0 h-[2px] bg-[var(--accent)] transition-all duration-250 ${
-                currentPath === '/faq' ? 'w-full' : 'w-0 group-hover:w-full'
+                currentPath === '/faq'
+                  ? 'w-full'
+                  : 'w-0 group-hover:w-full group-focus-visible:w-full'
               }`}
             />
           </Link>
@@ -249,12 +267,19 @@ export const Navbar: React.FC<NavbarProps> = ({ currentPath, onNavigate }) => {
           {/* Direct Link: Contact */}
           <Link
             href="/contact"
-            className="relative py-1 text-xs font-semibold uppercase tracking-wider text-[var(--text-primary)] hover:text-[var(--accent)] transition-colors group"
+            prefetch={false}
+            className={`relative py-1 text-xs uppercase tracking-wider transition-colors group focus:outline-none focus-visible:outline-none focus-visible:text-[var(--accent)] ${
+              currentPath === '/contact'
+                ? 'text-[var(--accent)] font-bold'
+                : 'font-semibold text-[var(--text-primary)] hover:text-[var(--accent)]'
+            }`}
           >
             <span>Concierge</span>
             <span
               className={`absolute bottom-0 left-0 h-[2px] bg-[var(--accent)] transition-all duration-250 ${
-                currentPath === '/contact' ? 'w-full' : 'w-0 group-hover:w-full'
+                currentPath === '/contact'
+                  ? 'w-full'
+                  : 'w-0 group-hover:w-full group-focus-visible:w-full'
               }`}
             />
           </Link>
@@ -290,12 +315,14 @@ export const Navbar: React.FC<NavbarProps> = ({ currentPath, onNavigate }) => {
             <div className="flex items-center gap-3">
               <Link
                 href="/login"
+                prefetch={false}
                 className="px-3 py-2 text-xs font-semibold text-[var(--text-primary)] hover:text-[var(--accent)] transition-colors"
               >
                 Login
               </Link>
               <Link
                 href="/signup"
+                prefetch={false}
                 className="px-4 py-2 rounded-xl border border-[var(--accent)] text-[var(--accent)] hover:bg-[var(--accent)] hover:text-[var(--text-inverse)] active:scale-[0.97] text-xs font-semibold transition-all"
               >
                 Get Started
@@ -377,6 +404,7 @@ export const Navbar: React.FC<NavbarProps> = ({ currentPath, onNavigate }) => {
                 >
                   <Link
                     href={item.href}
+                    prefetch={false}
                     onClick={() => setMobileMenuOpen(false)}
                     className="block w-full py-3.5 px-2 text-xl font-heading font-medium text-[var(--text-primary)] hover:text-[var(--accent)] border-b border-[var(--border)]/50 transition-colors"
                   >
@@ -392,6 +420,7 @@ export const Navbar: React.FC<NavbarProps> = ({ currentPath, onNavigate }) => {
                 <div className="space-y-3">
                   <Link
                     href={dashboardPath}
+                    prefetch={false}
                     onClick={() => setMobileMenuOpen(false)}
                     className="w-full py-3.5 px-4 rounded-xl border border-[var(--border)] text-sm font-semibold text-[var(--text-primary)] flex items-center justify-center gap-2 hover:border-[var(--accent)] transition-colors"
                   >
@@ -414,6 +443,7 @@ export const Navbar: React.FC<NavbarProps> = ({ currentPath, onNavigate }) => {
                 <div className="grid grid-cols-2 gap-3">
                   <Link
                     href="/login"
+                    prefetch={false}
                     onClick={() => setMobileMenuOpen(false)}
                     className="py-3 px-4 rounded-xl border border-[var(--border)] text-xs font-semibold text-[var(--text-primary)] text-center hover:border-[var(--accent)] transition-colors"
                   >
@@ -421,6 +451,7 @@ export const Navbar: React.FC<NavbarProps> = ({ currentPath, onNavigate }) => {
                   </Link>
                   <Link
                     href="/signup"
+                    prefetch={false}
                     onClick={() => setMobileMenuOpen(false)}
                     className="py-3 px-4 rounded-xl border border-[var(--accent)] text-[var(--accent)] hover:bg-[var(--accent)] hover:text-[var(--text-inverse)] text-xs font-semibold text-center transition-all"
                   >

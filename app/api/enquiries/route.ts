@@ -30,28 +30,46 @@ export async function POST(req: NextRequest) {
 
     const enquiryId = `enq_${Date.now().toString(36)}_${Math.random().toString(36).substring(2, 7)}`;
 
-    const { data: created, error } = await supabase
-      .from('enquiries')
-      .insert({
-        id: enquiryId,
-        professional_id: validated.professionalId,
-        customer_id: user?.id || null,
-        service_id: validated.serviceId || null,
-        customer_name: sanitizedCustomerName,
-        customer_email: validated.customerEmail,
-        customer_phone: validated.customerPhone,
-        service_name: validated.serviceName,
-        event_date: validated.eventDate,
-        event_location: sanitizedLocation,
-        budget_range: validated.budgetRange || '',
-        message: sanitizedMessage,
-        status: 'pending',
-      })
-      .select()
-      .single();
+    const enquiryPayload = {
+      id: enquiryId,
+      professional_id: validated.professionalId,
+      customer_id: user?.id || null,
+      service_id: validated.serviceId || null,
+      customer_name: sanitizedCustomerName,
+      customer_email: validated.customerEmail,
+      customer_phone: validated.customerPhone,
+      service_name: validated.serviceName,
+      event_date: validated.eventDate,
+      event_location: sanitizedLocation,
+      budget_range: validated.budgetRange || '',
+      message: sanitizedMessage,
+      status: 'pending',
+    };
 
-    if (error) {
-      return errorResponse(error.message, 400);
+    let created: any = null;
+
+    if (!user) {
+      // Guest enquiry: anonymous visitor role has INSERT permissions via RLS
+      // but lacks SELECT permissions (preserving cross-user read privacy).
+      const { error } = await supabase.from('enquiries').insert(enquiryPayload);
+      if (error) {
+        return errorResponse(error.message, 400);
+      }
+      created = {
+        ...enquiryPayload,
+        created_at: new Date().toISOString(),
+      };
+    } else {
+      const { data, error } = await supabase
+        .from('enquiries')
+        .insert(enquiryPayload)
+        .select()
+        .single();
+
+      if (error) {
+        return errorResponse(error.message, 400);
+      }
+      created = data;
     }
 
     return jsonResponse(

@@ -27,13 +27,13 @@ export const CateringCTA: React.FC<CateringCTAProps> = ({
           style={{
             position: 'relative',
             borderRadius: 'var(--radius-2xl)',
-            background: 'linear-gradient(135deg, var(--saathi-maroon) 0%, var(--saathi-deep-plum) 100%)',
-            color: 'var(--text-inverse)',
+            background: 'var(--bg-surface)',
+            color: 'var(--text-primary)',
             padding: 'clamp(var(--space-8), 6vw, var(--space-16)) clamp(var(--space-6), 4vw, var(--space-12))',
-            boxShadow: 'var(--shadow-xl)',
+            boxShadow: 'var(--shadow-md)',
             textAlign: 'center',
             overflow: 'hidden',
-            border: '1px solid rgba(210, 179, 167, 0.25)',
+            border: '1px solid var(--border)',
           }}
         >
           {/* Subtle Ambient Radial Glow */}
@@ -67,15 +67,14 @@ export const CateringCTA: React.FC<CateringCTAProps> = ({
                 gap: '6px',
                 padding: '0.3rem 0.85rem',
                 borderRadius: 'var(--radius-full)',
-                backgroundColor: 'rgba(255, 255, 255, 0.15)',
-                backdropFilter: 'blur(6px)',
+                backgroundColor: 'var(--saathi-nude-tint)',
                 fontSize: 'var(--text-xs)',
                 fontWeight: 600,
                 letterSpacing: '0.04em',
                 textTransform: 'uppercase',
-                color: 'var(--text-inverse)',
+                color: 'var(--accent)',
                 marginBottom: 'var(--space-4)',
-                border: '1px solid rgba(255, 255, 255, 0.2)',
+                border: '1px solid var(--border)',
               }}
             >
               <Sparkles size={13} />
@@ -87,7 +86,7 @@ export const CateringCTA: React.FC<CateringCTAProps> = ({
                 fontFamily: 'var(--font-serif)',
                 fontSize: 'clamp(2rem, 4vw, 3rem)',
                 fontWeight: 600,
-                color: 'var(--text-inverse)',
+                color: 'var(--text-primary)',
                 lineHeight: 1.2,
                 letterSpacing: 'var(--tracking-tight)',
                 marginBottom: 'var(--space-4)',
@@ -99,7 +98,7 @@ export const CateringCTA: React.FC<CateringCTAProps> = ({
             <p
               style={{
                 fontSize: 'clamp(1rem, 1.6vw, 1.15rem)',
-                color: 'rgba(250, 246, 243, 0.88)',
+                color: 'var(--text-muted)',
                 lineHeight: 'var(--leading-relaxed)',
                 marginBottom: 'var(--space-8)',
               }}
@@ -125,22 +124,22 @@ export const CateringCTA: React.FC<CateringCTAProps> = ({
                   gap: '8px',
                   padding: '0.85rem 1.85rem',
                   borderRadius: 'var(--radius-md)',
-                  backgroundColor: 'var(--bg-surface)',
-                  color: 'var(--accent)',
+                  backgroundColor: 'var(--accent)',
+                  color: 'var(--btn-primary-text)',
                   fontSize: 'var(--text-base)',
                   fontWeight: 700,
                   cursor: 'pointer',
                   border: 'none',
-                  boxShadow: '0 4px 16px rgba(0, 0, 0, 0.25)',
+                  boxShadow: 'var(--shadow-sm)',
                   transition: 'all var(--transition-fast)',
                 }}
                 onMouseEnter={(e) => {
                   e.currentTarget.style.transform = 'translateY(-2px)';
-                  e.currentTarget.style.boxShadow = '0 6px 20px rgba(0, 0, 0, 0.35)';
+                  e.currentTarget.style.backgroundColor = 'var(--accent-hover)';
                 }}
                 onMouseLeave={(e) => {
                   e.currentTarget.style.transform = 'translateY(0)';
-                  e.currentTarget.style.boxShadow = '0 4px 16px rgba(0, 0, 0, 0.25)';
+                  e.currentTarget.style.backgroundColor = 'var(--accent)';
                 }}
               >
                 <span>Get a Catering Quote</span>
@@ -157,20 +156,21 @@ export const CateringCTA: React.FC<CateringCTAProps> = ({
                   gap: '8px',
                   padding: '0.85rem 1.85rem',
                   borderRadius: 'var(--radius-md)',
-                  backgroundColor: 'rgba(255, 255, 255, 0.12)',
-                  color: 'var(--text-inverse)',
+                  backgroundColor: 'transparent',
+                  color: 'var(--text-primary)',
                   fontSize: 'var(--text-base)',
                   fontWeight: 600,
                   cursor: 'pointer',
-                  border: '1.5px solid rgba(255, 255, 255, 0.35)',
-                  backdropFilter: 'blur(4px)',
+                  border: '1.5px solid var(--border)',
                   transition: 'all var(--transition-fast)',
                 }}
                 onMouseEnter={(e) => {
-                  e.currentTarget.style.backgroundColor = 'rgba(255, 255, 255, 0.22)';
+                  e.currentTarget.style.borderColor = 'var(--accent)';
+                  e.currentTarget.style.color = 'var(--accent)';
                 }}
                 onMouseLeave={(e) => {
-                  e.currentTarget.style.backgroundColor = 'rgba(255, 255, 255, 0.12)';
+                  e.currentTarget.style.borderColor = 'var(--border)';
+                  e.currentTarget.style.color = 'var(--text-primary)';
                 }}
               >
                 <Utensils size={18} />

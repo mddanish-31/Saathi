@@ -1,5 +1,6 @@
 import type { Metadata, Viewport } from 'next';
 import { Fraunces } from 'next/font/google';
+import localFont from 'next/font/local';
 import '../src/styles/global.css';
 import { Providers } from '../src/components/Providers';
 import { AppShell } from './AppShell';
@@ -9,8 +10,17 @@ const fraunces = Fraunces({
   subsets: ['latin'],
   variable: '--font-fraunces',
   display: 'swap',
-  axes: ['opsz'],
-  style: ['normal', 'italic'],
+  style: ['italic'],
+  fallback: ['serif'],
+  preload: false,
+});
+
+const generalSans = localFont({
+  src: '../public/fonts/GeneralSans-Variable.woff2',
+  variable: '--font-general-sans',
+  display: 'swap',
+  weight: '200 700',
+  fallback: ['system-ui', '-apple-system', 'Segoe UI', 'Roboto', 'sans-serif'],
 });
 
 export const metadata: Metadata = {
@@ -34,13 +44,8 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en" className={fraunces.variable}>
+    <html lang="en" className={`${fraunces.variable} ${generalSans.variable}`}>
       <head>
-        <link rel="preconnect" href="https://api.fontshare.com" crossOrigin="anonymous" />
-        <link
-          rel="stylesheet"
-          href="https://api.fontshare.com/v2/css?f[]=general-sans@400,500,600,700&display=swap"
-        />
         <script
           dangerouslySetInnerHTML={{
             __html: `(function(){try{var t=localStorage.getItem('saathi_theme_preference');if(t==='dark'||(!t&&window.matchMedia('(prefers-color-scheme: dark)').matches)){document.documentElement.setAttribute('data-theme','dark');document.documentElement.classList.add('dark');}else{document.documentElement.setAttribute('data-theme','light');document.documentElement.classList.remove('dark');}}catch(e){}})();`,

@@ -67,19 +67,19 @@
     "pass": true,
     "loads": [
       {
-        "docClass": "__variable_35b0e9",
+        "docClass": "__variable_b13ee4 __variable_c6ffee",
         "dataTheme": "light",
         "bg": "rgb(251, 246, 243)",
         "text": "rgb(46, 31, 39)"
       },
       {
-        "docClass": "__variable_35b0e9",
+        "docClass": "__variable_b13ee4 __variable_c6ffee",
         "dataTheme": "light",
         "bg": "rgb(251, 246, 243)",
         "text": "rgb(46, 31, 39)"
       },
       {
-        "docClass": "__variable_35b0e9",
+        "docClass": "__variable_b13ee4 __variable_c6ffee",
         "dataTheme": "light",
         "bg": "rgb(251, 246, 243)",
         "text": "rgb(46, 31, 39)"
@@ -88,7 +88,7 @@
     "midTransitionScreenshot": "/Users/kyzenn/Projects/Saathi/visual-evidence/02_theme_mid_transition.png",
     "finalDarkScreenshot": "/Users/kyzenn/Projects/Saathi/visual-evidence/02_theme_dark_complete.png",
     "finalComputedBg": "rgb(36, 24, 35)",
-    "transitionStyle": "background-color 0.3s, color 0.3s, border-color 0.3s"
+    "transitionStyle": "background-color 0.25s, color 0.25s, border-color 0.25s, fill 0.25s, stroke 0.25s, box-shadow 0.25s"
   },
   "bentoGrid": {
     "pass": true,
@@ -322,7 +322,7 @@
   "heroPerformance": {
     "pass": true,
     "cpuThrottle": "4x slowdown",
-    "measuredAvgFps": 73,
+    "measuredAvgFps": 61,
     "droppedFrames": 0,
     "totalFrames": 73,
     "blendTransform": {
@@ -339,7 +339,7 @@
     "pass": true,
     "metrics": {
       "text": "Saathi curates India’s foremost wedding planners, musicians, caterers, and production studios — vett...",
-      "fontFamily": "\"General Sans\", -apple-system, \"system-ui\", \"Segoe UI\", Roboto, sans-serif",
+      "fontFamily": "__generalSans_c6ffee, __generalSans_Fallback_c6ffee, system-ui, -apple-system, \"Segoe UI\", Roboto, sans-serif, \"General Sans\", -apple-system, \"system-ui\", \"Segoe UI\", Roboto, sans-serif",
       "fontSize": "18px",
       "lineHeight": "28px",
       "calculatedLineHeightRatio": "1.56",

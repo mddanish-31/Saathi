@@ -6,6 +6,7 @@
   --saathi-maroon: #5B3A4A;
   --saathi-soft-taupe: #CBBEB1;
   --saathi-deep-plum: #4E354F;
+  --saathi-nude-tint: rgba(210, 179, 167, 0.18);
 
   /* ==========================================================================
      TYPOGRAPHY (3-FONT SYSTEM)
@@ -14,8 +15,8 @@
      3. Body font: General Sans 400
      ========================================================================== */
   --font-signature: var(--font-fraunces), 'Fraunces', serif;
-  --font-heading: 'General Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-  --font-body: 'General Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  --font-heading: var(--font-general-sans), 'General Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  --font-body: var(--font-general-sans), 'General Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
   --font-serif: var(--font-signature);
   --font-sans: var(--font-body);
 
@@ -174,6 +175,13 @@
   --accent-hover: #E0C4B9;
   --accent-soft: #5B3A4A;
   --soft-taupe: #CBBEB1;
+
+  /* Brand color tokens adapted for dark background readability */
+  --saathi-nude: #D2B3A7;
+  --saathi-maroon: #D2B3A7;
+  --saathi-deep-plum: #E0C4B9;
+  --saathi-soft-taupe: #CBBEB1;
+  --saathi-nude-tint: rgba(210, 179, 167, 0.14);
 
   /* Semantic Aliases for compatibility */
   --bg-app: var(--bg-base);

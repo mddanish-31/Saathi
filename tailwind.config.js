@@ -35,9 +35,9 @@ module.exports = {
       },
       fontFamily: {
         signature: ['var(--font-fraunces)', 'serif'],
-        heading: ['General Sans', '-apple-system', 'BlinkMacSystemFont', 'sans-serif'],
-        body: ['General Sans', '-apple-system', 'BlinkMacSystemFont', 'sans-serif'],
-        sans: ['General Sans', '-apple-system', 'BlinkMacSystemFont', 'sans-serif'],
+        heading: ['var(--font-general-sans)', 'General Sans', '-apple-system', 'BlinkMacSystemFont', 'sans-serif'],
+        body: ['var(--font-general-sans)', 'General Sans', '-apple-system', 'BlinkMacSystemFont', 'sans-serif'],
+        sans: ['var(--font-general-sans)', 'General Sans', '-apple-system', 'BlinkMacSystemFont', 'sans-serif'],
       },
       maxWidth: {
         'site': '1280px',

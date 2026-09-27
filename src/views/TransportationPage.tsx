@@ -1297,13 +1297,13 @@ export const TransportationPage: React.FC<TransportationPageProps> = ({ onNaviga
             style={{
               position: 'relative',
               borderRadius: 'var(--radius-2xl)',
-              background: 'linear-gradient(135deg, var(--saathi-maroon) 0%, var(--saathi-deep-plum) 100%)',
-              color: 'var(--text-inverse)',
+              background: 'var(--bg-surface)',
+              color: 'var(--text-primary)',
               padding: 'clamp(var(--space-8), 6vw, var(--space-16)) clamp(var(--space-6), 4vw, var(--space-12))',
-              boxShadow: 'var(--shadow-xl)',
+              boxShadow: 'var(--shadow-md)',
               textAlign: 'center',
               overflow: 'hidden',
-              border: '1px solid rgba(210, 179, 167, 0.25)',
+              border: '1px solid var(--border)',
             }}
           >
             {/* Background Radial Tint */}
@@ -1316,7 +1316,8 @@ export const TransportationPage: React.FC<TransportationPageProps> = ({ onNaviga
                 width: '600px',
                 height: '600px',
                 borderRadius: '50%',
-                background: 'radial-gradient(circle, rgba(210, 179, 167, 0.22) 0%, transparent 70%)',
+                background: 'radial-gradient(circle, var(--accent-soft) 0%, transparent 70%)',
+                opacity: 0.15,
                 pointerEvents: 'none',
               }}
             />
@@ -1329,15 +1330,14 @@ export const TransportationPage: React.FC<TransportationPageProps> = ({ onNaviga
                   gap: '6px',
                   padding: '0.25rem 0.75rem',
                   borderRadius: 'var(--radius-full)',
-                  backgroundColor: 'rgba(255, 255, 255, 0.15)',
-                  backdropFilter: 'blur(6px)',
+                  backgroundColor: 'var(--saathi-nude-tint)',
                   fontSize: 'var(--text-xs)',
                   fontWeight: 600,
                   letterSpacing: '0.04em',
                   textTransform: 'uppercase',
-                  color: 'var(--text-inverse)',
+                  color: 'var(--accent)',
                   marginBottom: 'var(--space-4)',
-                  border: '1px solid rgba(255, 255, 255, 0.2)',
+                  border: '1px solid var(--border)',
                 }}
               >
                 <Sparkles size={13} />
@@ -1349,7 +1349,7 @@ export const TransportationPage: React.FC<TransportationPageProps> = ({ onNaviga
                   fontFamily: 'var(--font-serif)',
                   fontSize: 'clamp(2rem, 4vw, 2.85rem)',
                   fontWeight: 600,
-                  color: 'var(--text-inverse)',
+                  color: 'var(--text-primary)',
                   lineHeight: 1.2,
                   letterSpacing: 'var(--tracking-tight)',
                   marginBottom: 'var(--space-4)',
@@ -1361,7 +1361,7 @@ export const TransportationPage: React.FC<TransportationPageProps> = ({ onNaviga
               <p
                 style={{
                   fontSize: 'clamp(1rem, 1.5vw, 1.15rem)',
-                  color: 'rgba(250, 246, 243, 0.88)',
+                  color: 'var(--text-muted)',
                   lineHeight: 'var(--leading-relaxed)',
                   marginBottom: 'var(--space-8)',
                 }}
@@ -1371,7 +1371,7 @@ export const TransportationPage: React.FC<TransportationPageProps> = ({ onNaviga
 
               <div style={{ display: 'flex', flexWrap: 'wrap', gap: 'var(--space-4)', justifyContent: 'center' }}>
                 <Button
-                  variant="secondary"
+                  variant="primary"
                   size="lg"
                   rightIcon={<ArrowRight size={18} />}
                   onClick={() => handleOpenQuoteModal()}
@@ -1382,7 +1382,6 @@ export const TransportationPage: React.FC<TransportationPageProps> = ({ onNaviga
                 <Button
                   variant="outline"
                   size="lg"
-                  style={{ borderColor: 'rgba(255, 255, 255, 0.5)', color: 'var(--text-inverse)' }}
                   onClick={() => onNavigate('/categories/weddings-events')}
                 >
                   Back to All Verticals

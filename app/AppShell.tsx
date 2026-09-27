@@ -9,6 +9,11 @@ import { Footer } from '../src/components/layout/Footer';
 export const AppShell: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const pathname = usePathname();
   const router = useRouter();
+  const isFirstMount = React.useRef(true);
+
+  React.useEffect(() => {
+    isFirstMount.current = false;
+  }, []);
 
   const handleNavigate = (path: string) => {
     router.push(path);
@@ -28,7 +33,7 @@ export const AppShell: React.FC<{ children: React.ReactNode }> = ({ children }) 
         <AnimatePresence mode="wait" initial={false}>
           <motion.div
             key={pathname}
-            initial={{ opacity: 0, y: 8 }}
+            initial={isFirstMount.current ? false : { opacity: 0, y: 8 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -8 }}
             transition={{

@@ -74,7 +74,7 @@ const BENTO_CATEGORIES = [
     subtitle: 'Concert DJs, Sufi-Bollywood fusion acts, celebrity hosts, and precision sound engineering.',
     badge: 'Live Acts • A3',
     href: '/categories/weddings-events/entertainment',
-    image: 'https://images.unsplash.com/photo-1470225620780-dba8ba36b745?auto=format&fit=crop&w=900&q=80',
+    image: 'https://images.unsplash.com/photo-1470225620780-dba8ba36b745?auto=format&fit=crop&w=1200&q=80',
     gridSpan: 'md:col-span-2 md:row-span-1 min-h-[230px]',
     isFeatured: false,
   },
@@ -84,7 +84,7 @@ const BENTO_CATEGORIES = [
     subtitle: 'Award-winning candid and cinematic visual masters capturing sacred vows and royal celebrations.',
     badge: 'Visual Stories • A2',
     href: '/categories/weddings-events/photography',
-    image: 'https://images.unsplash.com/photo-1537633552985-df8429e8048b?auto=format&fit=crop&w=900&q=80',
+    image: 'https://images.unsplash.com/photo-1537633552985-df8429e8048b?auto=format&fit=crop&w=1200&q=80',
     gridSpan: 'md:col-span-2 md:row-span-1 min-h-[230px]',
     isFeatured: false,
   },
@@ -94,7 +94,7 @@ const BENTO_CATEGORIES = [
     subtitle: 'Visionary floral designers & thematic mandap architects.',
     badge: 'Styling • A7',
     href: '/categories/weddings-events/decor-styling-essentials',
-    image: 'https://images.unsplash.com/photo-1583939003579-730e3918a45a?auto=format&fit=crop&w=800&q=80',
+    image: 'https://images.unsplash.com/photo-1583939003579-730e3918a45a?auto=format&fit=crop&w=1200&q=80',
     gridSpan: 'md:col-span-1 md:row-span-1 min-h-[220px]',
     isFeatured: false,
   },
@@ -104,7 +104,7 @@ const BENTO_CATEGORIES = [
     subtitle: 'Fine-dining regional banquet & live counter masters.',
     badge: 'Culinary • A5',
     href: '/categories/weddings-events/catering-food-desserts',
-    image: 'https://images.unsplash.com/photo-1555244162-803834f70033?auto=format&fit=crop&w=800&q=80',
+    image: 'https://images.unsplash.com/photo-1555244162-803834f70033?auto=format&fit=crop&w=1200&q=80',
     gridSpan: 'md:col-span-1 md:row-span-1 min-h-[220px]',
     isFeatured: false,
   },
@@ -220,11 +220,100 @@ const StarRating: React.FC<{ rating: number }> = ({ rating }) => {
   );
 };
 
+const HeroSlideshow: React.FC<{
+  panelScale: any;
+  panelOpacity: any;
+  panelTranslateY: any;
+  shouldReduceMotion: boolean | null;
+}> = ({ panelScale, panelOpacity, panelTranslateY, shouldReduceMotion }) => {
+  const [activeHeroIndex, setActiveHeroIndex] = useState(0);
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+    // Initial delay so initial page load metrics stabilize, then crossfade smoothly
+    let interval: NodeJS.Timeout;
+    const timeout = setTimeout(() => {
+      setActiveHeroIndex((prev) => (prev + 1) % HERO_IMAGES.length);
+      interval = setInterval(() => {
+        setActiveHeroIndex((prev) => (prev + 1) % HERO_IMAGES.length);
+      }, 4000);
+    }, 5500);
+
+    return () => {
+      clearTimeout(timeout);
+      if (interval) clearInterval(interval);
+    };
+  }, []);
+
+  return (
+    <motion.div
+      style={{
+        scale: shouldReduceMotion ? 1 : panelScale,
+        opacity: shouldReduceMotion ? 1 : panelOpacity,
+        y: shouldReduceMotion ? 0 : panelTranslateY,
+        willChange: 'transform, opacity',
+      }}
+      className="relative w-full h-[400px] sm:h-[480px] lg:h-[560px] rounded-3xl overflow-hidden border border-[var(--border)] shadow-[0_8px_24px_rgba(0,0,0,0.06)] dark:shadow-[0_8px_24px_rgba(0,0,0,0.3)]"
+    >
+      {/* Slideshow of 5 photos crossfading every 4 seconds with 1.5s calm ease-in-out */}
+      {HERO_IMAGES.map((img, idx) => {
+        if (idx !== 0 && !mounted) return null;
+        return (
+          <div
+            key={img.url}
+            className="absolute inset-0 transition-opacity duration-[1500ms] ease-in-out"
+            style={{
+              opacity: idx === activeHeroIndex ? 1 : 0,
+              zIndex: idx === activeHeroIndex ? 2 : 1,
+            }}
+          >
+            <Image
+              src={img.url}
+              alt={img.title}
+              fill
+              priority={idx === 0}
+              quality={65}
+              sizes="(max-width: 640px) 100vw, (max-width: 1024px) 60vw, 50vw"
+              className="object-cover object-center"
+            />
+            {/* Subtle Gradient Scrim on Bottom 40% for text clarity */}
+            <div className="absolute inset-x-0 bottom-0 h-[45%] bg-gradient-to-t from-black/85 via-black/40 to-transparent pointer-events-none" />
+          </div>
+        );
+      })}
+
+      {/* Edge Gradient Mask Overlay ensuring soft visual blend into page background */}
+      <div
+        className="absolute inset-0 pointer-events-none rounded-3xl z-10"
+        style={{
+          boxShadow: 'inset 0 0 32px 8px var(--bg-base)',
+        }}
+      />
+
+      {/* Floating Meta Caption Bar displaying current active slide details */}
+      <div className="absolute bottom-5 left-5 right-5 z-20 flex items-center justify-between gap-3 text-xs font-medium text-white/95 bg-black/40 backdrop-blur-md border border-white/20 py-2.5 px-4 rounded-xl">
+        <div>
+          <span className="text-[10px] font-semibold uppercase tracking-wider text-[var(--saathi-nude)] block">
+            {HERO_IMAGES[activeHeroIndex].vertical}
+          </span>
+          <span className="font-heading font-semibold text-xs">
+            {HERO_IMAGES[activeHeroIndex].title}
+          </span>
+        </div>
+        <div className="flex items-center gap-1.5 text-[11px] text-white/80">
+          <MapPin size={12} strokeWidth={2} />
+          <span>{HERO_IMAGES[activeHeroIndex].location}</span>
+        </div>
+      </div>
+    </motion.div>
+  );
+};
+
 export const LandingPage: React.FC<LandingPageProps> = ({ onNavigate }) => {
   const [featuredPros, setFeaturedPros] = useState<Professional[]>([]);
   const [loadingPros, setLoadingPros] = useState(true);
   const [searchQuery, setSearchQuery] = useState('');
-  const [activeHeroIndex, setActiveHeroIndex] = useState(0);
 
   // Reviews state & submission form modal
   const [reviews, setReviews] = useState<ReviewItem[]>(INITIAL_REVIEWS);
@@ -251,14 +340,6 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onNavigate }) => {
   const panelScale = useTransform(scrollYProgress, [0, 1], [1, 0.72]);
   const panelOpacity = useTransform(scrollYProgress, [0, 0.75, 1], [1, 0.45, 0.22]);
   const panelTranslateY = useTransform(scrollYProgress, [0, 1], [0, 48]);
-
-  // Calm crossfade slideshow loop running every 4 seconds (1.5s crossfade)
-  useEffect(() => {
-    const interval = setInterval(() => {
-      setActiveHeroIndex((prev) => (prev + 1) % HERO_IMAGES.length);
-    }, 4000);
-    return () => clearInterval(interval);
-  }, []);
 
   // Fetch real verified professionals from Supabase API
   useEffect(() => {
@@ -413,62 +494,12 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onNavigate }) => {
 
           {/* Right Column: Shuffling Crossfade Image Panel with Scroll-Linked Mask & Transform */}
           <div className="lg:col-span-6 w-full flex justify-center">
-            <motion.div
-              style={{
-                scale: shouldReduceMotion ? 1 : panelScale,
-                opacity: shouldReduceMotion ? 1 : panelOpacity,
-                y: shouldReduceMotion ? 0 : panelTranslateY,
-                willChange: 'transform, opacity',
-              }}
-              className="relative w-full h-[400px] sm:h-[480px] lg:h-[560px] rounded-3xl overflow-hidden border border-[var(--border)] shadow-[0_8px_24px_rgba(0,0,0,0.06)] dark:shadow-[0_8px_24px_rgba(0,0,0,0.3)]"
-            >
-              {/* Slideshow of 5 photos crossfading every 4 seconds with 1.5s calm ease-in-out */}
-              {HERO_IMAGES.map((img, idx) => (
-                <div
-                  key={img.url}
-                  className="absolute inset-0 transition-opacity duration-[1500ms] ease-in-out"
-                  style={{
-                    opacity: idx === activeHeroIndex ? 1 : 0,
-                    zIndex: idx === activeHeroIndex ? 2 : 1,
-                  }}
-                >
-                  <Image
-                    src={img.url}
-                    alt={img.title}
-                    fill
-                    priority={idx === 0}
-                    sizes="(max-width: 1024px) 100vw, 50vw"
-                    className="object-cover object-center"
-                  />
-                  {/* Subtle Gradient Scrim on Bottom 40% for text clarity */}
-                  <div className="absolute inset-x-0 bottom-0 h-[45%] bg-gradient-to-t from-black/85 via-black/40 to-transparent pointer-events-none" />
-                </div>
-              ))}
-
-              {/* Edge Gradient Mask Overlay ensuring soft visual blend into page background */}
-              <div
-                className="absolute inset-0 pointer-events-none rounded-3xl z-10"
-                style={{
-                  boxShadow: 'inset 0 0 32px 8px var(--bg-base)',
-                }}
-              />
-
-              {/* Floating Meta Caption Bar displaying current active slide details */}
-              <div className="absolute bottom-5 left-5 right-5 z-20 flex items-center justify-between gap-3 text-xs font-medium text-white/95 bg-black/40 backdrop-blur-md border border-white/20 py-2.5 px-4 rounded-xl">
-                <div>
-                  <span className="text-[10px] font-semibold uppercase tracking-wider text-[var(--saathi-nude)] block">
-                    {HERO_IMAGES[activeHeroIndex].vertical}
-                  </span>
-                  <span className="font-heading font-semibold text-xs">
-                    {HERO_IMAGES[activeHeroIndex].title}
-                  </span>
-                </div>
-                <div className="flex items-center gap-1.5 text-[11px] text-white/80">
-                  <MapPin size={12} strokeWidth={2} />
-                  <span>{HERO_IMAGES[activeHeroIndex].location}</span>
-                </div>
-              </div>
-            </motion.div>
+            <HeroSlideshow
+              panelScale={panelScale}
+              panelOpacity={panelOpacity}
+              panelTranslateY={panelTranslateY}
+              shouldReduceMotion={shouldReduceMotion}
+            />
           </div>
         </div>
       </section>
@@ -508,13 +539,15 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onNavigate }) => {
               }}
               className={`${cat.gridSpan} relative rounded-2xl overflow-hidden border border-[var(--border)] group cursor-pointer`}
             >
-              <Link href={cat.href} className="block w-full h-full relative">
+              <Link href={cat.href} prefetch={false} className="block w-full h-full relative">
                 {/* Full-bleed image with hover scale(1.03) strictly on image only */}
                 <div className="absolute inset-0 overflow-hidden">
                   <Image
                     src={cat.image}
                     alt={cat.name}
                     fill
+                    loading="lazy"
+                    quality={65}
                     sizes="(max-width: 768px) 100vw, 50vw"
                     className="object-cover object-center transition-transform duration-500 ease-out group-hover:scale-[1.03]"
                   />
