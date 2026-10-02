@@ -9,33 +9,40 @@ module.exports = {
     extend: {
       colors: {
         // Semantic role tokens (controlled by CSS variables)
-        base: 'var(--bg-base)',
+        canvas: 'var(--bg-base)',
+        background: 'var(--bg-base)',
         surface: 'var(--bg-surface)',
         'text-primary': 'var(--text-primary)',
+        foreground: 'var(--text-primary)',
         'text-muted': 'var(--text-muted)',
+        muted: 'var(--text-muted)',
         'border-hairline': 'var(--border)',
+        border: 'var(--border)',
         accent: {
           DEFAULT: 'var(--accent)',
           hover: 'var(--accent-hover)',
           soft: 'var(--accent-soft)',
+          foreground: 'var(--accent-foreground)',
         },
-        // Client brand palette (exact hex values)
+        // Theme-aware brand palette mapped to CSS variables
         brand: {
-          nude: '#D2B3A7',
-          maroon: '#5B3A4A',
-          taupe: '#CBBEB1',
-          plum: '#4E354F',
+          nude: 'var(--saathi-nude)',
+          maroon: 'var(--saathi-maroon)',
+          taupe: 'var(--saathi-soft-taupe)',
+          plum: 'var(--saathi-deep-plum)',
         },
         // Status colors
         status: {
-          success: '#4A7A5E',
-          warning: '#B08D2C',
-          error: '#B23A3A',
+          success: 'var(--status-success)',
+          warning: 'var(--status-warning)',
+          error: 'var(--status-error)',
         },
       },
       fontFamily: {
-        signature: ['var(--font-fraunces)', 'serif'],
-        heading: ['var(--font-general-sans)', 'General Sans', '-apple-system', 'BlinkMacSystemFont', 'sans-serif'],
+        display: ['var(--font-fraunces)', 'Fraunces', 'Georgia', 'serif'],
+        signature: ['var(--font-fraunces)', 'Fraunces', 'Georgia', 'serif'],
+        heading: ['var(--font-fraunces)', 'Fraunces', 'Georgia', 'serif'],
+        serif: ['var(--font-fraunces)', 'Fraunces', 'Georgia', 'serif'],
         body: ['var(--font-general-sans)', 'General Sans', '-apple-system', 'BlinkMacSystemFont', 'sans-serif'],
         sans: ['var(--font-general-sans)', 'General Sans', '-apple-system', 'BlinkMacSystemFont', 'sans-serif'],
       },

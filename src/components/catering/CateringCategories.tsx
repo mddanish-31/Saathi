@@ -94,8 +94,9 @@ export const CateringCategories: React.FC<CateringCategoriesProps> = ({
                     style={{
                       position: 'absolute',
                       inset: 0,
-                      background:
-                        'linear-gradient(to top, rgba(24, 14, 23, 0.75) 0%, transparent 60%)',
+                      backgroundColor: 'rgba(23, 20, 18, 0.4)',
+                      backgroundImage:
+                        'linear-gradient(to top, rgba(24, 14, 23, 0.85) 0%, transparent 60%)',
                     }}
                   />
 
@@ -105,9 +106,9 @@ export const CateringCategories: React.FC<CateringCategoriesProps> = ({
                       position: 'absolute',
                       top: '12px',
                       right: '12px',
-                      backgroundColor: 'rgba(38, 26, 36, 0.85)',
+                      backgroundColor: 'rgba(23, 20, 18, 0.85)',
                       backdropFilter: 'blur(6px)',
-                      color: 'var(--text-inverse)',
+                      color: 'var(--text-on-media)',
                       fontSize: '0.7rem',
                       fontWeight: 600,
                       padding: '0.25rem 0.65rem',
@@ -129,14 +130,17 @@ export const CateringCategories: React.FC<CateringCategoriesProps> = ({
                       bottom: '12px',
                       left: '16px',
                       right: '16px',
+                      backgroundColor: 'rgba(23, 20, 18, 0.75)',
+                      padding: '0.35rem 0.75rem',
+                      borderRadius: 'var(--radius-md)',
                     }}
                   >
                     <h3
                       style={{
                         fontFamily: 'var(--font-serif)',
-                        fontSize: '1.3rem',
+                        fontSize: '1.2rem',
                         fontWeight: 600,
-                        color: 'var(--text-inverse)',
+                        color: 'var(--text-on-media)',
                         textShadow: '0 2px 4px rgba(0, 0, 0, 0.4)',
                       }}
                     >

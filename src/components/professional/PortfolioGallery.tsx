@@ -1,8 +1,9 @@
 "use client";
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Image from 'next/image';
-import { X, MapPin, ZoomIn, Play, Music2, Camera, Tag } from 'lucide-react';
+import { motion, AnimatePresence } from 'framer-motion';
+import { X, MapPin, Play, Music2, Camera, Tag } from 'lucide-react';
 import { PortfolioItem } from '../../types';
 import { ImagePlaceholder } from '../ui/ImagePlaceholder';
 
@@ -17,6 +18,21 @@ export const PortfolioGallery: React.FC<PortfolioGalleryProps> = ({
 }) => {
   const [selectedItem, setSelectedItem] = useState<PortfolioItem | null>(null);
 
+  // Close on Escape
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') setSelectedItem(null);
+    };
+    if (selectedItem) {
+      window.addEventListener('keydown', handleKeyDown);
+      document.body.style.overflow = 'hidden';
+    }
+    return () => {
+      window.removeEventListener('keydown', handleKeyDown);
+      document.body.style.overflow = '';
+    };
+  }, [selectedItem]);
+
   if (!portfolio || portfolio.length === 0) {
     return (
       <div className="p-8 bg-[var(--bg-surface)] border border-[var(--border)] rounded-2xl text-center text-xs text-[var(--text-muted)]">
@@ -25,19 +41,15 @@ export const PortfolioGallery: React.FC<PortfolioGalleryProps> = ({
     );
   }
 
-  // Determine Bento grid classes based on item position
+  // Bento grid sizing based on index
   const getBentoClasses = (index: number) => {
     if (index === 0) {
-      // Large featured hero tile
       return 'col-span-12 md:col-span-8 md:row-span-2 min-h-[340px] md:min-h-[440px]';
     } else if (index === 1 || index === 2) {
-      // Secondary stacked tiles
       return 'col-span-12 sm:col-span-6 md:col-span-4 min-h-[210px]';
     } else if (index === 3) {
-      // Wide accent tile
       return 'col-span-12 md:col-span-6 min-h-[240px]';
     } else {
-      // Standard balanced tiles
       return 'col-span-12 sm:col-span-6 md:col-span-6 min-h-[240px]';
     }
   };
@@ -50,8 +62,10 @@ export const PortfolioGallery: React.FC<PortfolioGalleryProps> = ({
           const bentoClass = getBentoClasses(index);
 
           return (
-            <div
+            <motion.div
               key={item.id}
+              layoutId={`portfolio-item-${item.id}`}
+              transition={{ type: 'spring', stiffness: 350, damping: 30 }}
               onClick={() => setSelectedItem(item)}
               tabIndex={0}
               role="button"
@@ -130,75 +144,90 @@ export const PortfolioGallery: React.FC<PortfolioGalleryProps> = ({
                   </div>
                 )}
               </div>
-            </div>
+            </motion.div>
           );
         })}
       </div>
 
-      {/* Lightbox / Modal on Item Click */}
-      {selectedItem && (
-        <div
-          className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm animate-fade-in"
-          onClick={() => setSelectedItem(null)}
-        >
-          <div
-            className="relative bg-[var(--bg-surface)] border border-[var(--border)] rounded-2xl max-w-2xl w-full overflow-hidden shadow-2xl animate-slide-up"
-            onClick={(e) => e.stopPropagation()}
-          >
-            <button
+      {/* Shared-Element Expand Modal */}
+      <AnimatePresence>
+        {selectedItem && (
+          <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
+            {/* Dimmed backdrop */}
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: 0.2 }}
               onClick={() => setSelectedItem(null)}
-              className="absolute top-4 right-4 z-20 p-2 rounded-full bg-[var(--bg-surface)]/80 text-[var(--text-primary)] hover:text-[var(--accent)] transition-colors"
-              aria-label="Close modal"
+              className="fixed inset-0 bg-black/65 backdrop-blur-sm"
+            />
+
+            {/* Shared layout dialog */}
+            <motion.div
+              layoutId={`portfolio-item-${selectedItem.id}`}
+              transition={{ type: 'spring', stiffness: 350, damping: 30 }}
+              onClick={(e) => e.stopPropagation()}
+              className="relative z-10 bg-[var(--bg-surface)] border border-[var(--border)] rounded-2xl max-w-2xl w-full overflow-hidden shadow-2xl"
             >
-              <X size={18} strokeWidth={2} />
-            </button>
+              <button
+                type="button"
+                onClick={() => setSelectedItem(null)}
+                className="absolute top-4 right-4 z-20 p-2 rounded-full bg-black/60 hover:bg-black/80 text-white transition-colors backdrop-blur-sm"
+                aria-label="Close modal"
+              >
+                <X size={18} strokeWidth={2} />
+              </button>
 
-            {selectedItem.imageUrl && (
-              <div className="relative w-full h-72 sm:h-96 bg-[var(--bg-base)]">
-                <Image
-                  src={selectedItem.imageUrl}
-                  alt={selectedItem.title}
-                  fill
-                  className="object-cover"
-                />
-              </div>
-            )}
-
-            <div className="p-6 space-y-3">
-              <div className="flex items-center gap-2">
-                <span className="px-2.5 py-0.5 rounded-full text-[10px] font-semibold bg-[var(--accent-soft)] text-[var(--text-primary)]">
-                  {selectedItem.category}
-                </span>
-                <span className="text-xs text-[var(--text-muted)] flex items-center gap-1">
-                  <MapPin size={12} className="text-[var(--accent)]" />
-                  {selectedItem.location}
-                </span>
-              </div>
-
-              <h3 className="text-2xl font-heading font-semibold text-[var(--text-primary)]">
-                {selectedItem.title}
-              </h3>
-
-              <p className="text-sm text-[var(--text-muted)] leading-relaxed">
-                {selectedItem.description}
-              </p>
-
-              {selectedItem.tags && selectedItem.tags.length > 0 && (
-                <div className="flex flex-wrap gap-2 pt-2">
-                  {selectedItem.tags.map((tag, idx) => (
-                    <span
-                      key={idx}
-                      className="text-xs px-2.5 py-1 rounded-lg bg-[var(--bg-base)] border border-[var(--border)] text-[var(--text-muted)]"
-                    >
-                      #{tag}
-                    </span>
-                  ))}
+              {selectedItem.imageUrl && (
+                <div className="relative w-full h-72 sm:h-96 bg-[var(--bg-base)]">
+                  <Image
+                    src={selectedItem.imageUrl}
+                    alt={selectedItem.title}
+                    fill
+                    priority
+                    className="object-cover"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-[var(--bg-surface)] via-transparent to-black/30" />
                 </div>
               )}
-            </div>
+
+              <div className="p-6 sm:p-8 space-y-4">
+                <div className="flex items-center gap-2">
+                  <span className="px-2.5 py-0.5 rounded-full text-[10px] font-semibold uppercase tracking-wider bg-[var(--accent-soft)] text-[var(--text-primary)]">
+                    {selectedItem.category}
+                  </span>
+                  <span className="text-xs text-[var(--text-muted)] flex items-center gap-1">
+                    <MapPin size={12} className="text-[var(--accent)]" />
+                    {selectedItem.location}
+                  </span>
+                </div>
+
+                <h3 className="text-2xl font-heading font-semibold text-[var(--text-primary)]">
+                  {selectedItem.title}
+                </h3>
+
+                <p className="text-sm text-[var(--text-muted)] leading-relaxed">
+                  {selectedItem.description}
+                </p>
+
+                {selectedItem.tags && selectedItem.tags.length > 0 && (
+                  <div className="flex flex-wrap gap-2 pt-2">
+                    {selectedItem.tags.map((tag, idx) => (
+                      <span
+                        key={idx}
+                        className="text-xs px-2.5 py-1 rounded-lg bg-[var(--bg-base)] border border-[var(--border)] text-[var(--text-muted)]"
+                      >
+                        #{tag}
+                      </span>
+                    ))}
+                  </div>
+                )}
+              </div>
+            </motion.div>
           </div>
-        </div>
-      )}
+        )}
+      </AnimatePresence>
     </div>
   );
 };

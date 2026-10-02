@@ -74,13 +74,13 @@ export const CategoryHero: React.FC<CategoryHeroProps> = ({
                         cursor: 'pointer',
                         transition: 'color var(--transition-fast)',
                       }}
-                      onMouseEnter={(e) => (e.currentTarget.style.color = 'var(--saathi-maroon)')}
+                      onMouseEnter={(e) => (e.currentTarget.style.color = 'var(--accent)')}
                       onMouseLeave={(e) => (e.currentTarget.style.color = 'var(--text-secondary)')}
                     >
                       {crumb.label}
                     </button>
                   ) : (
-                    <span style={{ color: isLast ? 'var(--saathi-maroon)' : 'var(--text-secondary)', fontWeight: isLast ? 600 : 400 }}>
+                    <span style={{ color: isLast ? 'var(--text-primary)' : 'var(--text-muted)', fontWeight: isLast ? 600 : 400 }}>
                       {crumb.label}
                     </span>
                   )}
@@ -100,10 +100,10 @@ export const CategoryHero: React.FC<CategoryHeroProps> = ({
                   alignItems: 'center',
                   padding: '0.2rem 0.6rem',
                   borderRadius: 'var(--radius-full)',
-                  backgroundColor: 'var(--saathi-nude-tint)',
-                  color: 'var(--saathi-maroon)',
+                  backgroundColor: 'var(--accent-soft)',
+                  color: 'var(--accent)',
                   fontSize: 'var(--text-xs)',
-                  fontWeight: 700,
+                  fontWeight: 600,
                   letterSpacing: '0.04em',
                 }}
               >
@@ -162,7 +162,7 @@ export const CategoryHero: React.FC<CategoryHeroProps> = ({
                   color: 'var(--text-secondary)',
                 }}
               >
-                <CheckCircle2 size={13} style={{ color: 'var(--saathi-maroon)' }} />
+                <CheckCircle2 size={13} style={{ color: 'var(--accent)' }} />
                 <span>{item}</span>
               </div>
             ))}

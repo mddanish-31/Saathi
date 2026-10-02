@@ -168,7 +168,7 @@ export default function ContactPage() {
               <button
                 type="submit"
                 disabled={status === 'loading'}
-                className="w-full sm:w-auto px-8 py-3.5 rounded-xl bg-[var(--accent)] text-[var(--text-inverse)] text-sm font-semibold hover:opacity-95 active:scale-[0.97] transition-all flex items-center justify-center gap-2"
+                className="w-full sm:w-auto px-8 py-3.5 rounded-xl bg-[var(--accent)] text-[var(--accent-foreground)] text-sm font-semibold hover:opacity-95 active:scale-[0.97] transition-all flex items-center justify-center gap-2"
               >
                 {status === 'loading' ? (
                   <span>Sending Message...</span>
@@ -228,7 +228,7 @@ export default function ContactPage() {
                     Corporate Office
                   </span>
                   <p className="text-sm text-[var(--text-primary)]">
-                    Bandra Kurla Complex (BKC), Mumbai, Maharashtra 400051
+                    123 Example Street, Placeholder City, 000000
                   </p>
                 </div>
               </div>

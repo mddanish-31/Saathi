@@ -338,7 +338,7 @@ export const PrivacyPolicyView: React.FC = () => {
                 (Official statutory response within 7 business days)
               </p>
               <p className="text-[var(--text-muted)]">
-                Postal Address: Unit 402, Signature Tower, G-Block, Bandra Kurla Complex (BKC), Mumbai, Maharashtra 400051, India.
+                Postal Address: 123 Example Street, Placeholder City, 000000.
               </p>
             </div>
           </motion.section>

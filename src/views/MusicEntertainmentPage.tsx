@@ -52,8 +52,26 @@ export const MusicEntertainmentPage: React.FC<MusicEntertainmentPageProps> = ({
     };
   }, []);
 
-  const currentService = activeServiceSlug
-    ? services.find((s) => s.slug === activeServiceSlug)
+  const [selectedServiceSlug, setSelectedServiceSlug] = useState<string>(activeServiceSlug || 'all');
+
+  useEffect(() => {
+    if (activeServiceSlug) {
+      setSelectedServiceSlug(activeServiceSlug);
+    }
+  }, [activeServiceSlug]);
+
+  useEffect(() => {
+    const handlePopState = () => {
+      const parts = window.location.pathname.split('/');
+      const slug = parts[4] || 'all';
+      setSelectedServiceSlug(slug);
+    };
+    window.addEventListener('popstate', handlePopState);
+    return () => window.removeEventListener('popstate', handlePopState);
+  }, []);
+
+  const currentService = selectedServiceSlug !== 'all'
+    ? services.find((s) => s.slug === selectedServiceSlug)
     : undefined;
 
   const [filters, setFilters] = useState<FilterState>({
@@ -90,16 +108,21 @@ export const MusicEntertainmentPage: React.FC<MusicEntertainmentPageProps> = ({
   };
 
   const handleSelectService = (slug: string) => {
-    if (slug === 'all') {
-      onNavigate('/categories/weddings-events/entertainment');
-    } else {
-      onNavigate(`/categories/weddings-events/entertainment/${slug}`);
+    setSelectedServiceSlug(slug);
+    const targetUrl = slug === 'all'
+      ? '/categories/weddings-events/entertainment'
+      : `/categories/weddings-events/entertainment/${slug}`;
+    if (typeof window !== 'undefined') {
+      window.history.pushState(null, '', targetUrl);
     }
   };
 
   const handleServiceCardClick = (service: ServiceItem) => {
-    onNavigate(`/categories/weddings-events/entertainment/${service.slug}`);
-    window.scrollTo({ top: 350, behavior: 'smooth' });
+    handleSelectService(service.slug);
+    const roster = document.getElementById('specialist-roster');
+    if (roster) {
+      roster.scrollIntoView({ behavior: 'smooth' });
+    }
   };
 
   const handleViewProfile = (pro: Professional) => {
@@ -116,7 +139,7 @@ export const MusicEntertainmentPage: React.FC<MusicEntertainmentPageProps> = ({
   const filteredProfessionals = useMemo(() => {
     return professionals.filter((pro) => {
       // 1. Service Filter
-      if (activeServiceSlug && !pro.servicesOffered.includes(activeServiceSlug)) {
+      if (selectedServiceSlug !== 'all' && !pro.servicesOffered.includes(selectedServiceSlug)) {
         return false;
       }
 
@@ -172,13 +195,13 @@ export const MusicEntertainmentPage: React.FC<MusicEntertainmentPageProps> = ({
       if (filters.sortBy === 'name') return a.brandName.localeCompare(b.brandName);
       return 0;
     });
-  }, [activeServiceSlug, filters, eventType, performanceType]);
+  }, [selectedServiceSlug, filters, eventType, performanceType]);
 
   const pageTitle = currentService ? currentService.title : 'Music & Entertainment';
 
   const pageDescription = currentService
     ? currentService.fullDescription
-    : 'Book DJs, live bands, singers, performers, bilingual anchors, and full sound & light production teams to power every stage of your celebration \u2014 from an intimate mandap ceremony to a showstopper sangeet night.';
+    : 'Book DJs, live bands, singers, performers, bilingual anchors, and full sound & light production teams to power every stage of your celebration — from an intimate mandap ceremony to a showstopper sangeet night.';
 
   return (
     <div className="saathi-music-entertainment-page">
@@ -187,7 +210,7 @@ export const MusicEntertainmentPage: React.FC<MusicEntertainmentPageProps> = ({
         title={pageTitle}
         description={pageDescription}
         onNavigate={onNavigate}
-        activeServiceSlug={activeServiceSlug}
+        activeServiceSlug={selectedServiceSlug}
         serviceTabs={[
           { label: 'DJs', slug: 'djs' },
           { label: 'Live Bands & Musicians', slug: 'live-bands' },
@@ -200,10 +223,10 @@ export const MusicEntertainmentPage: React.FC<MusicEntertainmentPageProps> = ({
       />
 
       {/* Main Section */}
-      <section style={{ padding: 'clamp(var(--space-10), 5vw, var(--space-16)) 0', backgroundColor: 'var(--bg-app)' }}>
+      <section id="specialist-roster" style={{ padding: 'clamp(var(--space-10), 5vw, var(--space-16)) 0', backgroundColor: 'var(--bg-app)' }}>
         <Container>
           {/* Services Overview Cards (Show if on main entertainment page) */}
-          {!activeServiceSlug && (
+          {(!selectedServiceSlug || selectedServiceSlug === 'all') && (
             <div style={{ marginBottom: 'var(--space-16)' }}>
               <SectionHeading
                 eyebrow="Specialized Entertainment Services"

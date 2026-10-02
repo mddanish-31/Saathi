@@ -87,7 +87,7 @@ export default function FAQPage() {
             }}
             className={`flex items-center gap-2 px-6 py-2.5 rounded-full text-xs font-semibold transition-all ${
               activeTab === 'customer'
-                ? 'bg-[var(--accent)] text-[var(--text-inverse)] shadow-sm'
+                ? 'bg-[var(--accent)] text-[var(--accent-foreground)] shadow-sm'
                 : 'text-[var(--text-muted)] hover:text-[var(--text-primary)]'
             }`}
           >
@@ -102,7 +102,7 @@ export default function FAQPage() {
             }}
             className={`flex items-center gap-2 px-6 py-2.5 rounded-full text-xs font-semibold transition-all ${
               activeTab === 'professional'
-                ? 'bg-[var(--accent)] text-[var(--text-inverse)] shadow-sm'
+                ? 'bg-[var(--accent)] text-[var(--accent-foreground)] shadow-sm'
                 : 'text-[var(--text-muted)] hover:text-[var(--text-primary)]'
             }`}
           >
@@ -160,7 +160,7 @@ export default function FAQPage() {
         </p>
         <Link
           href="/contact"
-          className="inline-flex items-center gap-2 px-6 py-2.5 rounded-xl bg-[var(--accent)] text-[var(--text-inverse)] text-xs font-semibold hover:opacity-95 transition-opacity"
+          className="inline-flex items-center gap-2 px-6 py-2.5 rounded-xl bg-[var(--accent)] text-[var(--accent-foreground)] text-xs font-semibold hover:opacity-95 transition-opacity"
         >
           <span>Speak with Concierge</span>
           <ArrowRight size={14} strokeWidth={2} />

@@ -45,3 +45,9 @@ Thumbs.db
 .next/
 out/
 tsconfig.tsbuildinfo
+
+# Diagnostics & visual evidence
+visual-evidence/
+!visual-evidence/visual_diagnostic_summary.json
+test_mobile.png
+

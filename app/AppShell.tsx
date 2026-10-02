@@ -30,14 +30,14 @@ export const AppShell: React.FC<{ children: React.ReactNode }> = ({ children }) 
     <div className="saathi-app-root flex flex-col min-h-screen bg-[var(--bg-base)] text-[var(--text-primary)]">
       <Navbar currentPath={pathname || '/'} onNavigate={handleNavigate} />
       <main className="flex-1 w-full relative">
-        <AnimatePresence mode="wait" initial={false}>
+        <AnimatePresence mode="popLayout" initial={false}>
           <motion.div
-            key={pathname}
-            initial={isFirstMount.current ? false : { opacity: 0, y: 8 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -8 }}
+            key={pathname ? pathname.split('/').slice(0, 3).join('/') : '/'}
+            initial={isFirstMount.current ? false : { opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
             transition={{
-              duration: 0.25,
+              duration: 0.18,
               ease: [0.4, 0, 0.2, 1],
             }}
             className="w-full"

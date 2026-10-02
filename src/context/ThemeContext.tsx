@@ -27,28 +27,38 @@ export const ThemeProvider: React.FC<{ children: React.ReactNode }> = ({ childre
     }
   }, []);
 
+  const applyTheme = (targetTheme: Theme) => {
+    try {
+      document.documentElement.setAttribute('data-theme', targetTheme);
+      document.documentElement.classList.toggle('dark', targetTheme === 'dark');
+      localStorage.setItem(THEME_STORAGE_KEY, targetTheme);
+    } catch {
+      // ignore
+    }
+  };
+
   const toggleTheme = () => {
-    setThemeState((prevTheme) => {
-      const nextTheme = prevTheme === 'light' ? 'dark' : 'light';
-      try {
-        document.documentElement.setAttribute('data-theme', nextTheme);
-        document.documentElement.classList.toggle('dark', nextTheme === 'dark');
-        localStorage.setItem(THEME_STORAGE_KEY, nextTheme);
-      } catch {
-        // ignore
-      }
-      return nextTheme;
-    });
+    const nextTheme = theme === 'light' ? 'dark' : 'light';
+    setThemeState(nextTheme);
+
+    if (typeof document !== 'undefined' && 'startViewTransition' in document) {
+      (document as any).startViewTransition(() => {
+        applyTheme(nextTheme);
+      });
+    } else {
+      applyTheme(nextTheme);
+    }
   };
 
   const setTheme = (newTheme: Theme) => {
     setThemeState(newTheme);
-    try {
-      document.documentElement.setAttribute('data-theme', newTheme);
-      document.documentElement.classList.toggle('dark', newTheme === 'dark');
-      localStorage.setItem(THEME_STORAGE_KEY, newTheme);
-    } catch {
-      // ignore
+
+    if (typeof document !== 'undefined' && 'startViewTransition' in document) {
+      (document as any).startViewTransition(() => {
+        applyTheme(newTheme);
+      });
+    } else {
+      applyTheme(newTheme);
     }
   };
 

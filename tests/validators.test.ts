@@ -7,6 +7,7 @@ import {
   queryProfessionalsSchema,
   createReviewSchema,
   portfolioItemSchema,
+  createFeedbackSchema,
 } from '../src/lib/validators';
 import { sanitizeText } from '../src/lib/sanitize';
 import { checkRateLimit } from '../src/lib/rate-limiter';
@@ -184,6 +185,37 @@ describe('Zod Validation Schemas', () => {
       expect(portfolioItemSchema.safeParse({ title: 'Mandap', type: 'image' }).success).toBe(true);
       expect(portfolioItemSchema.safeParse({ title: 'Sangeet Reel', type: 'video' }).success).toBe(true);
       expect(portfolioItemSchema.safeParse({ title: 'Live Mix', type: 'audio' }).success).toBe(true);
+    });
+  });
+
+  describe('createFeedbackSchema', () => {
+    it('accepts valid feedback submission', () => {
+      const valid = {
+        email: 'user@example.com',
+        message: 'The new artist expand animation feels super smooth and natural!',
+        category: 'suggestion',
+      };
+      const res = createFeedbackSchema.safeParse(valid);
+      expect(res.success).toBe(true);
+    });
+
+    it('rejects message shorter than 5 characters', () => {
+      const invalid = {
+        email: 'user@example.com',
+        message: 'Hi',
+        category: 'general',
+      };
+      const res = createFeedbackSchema.safeParse(invalid);
+      expect(res.success).toBe(false);
+    });
+
+    it('rejects invalid email address', () => {
+      const invalid = {
+        email: 'invalid-email',
+        message: 'Great platform, really enjoying the search filters.',
+      };
+      const res = createFeedbackSchema.safeParse(invalid);
+      expect(res.success).toBe(false);
     });
   });
 });

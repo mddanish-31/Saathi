@@ -120,7 +120,7 @@ export const Navbar: React.FC<NavbarProps> = ({ currentPath, onNavigate }) => {
   if (isAuthPage) {
     return (
       <header className="sticky top-0 z-40 bg-[var(--bg-surface)] border-b border-[var(--border)] transition-colors duration-300">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-18 flex items-center justify-between">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
           <Logo size="md" asLink={true} />
           <ThemeToggle />
         </div>
@@ -135,14 +135,14 @@ export const Navbar: React.FC<NavbarProps> = ({ currentPath, onNavigate }) => {
         isScrolled
           ? 'bg-[var(--bg-surface)]/95 backdrop-blur-md border-b border-[var(--border)] shadow-sm'
           : currentPath === '/'
-          ? 'bg-transparent border-b border-transparent'
+          ? 'bg-[var(--bg-base)]/90 backdrop-blur-md border-b border-[var(--border)]/60'
           : 'bg-[var(--bg-surface)]/95 backdrop-blur-md border-b border-[var(--border)]'
       }`}
     >
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-18 flex items-center justify-between">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
         {/* Left: Brand Logo */}
         <div className="flex items-center flex-shrink-0">
-          <Logo size="md" showTagline={true} asLink={true} />
+          <Logo size="md" showTagline={false} asLink={true} />
         </div>
 
         {/* Center: Desktop Navigation Links (Underline-grow-on-hover & Tab focus, distinct active indicators) */}
@@ -155,7 +155,7 @@ export const Navbar: React.FC<NavbarProps> = ({ currentPath, onNavigate }) => {
           >
             <button
               type="button"
-              onClick={() => handleNavClick('/categories/weddings-events')}
+              onClick={() => setActiveDropdown(prev => prev === 'weddings' ? null : 'weddings')}
               aria-expanded={activeDropdown === 'weddings'}
               aria-haspopup="true"
               className={`relative py-1 text-xs uppercase tracking-wider transition-colors flex items-center gap-1 group focus:outline-none focus-visible:outline-none focus-visible:text-[var(--accent)] ${
@@ -181,44 +181,35 @@ export const Navbar: React.FC<NavbarProps> = ({ currentPath, onNavigate }) => {
               />
             </button>
 
-            {/* Weddings Mega Menu Dropdown */}
+            {/* Weddings Dropdown Menu */}
             {activeDropdown === 'weddings' && (
               <div
-                className="animate-slide-down absolute top-full left-0 w-[540px] bg-[var(--bg-surface)] border border-[var(--border)] rounded-2xl shadow-lg p-5 z-50"
+                className="animate-slide-down absolute top-full left-0 w-[460px] bg-[var(--bg-surface)] border border-[var(--border)] rounded-2xl shadow-sm p-4 z-50"
                 role="menu"
               >
-                <div className="flex items-center justify-between pb-3 mb-3 border-b border-[var(--border)]">
-                  <div className="flex items-center gap-2 text-xs font-heading font-semibold text-[var(--text-primary)]">
-                    <Sparkles size={14} className="text-[var(--accent)]" />
-                    <span>Curated Milestone Verticals</span>
-                  </div>
-                  <Link
-                    href="/categories/weddings-events"
-                    onClick={() => setActiveDropdown(null)}
-                    className="text-[11px] font-semibold text-[var(--accent)] hover:underline inline-flex items-center gap-1 focus:outline-none focus-visible:ring-1 focus-visible:ring-[var(--accent)] rounded"
-                  >
-                    <span>Directory</span>
-                    <ArrowRight size={12} strokeWidth={2} />
-                  </Link>
-                </div>
-
-                <div className="grid grid-cols-2 gap-2">
+                <div className="grid grid-cols-2 gap-x-6 gap-y-1.5 p-1">
                   {WEDDING_VERTICALS.map((subcat) => (
                     <Link
-                      key={subcat.code}
+                      key={subcat.slug}
                       href={subcat.slug}
                       role="menuitem"
                       onClick={() => setActiveDropdown(null)}
-                      className="flex items-center gap-2.5 p-2 rounded-xl border border-transparent hover:border-[var(--border)] hover:bg-[var(--bg-base)] focus-visible:border-[var(--accent)] focus:outline-none transition-all group"
+                      className="py-2 text-[13px] font-medium text-[var(--text-primary)] hover:text-[var(--accent)] hover:translate-x-0.5 transition-all duration-150 rounded"
                     >
-                      <span className="text-[10px] font-bold text-[var(--accent)] bg-[var(--bg-base)] px-1.5 py-0.5 rounded border border-[var(--border)]">
-                        {subcat.code}
-                      </span>
-                      <span className="text-xs font-medium text-[var(--text-primary)] group-hover:text-[var(--accent)] group-focus-visible:text-[var(--accent)] transition-colors truncate">
-                        {subcat.title}
-                      </span>
+                      {subcat.title}
                     </Link>
                   ))}
+                </div>
+
+                <div className="mt-3 pt-3 border-t border-[var(--border)] flex items-center justify-between px-1">
+                  <span className="text-[11px] text-[var(--text-muted)]">Verified Wedding & Event Specialists</span>
+                  <Link
+                    href="/categories/weddings-events"
+                    onClick={() => setActiveDropdown(null)}
+                    className="text-xs font-medium text-[var(--accent)] hover:underline"
+                  >
+                    View Directory
+                  </Link>
                 </div>
               </div>
             )}
@@ -316,14 +307,14 @@ export const Navbar: React.FC<NavbarProps> = ({ currentPath, onNavigate }) => {
               <Link
                 href="/login"
                 prefetch={false}
-                className="px-3 py-2 text-xs font-semibold text-[var(--text-primary)] hover:text-[var(--accent)] transition-colors"
+                className="px-3.5 py-2 text-sm font-medium text-[var(--text-primary)] hover:text-[var(--accent)] transition-colors rounded-lg focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--accent)]"
               >
                 Login
               </Link>
               <Link
                 href="/signup"
                 prefetch={false}
-                className="px-4 py-2 rounded-xl border border-[var(--accent)] text-[var(--accent)] hover:bg-[var(--accent)] hover:text-[var(--text-inverse)] active:scale-[0.97] text-xs font-semibold transition-all"
+                className="px-5 py-2 rounded-full bg-[var(--accent)] text-[var(--btn-primary-text)] hover:bg-[var(--accent-hover)] active:scale-[0.97] text-sm font-medium transition-all shadow-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--accent)]"
               >
                 Get Started
               </Link>
@@ -460,9 +451,9 @@ export const Navbar: React.FC<NavbarProps> = ({ currentPath, onNavigate }) => {
                 </div>
               )}
 
-              <div className="flex items-center justify-between text-[11px] text-[var(--text-muted)] pt-2">
+              <div className="flex flex-col sm:flex-row items-center justify-between text-[11px] text-[var(--text-muted)] pt-2 gap-1">
                 <span>Saathi • Simpler 2 Gather</span>
-                <span>BKC, Mumbai</span>
+                <span>123 Example Street, Placeholder City, 000000</span>
               </div>
             </div>
           </motion.div>

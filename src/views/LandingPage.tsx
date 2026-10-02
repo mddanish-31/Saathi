@@ -5,118 +5,129 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { motion, useScroll, useTransform, useReducedMotion } from 'framer-motion';
 import {
-  ArrowRight,
   MapPin,
   Star,
-  ShieldCheck,
   Search,
   CheckCircle2,
   Lock,
   Plus,
   X,
+  ChevronDown,
 } from 'lucide-react';
-import { Logo } from '../components/brand/Logo';
 import { Professional } from '../types';
+import { BotanicalAccent } from '../components/brand/BotanicalAccent';
 
 interface LandingPageProps {
   onNavigate: (path: string) => void;
 }
 
-// 4-6 Curated High-Resolution Service-Related Photos for Shuffling Hero Panel
+// Curated High-Resolution Editorial Photos for Edge-Blended Hero Panel
 const HERO_IMAGES = [
   {
     url: 'https://images.unsplash.com/photo-1583939003579-730e3918a45a?auto=format&fit=crop&w=1200&q=80',
     title: 'Heritage Palace Mandaps',
-    vertical: 'Weddings & Planning',
+    vertical: 'Decor & Mandap Styling',
     location: 'Udaipur, Rajasthan',
   },
   {
     url: 'https://images.unsplash.com/photo-1519741497674-611481863552?auto=format&fit=crop&w=1200&q=80',
-    title: 'Bespoke Floral Architecture',
-    vertical: 'Decor & Styling',
+    title: 'Bespoke Turnkey Orchestration',
+    vertical: 'Wedding Planning',
     location: 'Delhi NCR',
   },
   {
     url: 'https://images.unsplash.com/photo-1470225620780-dba8ba36b745?auto=format&fit=crop&w=1200&q=80',
-    title: 'Live Sufi & Bollywood Ensembles',
-    vertical: 'Music & Acts',
+    title: 'Live Sufi & Contemporary Ensembles',
+    vertical: 'Music & Entertainment',
     location: 'Mumbai, Maharashtra',
   },
   {
     url: 'https://images.unsplash.com/photo-1555244162-803834f70033?auto=format&fit=crop&w=1200&q=80',
-    title: 'Artisanal Culinary Experiences',
-    vertical: 'Catering & Food',
+    title: 'Artisanal Regional Feasts',
+    vertical: 'Fine Catering & Desserts',
     location: 'Bengaluru, Karnataka',
   },
   {
     url: 'https://images.unsplash.com/photo-1537633552985-df8429e8048b?auto=format&fit=crop&w=1200&q=80',
-    title: 'Cinematic Pheras & Stories',
+    title: 'Cinematic Visual Epics',
     vertical: 'Photography & Films',
     location: 'Jaipur, Rajasthan',
   },
 ];
 
-// Bento Grid Categories: 1 Featured 2x2, two 1x2, three 1x1 per spec
-const BENTO_CATEGORIES = [
+// Service & Category Verticals Per Sketch (Circular Avatar + Info + CTA)
+const SERVICE_VERTICALS = [
   {
+    id: 'planning',
     code: 'A1',
-    name: 'Wedding Planning & Coordination',
-    subtitle: 'Turnkey orchestration, bespoke timelines, multi-day guest hospitality, and vendor direction for luxury unions.',
-    badge: 'Featured Vertical • A1',
+    name: 'Wedding Planning',
+    subtitle: 'Turnkey orchestration & timelines',
+    stats: '48+ Verified Curators',
     href: '/categories/weddings-events/planning',
-    image: 'https://images.unsplash.com/photo-1519741497674-611481863552?auto=format&fit=crop&w=1200&q=80',
-    gridSpan: 'md:col-span-2 md:row-span-2 min-h-[380px] md:min-h-[480px]',
-    isFeatured: true,
+    image: 'https://images.unsplash.com/photo-1519741497674-611481863552?auto=format&fit=crop&w=500&q=80',
   },
   {
-    code: 'A3',
-    name: 'Music & Entertainment',
-    subtitle: 'Concert DJs, Sufi-Bollywood fusion acts, celebrity hosts, and precision sound engineering.',
-    badge: 'Live Acts • A3',
-    href: '/categories/weddings-events/entertainment',
-    image: 'https://images.unsplash.com/photo-1470225620780-dba8ba36b745?auto=format&fit=crop&w=1200&q=80',
-    gridSpan: 'md:col-span-2 md:row-span-1 min-h-[230px]',
-    isFeatured: false,
-  },
-  {
+    id: 'photography',
     code: 'A2',
-    name: 'Photography & Cinematography',
-    subtitle: 'Award-winning candid and cinematic visual masters capturing sacred vows and royal celebrations.',
-    badge: 'Visual Stories • A2',
+    name: 'Photography & Films',
+    subtitle: 'Candid & cinematic storytellers',
+    stats: '64+ Visual Masters',
     href: '/categories/weddings-events/photography',
-    image: 'https://images.unsplash.com/photo-1537633552985-df8429e8048b?auto=format&fit=crop&w=1200&q=80',
-    gridSpan: 'md:col-span-2 md:row-span-1 min-h-[230px]',
-    isFeatured: false,
+    image: 'https://images.unsplash.com/photo-1537633552985-df8429e8048b?auto=format&fit=crop&w=500&q=80',
   },
   {
-    code: 'A7',
-    name: 'Decor, Mandap & Styling',
-    subtitle: 'Visionary floral designers & thematic mandap architects.',
-    badge: 'Styling • A7',
-    href: '/categories/weddings-events/decor-styling-essentials',
-    image: 'https://images.unsplash.com/photo-1583939003579-730e3918a45a?auto=format&fit=crop&w=1200&q=80',
-    gridSpan: 'md:col-span-1 md:row-span-1 min-h-[220px]',
-    isFeatured: false,
+    id: 'entertainment',
+    code: 'A3',
+    name: 'Music & Live Acts',
+    subtitle: 'Concert DJs, Sufi & Bollywood acts',
+    stats: '36+ Live Ensembles',
+    href: '/categories/weddings-events/entertainment',
+    image: 'https://images.unsplash.com/photo-1470225620780-dba8ba36b745?auto=format&fit=crop&w=500&q=80',
   },
   {
+    id: 'beauty',
+    code: 'A4',
+    name: 'Beauty & Makeup',
+    subtitle: 'Editorial bridal styling & mehndi',
+    stats: '52+ Bridal Stylists',
+    href: '/categories/weddings-events/beauty-makeup-mehndi',
+    image: 'https://images.unsplash.com/photo-1487412720507-e7ab37603c6f?auto=format&fit=crop&w=500&q=80',
+  },
+  {
+    id: 'catering',
     code: 'A5',
-    name: 'Fine Catering & Desserts',
-    subtitle: 'Fine-dining regional banquet & live counter masters.',
-    badge: 'Culinary • A5',
+    name: 'Catering & Food',
+    subtitle: 'Fine dining & artisanal banquets',
+    stats: '29+ Gourmet Partners',
     href: '/categories/weddings-events/catering-food-desserts',
-    image: 'https://images.unsplash.com/photo-1555244162-803834f70033?auto=format&fit=crop&w=1200&q=80',
-    gridSpan: 'md:col-span-1 md:row-span-1 min-h-[220px]',
-    isFeatured: false,
+    image: 'https://images.unsplash.com/photo-1555244162-803834f70033?auto=format&fit=crop&w=500&q=80',
   },
   {
+    id: 'venues',
     code: 'A6',
-    name: 'Venues & Heritage Palaces',
-    subtitle: 'Royal havelis, luxury coastal resorts, and expansive lawns.',
-    badge: 'Venues • A6',
+    name: 'Wedding Venues',
+    subtitle: 'Heritage palaces, estates & lawns',
+    stats: '42+ Historic Locations',
     href: '/categories/weddings-events/wedding-venues',
-    image: 'https://images.unsplash.com/photo-1566073771259-6a8506099945?auto=format&fit=crop&w=800&q=80',
-    gridSpan: 'md:col-span-2 md:row-span-1 min-h-[220px]',
-    isFeatured: false,
+    image: 'https://images.unsplash.com/photo-1566073771259-6a8506099945?auto=format&fit=crop&w=500&q=80',
+  },
+  {
+    id: 'decor',
+    code: 'A7',
+    name: 'Decor & Mandap',
+    subtitle: 'Thematic floral architecture',
+    stats: '38+ Production Studios',
+    href: '/categories/weddings-events/decor-styling-essentials',
+    image: 'https://images.unsplash.com/photo-1583939003579-730e3918a45a?auto=format&fit=crop&w=500&q=80',
+  },
+  {
+    id: 'transportation',
+    code: 'A8',
+    name: 'Transportation',
+    subtitle: 'Vintage motorcades & guest shuttles',
+    stats: '24+ Chauffeur Fleets',
+    href: '/categories/weddings-events/wedding-transportation',
+    image: 'https://images.unsplash.com/photo-1503376780353-7e6692767b70?auto=format&fit=crop&w=500&q=80',
   },
 ];
 
@@ -159,86 +170,53 @@ const INITIAL_REVIEWS: ReviewItem[] = [
     comment:
       'The Sufi live ensemble curated for our Sangeet night electrified the entire courtyard. Transparent pricing, zero hidden markups, and flawless backstage coordination.',
     eventType: 'Sangeet & Cocktail',
-    location: 'The Oberoi Sukhvilas, Chandigarh',
-  },
-  {
-    id: 'rev-4',
-    authorName: 'Rohan Deshmukh',
-    rating: 5,
-    relativeDate: '1 month ago',
-    comment:
-      'Finding master regional caterers who could deliver authentic Maratha royal recipes alongside modern dessert stations was our priority. Exceeded our highest expectations.',
-    eventType: 'Wedding Reception',
-    location: 'Taj Lands End, Mumbai',
-  },
-  {
-    id: 'rev-5',
-    authorName: 'Meera Kapur',
-    rating: 5,
-    relativeDate: '2 months ago',
-    comment:
-      'The cinematography team captured candid, emotional moments that our family will cherish for generations. Direct vendor connection with zero platform friction.',
-    eventType: 'Pheras & Pre-Wedding',
-    location: 'Samode Palace, Jaipur',
+    location: 'South Mumbai',
   },
 ];
 
-// Helper to generate initials avatar
-function getInitials(name: string): string {
+const getInitials = (name: string): string => {
+  if (!name) return 'S';
   const parts = name.trim().split(/\s+/);
-  if (parts.length === 1) return parts[0].slice(0, 2).toUpperCase();
+  if (parts.length === 1) return parts[0].substring(0, 2).toUpperCase();
   return (parts[0][0] + parts[parts.length - 1][0]).toUpperCase();
-}
+};
 
-// Star Rating Component with Staggered Scale-Pop Animation
 const StarRating: React.FC<{ rating: number }> = ({ rating }) => {
   return (
     <div className="flex items-center gap-1">
-      {[1, 2, 3, 4, 5].map((star, idx) => (
-        <motion.div
+      {[1, 2, 3, 4, 5].map((star) => (
+        <Star
           key={star}
-          initial={{ scale: 0.4, opacity: 0 }}
-          whileInView={{ scale: 1, opacity: 1 }}
-          viewport={{ once: true }}
-          transition={{
-            duration: 0.1,
-            delay: idx * 0.05,
-            ease: 'easeOut',
-          }}
-        >
-          <Star
-            size={15}
-            className={
-              star <= rating
-                ? 'fill-[var(--accent)] text-[var(--accent)]'
-                : 'text-[var(--border)] stroke-[var(--border)]'
-            }
-          />
-        </motion.div>
+          size={14}
+          className={
+            star <= rating
+              ? 'fill-[var(--accent)] text-[var(--accent)]'
+              : 'text-[var(--border)] stroke-[var(--border)]'
+          }
+        />
       ))}
     </div>
   );
 };
 
-const HeroSlideshow: React.FC<{
-  panelScale: any;
+// Edge-Blended Hero Image Panel (No hard borders, no card frame, gradient alpha mask fade)
+const EdgeBlendedHeroImage: React.FC<{
   panelOpacity: any;
   panelTranslateY: any;
   shouldReduceMotion: boolean | null;
-}> = ({ panelScale, panelOpacity, panelTranslateY, shouldReduceMotion }) => {
+}> = ({ panelOpacity, panelTranslateY, shouldReduceMotion }) => {
   const [activeHeroIndex, setActiveHeroIndex] = useState(0);
   const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
     setMounted(true);
-    // Initial delay so initial page load metrics stabilize, then crossfade smoothly
     let interval: NodeJS.Timeout;
     const timeout = setTimeout(() => {
       setActiveHeroIndex((prev) => (prev + 1) % HERO_IMAGES.length);
       interval = setInterval(() => {
         setActiveHeroIndex((prev) => (prev + 1) % HERO_IMAGES.length);
-      }, 4000);
-    }, 5500);
+      }, 4500);
+    }, 4000);
 
     return () => {
       clearTimeout(timeout);
@@ -249,62 +227,62 @@ const HeroSlideshow: React.FC<{
   return (
     <motion.div
       style={{
-        scale: shouldReduceMotion ? 1 : panelScale,
         opacity: shouldReduceMotion ? 1 : panelOpacity,
         y: shouldReduceMotion ? 0 : panelTranslateY,
         willChange: 'transform, opacity',
       }}
-      className="relative w-full h-[400px] sm:h-[480px] lg:h-[560px] rounded-3xl overflow-hidden border border-[var(--border)] shadow-[0_8px_24px_rgba(0,0,0,0.06)] dark:shadow-[0_8px_24px_rgba(0,0,0,0.3)]"
+      className="relative w-full h-[420px] sm:h-[500px] lg:h-[580px] flex items-center justify-center overflow-hidden select-none"
     >
-      {/* Slideshow of 5 photos crossfading every 4 seconds with 1.5s calm ease-in-out */}
-      {HERO_IMAGES.map((img, idx) => {
-        if (idx !== 0 && !mounted) return null;
-        return (
-          <div
-            key={img.url}
-            className="absolute inset-0 transition-opacity duration-[1500ms] ease-in-out"
-            style={{
-              opacity: idx === activeHeroIndex ? 1 : 0,
-              zIndex: idx === activeHeroIndex ? 2 : 1,
-            }}
-          >
-            <Image
-              src={img.url}
-              alt={img.title}
-              fill
-              priority={idx === 0}
-              quality={65}
-              sizes="(max-width: 640px) 100vw, (max-width: 1024px) 60vw, 50vw"
-              className="object-cover object-center"
-            />
-            {/* Subtle Gradient Scrim on Bottom 40% for text clarity */}
-            <div className="absolute inset-x-0 bottom-0 h-[45%] bg-gradient-to-t from-black/85 via-black/40 to-transparent pointer-events-none" />
-          </div>
-        );
-      })}
-
-      {/* Edge Gradient Mask Overlay ensuring soft visual blend into page background */}
+      {/* Edge-blended container using radial and directional mask gradient */}
       <div
-        className="absolute inset-0 pointer-events-none rounded-3xl z-10"
+        className="relative w-full h-full"
         style={{
-          boxShadow: 'inset 0 0 32px 8px var(--bg-base)',
+          maskImage:
+            'radial-gradient(ellipse 90% 86% at 55% 50%, black 48%, rgba(0,0,0,0.6) 74%, transparent 100%)',
+          WebkitMaskImage:
+            'radial-gradient(ellipse 90% 86% at 55% 50%, black 48%, rgba(0,0,0,0.6) 74%, transparent 100%)',
         }}
-      />
+      >
+        {HERO_IMAGES.map((img, idx) => {
+          if (idx !== 0 && !mounted) return null;
+          return (
+            <div
+              key={img.url}
+              className="absolute inset-0 transition-opacity duration-[1200ms] ease-in-out"
+              style={{
+                opacity: idx === activeHeroIndex ? 1 : 0,
+                zIndex: idx === activeHeroIndex ? 2 : 1,
+              }}
+            >
+              <Image
+                src={img.url}
+                alt={img.title}
+                fill
+                priority={idx === 0}
+                quality={65}
+                sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 45vw"
+                className="object-cover object-center"
+              />
+            </div>
+          );
+        })}
+      </div>
 
-      {/* Floating Meta Caption Bar displaying current active slide details */}
-      <div className="absolute bottom-5 left-5 right-5 z-20 flex items-center justify-between gap-3 text-xs font-medium text-white/95 bg-black/40 backdrop-blur-md border border-white/20 py-2.5 px-4 rounded-xl">
-        <div>
-          <span className="text-[10px] font-semibold uppercase tracking-wider text-[var(--saathi-nude)] block">
-            {HERO_IMAGES[activeHeroIndex].vertical}
-          </span>
-          <span className="font-heading font-semibold text-xs">
-            {HERO_IMAGES[activeHeroIndex].title}
-          </span>
-        </div>
-        <div className="flex items-center gap-1.5 text-[11px] text-white/80">
-          <MapPin size={12} strokeWidth={2} />
-          <span>{HERO_IMAGES[activeHeroIndex].location}</span>
-        </div>
+      {/* Clean editorial caption directly on bottom with subtle gradient scrim (no glassmorphism/blur) */}
+      <div
+        className="absolute inset-x-0 bottom-0 pt-10 pb-4 px-6 z-20 flex items-center justify-between text-xs text-white pointer-events-none"
+        style={{
+          backgroundColor: 'rgba(18, 16, 14, 0.85)',
+          backgroundImage: 'linear-gradient(to top, rgba(14, 12, 10, 0.95) 0%, rgba(14, 12, 10, 0.6) 60%, transparent 100%)',
+        }}
+      >
+        <span className="font-medium tracking-tight text-white">
+          {HERO_IMAGES[activeHeroIndex].title}
+        </span>
+        <span className="flex items-center gap-1.5 text-white text-[11px]">
+          <MapPin size={11} className="text-[var(--accent)]" />
+          {HERO_IMAGES[activeHeroIndex].location}
+        </span>
       </div>
     </motion.div>
   );
@@ -315,7 +293,7 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onNavigate }) => {
   const [loadingPros, setLoadingPros] = useState(true);
   const [searchQuery, setSearchQuery] = useState('');
 
-  // Reviews state & submission form modal
+  // Reviews state & modal
   const [reviews, setReviews] = useState<ReviewItem[]>(INITIAL_REVIEWS);
   const [showReviewModal, setShowReviewModal] = useState(false);
   const [reviewForm, setReviewForm] = useState({
@@ -330,16 +308,14 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onNavigate }) => {
   const heroRef = useRef<HTMLDivElement>(null);
   const shouldReduceMotion = useReducedMotion();
 
-  // Scroll-linked transforms on Hero image panel:
-  // Scales down from 1 to ~0.70 and opacity fades down to ~0.25 to blend into background
+  // Scroll transitions for Hero -> Next Section seamless blending
   const { scrollYProgress } = useScroll({
     target: heroRef,
     offset: ['start start', 'end start'],
   });
 
-  const panelScale = useTransform(scrollYProgress, [0, 1], [1, 0.72]);
-  const panelOpacity = useTransform(scrollYProgress, [0, 0.75, 1], [1, 0.45, 0.22]);
-  const panelTranslateY = useTransform(scrollYProgress, [0, 1], [0, 48]);
+  const heroOpacity = useTransform(scrollYProgress, [0, 0.8, 1], [1, 0.7, 0.3]);
+  const heroTranslateY = useTransform(scrollYProgress, [0, 1], [0, 36]);
 
   // Fetch real verified professionals from Supabase API
   useEffect(() => {
@@ -399,385 +375,393 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onNavigate }) => {
     }, 1800);
   };
 
+  const scrollToCategories = () => {
+    const el = document.getElementById('services');
+    if (el) {
+      el.scrollIntoView({ behavior: 'smooth' });
+    }
+  };
+
   return (
     <div className="relative w-full overflow-hidden bg-[var(--bg-base)] text-[var(--text-primary)]">
+      {/* Subtle Botanical Corner Motif */}
+      <BotanicalAccent variant="corner" className="absolute top-0 right-0" />
+
       {/* =====================================================================
-          1. HERO SECTION — SHUFFLING IMAGE PANEL & EDITORIAL COPY
+          1. HERO SECTION — PER SKETCH LAYOUT
+          Left: Headline (Fraunces + italic accent word) + Subhead + Search + Scroll cue
+          Right: Full-bleed edge-blended photo dissolving into page background
           ===================================================================== */}
-      <section
+      <motion.section
         ref={heroRef}
-        className="relative pt-8 pb-16 md:pt-14 md:pb-24 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto"
+        style={{
+          opacity: shouldReduceMotion ? 1 : heroOpacity,
+          y: shouldReduceMotion ? 0 : heroTranslateY,
+        }}
+        className="relative pt-6 pb-16 md:pt-12 md:pb-24 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto"
       >
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-12 items-center">
-          {/* Left Column: Editorial Headline + Subtitle + Direct Search + CTA */}
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center">
+          {/* Left Column: Headline, subhead, search, scroll cue */}
           <div className="lg:col-span-6 flex flex-col items-start text-left">
-            {/* Animated Infinity Logo Mark */}
-            <div className="mb-6">
-              <Logo size="hero" animated={true} showTagline={false} asLink={false} />
-            </div>
-
-            {/* Editorial Eyebrow with hairline dividers */}
-            <div className="inline-flex items-center gap-3 mb-6">
-              <span className="w-8 h-[1px] bg-[var(--border)]" />
-              <span className="text-xs uppercase tracking-[0.025em] font-semibold text-[var(--accent)] font-heading">
-                Simpler 2 Gather • India&rsquo;s Editorial Marketplace
-              </span>
-              <span className="w-8 h-[1px] bg-[var(--border)]" />
-            </div>
-
-            {/* Hero Headline with Fraunces Italic Accent */}
-            <h1 className="hero-headline font-heading font-semibold text-[var(--text-primary)] tracking-[-0.02em] mb-6">
+            <h1 className="font-display font-medium text-4xl sm:text-5xl lg:text-6xl text-[var(--text-primary)] tracking-tight leading-[1.12] mb-6">
               Milestone celebrations made{' '}
-              <span className="font-signature font-normal text-[var(--accent)]">effortless</span> and
+              <span className="italic font-normal text-[var(--accent)]">effortless</span> and
               unforgettable.
             </h1>
 
-            {/* Subtitle */}
-            <p className="text-base sm:text-lg text-[var(--text-muted)] max-w-xl mb-8 leading-[1.68] font-normal">
-              Saathi curates India&rsquo;s foremost wedding planners, musicians, caterers, and production
-              studios — vetted for craftsmanship, trusted for your grandest memories.
+            <p className="text-base sm:text-lg text-[var(--text-muted)] max-w-lg mb-8 leading-relaxed font-normal">
+              Saathi connects couples and event hosts with India’s foremost independent wedding
+              planners, live musicians, and culinary directors.
             </p>
 
-            {/* Direct Search Form */}
+            {/* Clean minimal search bar with single terracotta button */}
             <form
               onSubmit={handleSearchSubmit}
-              className="w-full max-w-lg mb-8 bg-[var(--bg-surface)] border border-[var(--border)] rounded-2xl p-2 shadow-sm flex items-center gap-2"
+              className="w-full max-w-md bg-[var(--bg-surface)] border border-[var(--border)] rounded-full p-1.5 pl-4 shadow-sm flex items-center gap-2 focus-within:border-[var(--accent)] transition-colors mb-10"
             >
-              <div className="pl-3 text-[var(--text-muted)]">
-                <Search size={18} strokeWidth={1.75} />
-              </div>
+              <Search size={18} className="text-[var(--text-muted)] shrink-0" strokeWidth={1.75} />
               <input
                 type="text"
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
-                placeholder="Search planners, live bands, venues, or cities..."
-                className="w-full bg-transparent text-sm text-[var(--text-primary)] placeholder-[var(--soft-taupe)] focus:outline-none"
+                placeholder="Search planners, caterers, live acts..."
+                className="w-full bg-transparent text-sm text-[var(--text-primary)] placeholder:text-[var(--text-muted)] outline-none"
               />
               <button
                 type="submit"
-                className="px-5 py-2.5 rounded-xl border border-[var(--accent)] text-[var(--accent)] hover:bg-[var(--accent)] hover:text-[var(--text-inverse)] text-xs font-semibold active:scale-[0.97] transition-all flex items-center gap-1.5 flex-shrink-0"
+                className="bg-[var(--accent)] hover:bg-[var(--accent-hover)] text-[var(--btn-primary-text)] text-xs font-medium px-5 py-2.5 rounded-full transition-all active:scale-95 shrink-0"
               >
-                <span>Explore</span>
-                <ArrowRight size={14} strokeWidth={2} />
+                Search
               </button>
             </form>
 
-            {/* Subtle CTA Buttons */}
-            <div className="flex flex-wrap items-center gap-3 mb-8">
-              <Link
-                href="/categories/weddings-events"
-                className="px-6 py-3 rounded-xl border border-[var(--accent)] text-[var(--accent)] hover:bg-[var(--accent)] hover:text-[var(--text-inverse)] text-xs font-semibold active:scale-[0.97] transition-all inline-flex items-center gap-2"
-              >
-                <span>Explore Curated Verticals</span>
-                <ArrowRight size={14} strokeWidth={2} />
-              </Link>
-              <Link
-                href="/contact"
-                className="px-6 py-3 rounded-xl bg-[var(--bg-surface)] border border-[var(--border)] text-[var(--text-primary)] text-xs font-semibold hover:border-[var(--accent)] active:scale-[0.97] transition-all inline-flex items-center gap-2"
-              >
-                <span>Speak to Concierge</span>
-              </Link>
-            </div>
-
-            {/* Quick Trust Badges */}
-            <div className="flex flex-wrap items-center gap-4 text-xs font-medium text-[var(--text-muted)] pt-4 border-t border-[var(--border)] w-full">
-              <span className="flex items-center gap-1.5">
-                <ShieldCheck size={15} className="text-[var(--accent)]" />
-                100% Vetted Production Partners
-              </span>
-              <span>•</span>
-              <span>Zero Platform Markups</span>
-              <span>•</span>
-              <span>Direct Vendor Proposals</span>
-            </div>
+            {/* Scroll Cue at bottom of left hero column */}
+            <button
+              type="button"
+              onClick={scrollToCategories}
+              className="inline-flex items-center gap-3 text-xs text-[var(--text-muted)] hover:text-[var(--text-primary)] font-medium tracking-wide transition-colors group focus-visible:outline-none"
+              aria-label="Scroll down to explore service verticals"
+            >
+              <div className="w-5 h-8 rounded-full border border-[var(--border)] flex items-start justify-center p-1 group-hover:border-[var(--accent)] transition-colors">
+                <motion.div
+                  animate={{ y: [0, 8, 0] }}
+                  transition={{ duration: 1.8, repeat: Infinity, ease: 'easeInOut' }}
+                  className="w-1 h-1.5 rounded-full bg-[var(--accent)]"
+                />
+              </div>
+              <span>Scroll to explore</span>
+            </button>
           </div>
 
-          {/* Right Column: Shuffling Crossfade Image Panel with Scroll-Linked Mask & Transform */}
-          <div className="lg:col-span-6 w-full flex justify-center">
-            <HeroSlideshow
-              panelScale={panelScale}
-              panelOpacity={panelOpacity}
-              panelTranslateY={panelTranslateY}
+          {/* Right Column: Edge-blended photo panel */}
+          <div className="lg:col-span-6 w-full">
+            <EdgeBlendedHeroImage
+              panelOpacity={heroOpacity}
+              panelTranslateY={heroTranslateY}
               shouldReduceMotion={shouldReduceMotion}
             />
           </div>
         </div>
-      </section>
+      </motion.section>
+
+      {/* Abstract Botanical Divider */}
+      <BotanicalAccent variant="divider" />
 
       {/* =====================================================================
-          2. BENTO GRID CATEGORIES SHOWCASE (TRUE MIXED-SIZE GRID)
+          2. SERVICE & CATEGORY SECTION — PER SKETCH
+          Each Card: Circular avatar/photo, Name, Couple of info lines, Clean CTA
+          Reveals with staggered scroll entrance
           ===================================================================== */}
-      <section id="categories" className="py-20 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto border-t border-[var(--border)]">
-        <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-12">
+      <section id="services" className="py-16 md:py-20 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
+        <div className="flex flex-col md:flex-row md:items-end justify-between gap-4 mb-12">
           <div>
-            <span className="brand-pill mb-3">Service Verticals</span>
-            <h2 className="text-3xl sm:text-4xl font-heading font-semibold text-[var(--text-primary)] tracking-[-0.02em]">
-              Curated for Every <span className="font-signature font-normal text-[var(--accent)]">Ceremony</span>
+            <h2 className="text-3xl sm:text-4xl font-display font-medium text-[var(--text-primary)] tracking-tight">
+              Curated for every <span className="italic font-normal text-[var(--accent)]">ceremony</span>
             </h2>
+            <p className="text-sm text-[var(--text-muted)] mt-2 font-normal">
+              Specialized departments staffed by verified, peer-reviewed professionals.
+            </p>
           </div>
           <Link
             href="/categories/weddings-events"
-            className="text-xs font-semibold text-[var(--accent)] hover:underline inline-flex items-center gap-1.5 self-start md:self-end"
+            className="text-sm font-medium text-[var(--accent)] hover:text-[var(--accent-hover)] transition-colors self-start md:self-end"
           >
-            <span>View All Verticals & Rate Cards</span>
-            <ArrowRight size={14} strokeWidth={2} />
+            All Verticals
           </Link>
         </div>
 
-        {/* Bento Grid: 1 Featured 2x2 Tile, Two 1x2 Tiles, Three 1x1 Tiles */}
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-6 auto-rows-[230px]">
-          {BENTO_CATEGORIES.map((cat, index) => (
+        {/* Staggered Grid of 8 Service Cards */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+          {SERVICE_VERTICALS.map((cat, index) => (
             <motion.div
-              key={cat.code}
+              key={cat.id}
               initial={{ opacity: 0, y: 16 }}
               whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, margin: '-40px' }}
+              viewport={{ once: true, margin: '-30px' }}
               transition={{
                 duration: 0.35,
-                delay: index * 0.06, // 60ms stagger per tile
-                ease: 'easeOut',
+                delay: shouldReduceMotion ? 0 : index * 0.06,
+                ease: [0.4, 0, 0.2, 1],
               }}
-              className={`${cat.gridSpan} relative rounded-2xl overflow-hidden border border-[var(--border)] group cursor-pointer`}
+              className="bg-[var(--bg-surface)] border border-[var(--border)] rounded-2xl p-6 flex flex-col items-center text-center group hover:border-[var(--border-strong)] transition-all duration-200"
             >
-              <Link href={cat.href} prefetch={false} className="block w-full h-full relative">
-                {/* Full-bleed image with hover scale(1.03) strictly on image only */}
-                <div className="absolute inset-0 overflow-hidden">
-                  <Image
-                    src={cat.image}
-                    alt={cat.name}
-                    fill
-                    loading="lazy"
-                    quality={65}
-                    sizes="(max-width: 768px) 100vw, 50vw"
-                    className="object-cover object-center transition-transform duration-500 ease-out group-hover:scale-[1.03]"
-                  />
-                  {/* Bottom 40% Gradient Scrim for crisp text legibility */}
-                  <div className="absolute inset-x-0 bottom-0 h-[45%] bg-gradient-to-t from-black/85 via-black/45 to-transparent transition-opacity duration-300 group-hover:opacity-95" />
-                </div>
+              {/* Circular Avatar / Photo */}
+              <div className="w-24 h-24 sm:w-28 sm:h-28 rounded-full overflow-hidden border border-[var(--border)] mb-4 shrink-0 relative bg-[var(--bg-base)]">
+                <Image
+                  src={cat.image}
+                  alt={cat.name}
+                  fill
+                  sizes="120px"
+                  className="object-cover object-center group-hover:scale-105 transition-transform duration-500 ease-out"
+                />
+              </div>
 
-                {/* Eyebrow Badge */}
-                <div className="absolute top-4 left-4 z-10">
-                  <span className="px-2.5 py-1 rounded-full text-[10px] font-semibold tracking-wider uppercase bg-black/40 backdrop-blur-sm text-white/90 border border-white/20">
-                    {cat.badge}
-                  </span>
-                </div>
+              {/* Name in Display Font */}
+              <h3 className="font-display font-medium text-lg text-[var(--text-primary)] group-hover:text-[var(--accent)] transition-colors mb-1">
+                {cat.name}
+              </h3>
 
-                {/* Scrim Overlay Content: Category Name in Font #2 (General Sans 600) */}
-                <div className="absolute inset-x-0 bottom-0 p-6 z-10 flex flex-col justify-end text-white">
-                  <h3 className="font-heading font-semibold text-lg md:text-xl text-white mb-1 tracking-tight">
-                    {cat.name}
-                  </h3>
-                  {cat.subtitle && (
-                    <p className="text-xs text-white/80 line-clamp-2 max-w-lg mb-3 leading-relaxed">
-                      {cat.subtitle}
-                    </p>
-                  )}
-                  <span className="inline-flex items-center gap-1.5 text-xs font-semibold text-[var(--saathi-nude)] group-hover:translate-x-1 transition-transform">
-                    <span>Explore Verified Specialists</span>
-                    <ArrowRight size={13} strokeWidth={2} />
-                  </span>
-                </div>
+              {/* Info Lines */}
+              <p className="text-xs text-[var(--text-muted)] mb-1 leading-relaxed">
+                {cat.subtitle}
+              </p>
+              <p className="text-[11px] font-medium text-[var(--accent)] mb-5">
+                {cat.stats}
+              </p>
+
+              {/* Clean CTA */}
+              <Link
+                href={cat.href}
+                className="mt-auto px-4 py-2 rounded-full text-xs font-medium border border-[var(--border)] text-[var(--text-primary)] group-hover:border-[var(--accent)] group-hover:text-[var(--accent)] transition-colors active:scale-95"
+              >
+                Explore Category
               </Link>
             </motion.div>
           ))}
         </div>
       </section>
 
+      {/* Abstract Botanical Divider */}
+      <BotanicalAccent variant="divider" />
+
       {/* =====================================================================
-          3. FEATURED VERIFIED PROFESSIONALS (REAL API DATA)
+          3. FEATURED VERIFIED PROFESSIONALS — REAL API DATA
+          Same Design System: Circular avatar, Name, Info lines, Clean CTA
+          Reveals with staggered scroll entrance
           ===================================================================== */}
-      <section className="py-20 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto border-t border-[var(--border)]">
-        <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-12">
+      <section className="py-16 md:py-20 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
+        <div className="flex flex-col md:flex-row md:items-end justify-between gap-4 mb-12">
           <div>
-            <span className="brand-pill mb-3">Vetted Partners</span>
-            <h2 className="text-3xl sm:text-4xl font-heading font-semibold text-[var(--text-primary)] tracking-[-0.02em]">
-              Featured <span className="font-signature font-normal text-[var(--accent)]">Professionals</span>
+            <h2 className="text-3xl sm:text-4xl font-display font-medium text-[var(--text-primary)] tracking-tight">
+              Featured <span className="italic font-normal text-[var(--accent)]">professionals</span>
             </h2>
+            <p className="text-sm text-[var(--text-muted)] mt-2 font-normal">
+              Direct access to vetted master planners, musicians, and cinematographers.
+            </p>
           </div>
           <Link
             href="/categories/weddings-events"
-            className="text-xs font-semibold text-[var(--accent)] hover:underline inline-flex items-center gap-1.5"
+            className="text-sm font-medium text-[var(--accent)] hover:text-[var(--accent-hover)] transition-colors"
           >
-            <span>Browse Complete Directory</span>
-            <ArrowRight size={14} strokeWidth={2} />
+            Directory
           </Link>
         </div>
 
         {loadingPros ? (
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
             {[1, 2, 3, 4].map((i) => (
-              <div key={i} className="h-72 rounded-2xl bg-[var(--bg-surface)] border border-[var(--border)] animate-pulse" />
+              <div
+                key={i}
+                className="h-80 rounded-2xl bg-[var(--bg-surface)] border border-[var(--border)] animate-pulse"
+              />
             ))}
           </div>
         ) : (
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-            {featuredPros.map((pro) => (
-              <Link
+            {featuredPros.map((pro, index) => (
+              <motion.div
                 key={pro.id}
-                href={`/professionals/${pro.id}`}
-                className="card-editorial group flex flex-col justify-between p-5"
+                initial={{ opacity: 0, y: 16 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, margin: '-30px' }}
+                transition={{
+                  duration: 0.35,
+                  delay: shouldReduceMotion ? 0 : index * 0.08,
+                  ease: [0.4, 0, 0.2, 1],
+                }}
+                className="bg-[var(--bg-surface)] border border-[var(--border)] rounded-2xl p-6 flex flex-col items-center text-center group hover:border-[var(--border-strong)] transition-all duration-200"
               >
-                <div>
-                  <div className="flex items-start justify-between gap-2 mb-3">
-                    <span className="text-[11px] font-semibold text-[var(--accent)] uppercase tracking-wider">
-                      {pro.businessType || 'Wedding Specialist'}
-                    </span>
-                    <div className="flex items-center gap-1 text-xs font-semibold text-[var(--text-primary)]">
-                      <Star size={13} className="fill-[var(--accent)] text-[var(--accent)]" />
-                      <span>{pro.rating ? pro.rating.toFixed(1) : '5.0'}</span>
-                      <span className="text-[10px] text-[var(--text-muted)]">({pro.reviewCount || 0})</span>
+                {/* Circular Avatar / Photo */}
+                <div className="w-20 h-20 rounded-full overflow-hidden border border-[var(--border)] mb-4 shrink-0 relative bg-[var(--bg-base)]">
+                  {pro.coverImageUrl ? (
+                    <Image
+                      src={pro.coverImageUrl}
+                      alt={pro.brandName}
+                      fill
+                      sizes="96px"
+                      className="object-cover object-center group-hover:scale-105 transition-transform duration-300"
+                    />
+                  ) : (
+                    <div className="w-full h-full flex items-center justify-center font-display text-lg text-[var(--text-muted)] bg-[var(--accent-soft)]">
+                      {getInitials(pro.brandName)}
                     </div>
-                  </div>
-
-                  <h3 className="font-heading font-semibold text-lg text-[var(--text-primary)] mb-1 group-hover:text-[var(--accent)] transition-colors">
-                    {pro.brandName}
-                  </h3>
-                  <p className="text-xs text-[var(--text-muted)] mb-3 flex items-center gap-1">
-                    <MapPin size={12} strokeWidth={1.75} />
-                    <span>{pro.location}</span>
-                  </p>
-
-                  <p className="text-xs text-[var(--text-muted)] line-clamp-2 leading-relaxed mb-4">
-                    {pro.about}
-                  </p>
+                  )}
                 </div>
 
-                <div className="pt-3 border-t border-[var(--border)] flex items-center justify-between text-xs">
-                  <div>
-                    <span className="text-[10px] text-[var(--text-muted)] block">Starting Rate</span>
-                    <span className="font-semibold text-[var(--text-primary)]">{pro.startingPrice}</span>
+                {/* Name */}
+                <h3 className="font-display font-medium text-lg text-[var(--text-primary)] group-hover:text-[var(--accent)] transition-colors mb-1 line-clamp-1">
+                  {pro.brandName}
+                </h3>
+
+                {/* Info Lines */}
+                <p className="text-xs text-[var(--text-muted)] mb-1 flex items-center gap-1 justify-center">
+                  <span>{pro.businessType || 'Wedding Specialist'}</span>
+                  <span>•</span>
+                  <span>{pro.location}</span>
+                </p>
+
+                <div className="flex items-center gap-2 mb-5 text-xs text-[var(--text-muted)]">
+                  <div className="flex items-center gap-1">
+                    <Star size={12} className="fill-[var(--accent)] text-[var(--accent)]" />
+                    <span className="font-medium text-[var(--text-primary)]">
+                      {pro.rating ? pro.rating.toFixed(1) : '5.0'}
+                    </span>
                   </div>
-                  <span className="text-xs font-semibold text-[var(--accent)] group-hover:translate-x-1 transition-transform inline-flex items-center gap-0.5">
-                    Profile →
-                  </span>
+                  <span>•</span>
+                  <span>From {pro.startingPrice}</span>
                 </div>
-              </Link>
+
+                {/* Clean CTA */}
+                <Link
+                  href={`/professionals/${pro.id}`}
+                  className="mt-auto px-4 py-2 rounded-full text-xs font-medium border border-[var(--border)] text-[var(--text-primary)] group-hover:border-[var(--accent)] group-hover:text-[var(--accent)] transition-colors active:scale-95"
+                >
+                  View Profile
+                </Link>
+              </motion.div>
             ))}
           </div>
         )}
       </section>
 
+      {/* Abstract Botanical Divider */}
+      <BotanicalAccent variant="divider" />
+
       {/* =====================================================================
-          4. HOW IT WORKS (3 NUMBERED STEPS — EDITORIAL TYPOGRAPHY)
+          4. HOW IT WORKS — EDITORIAL 3-STEP PROTOCOL
           ===================================================================== */}
-      <section className="py-20 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto border-t border-[var(--border)]">
-        <div className="text-center max-w-2xl mx-auto mb-16">
-          <span className="brand-pill mb-3">The Protocol</span>
-          <h2 className="text-3xl sm:text-4xl font-heading font-semibold text-[var(--text-primary)] tracking-[-0.02em] mb-4">
-            How Saathi <span className="font-signature font-normal text-[var(--accent)]">Works</span>
+      <section className="py-16 md:py-20 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
+        <div className="max-w-2xl mx-auto text-center mb-14">
+          <h2 className="text-3xl sm:text-4xl font-display font-medium text-[var(--text-primary)] tracking-tight mb-3">
+            How Saathi <span className="italic font-normal text-[var(--accent)]">works</span>
           </h2>
-          <p className="text-sm text-[var(--text-muted)] leading-[1.68]">
+          <p className="text-sm text-[var(--text-muted)] leading-relaxed font-normal">
             Direct connections between milestone hosts and vetted creative masters. Three clear steps with zero platform markups.
           </p>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-          {/* Step 01 */}
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
           <div className="bg-[var(--bg-surface)] border border-[var(--border)] rounded-2xl p-8 flex flex-col justify-between">
             <div>
-              <div className="font-heading font-semibold text-5xl md:text-6xl text-[var(--accent)]/30 mb-6 tracking-tight">
+              <div className="font-display font-light text-5xl text-[var(--accent)] opacity-40 mb-5">
                 01
               </div>
-              <h3 className="font-heading font-semibold text-xl text-[var(--text-primary)] mb-3">
+              <h3 className="font-display font-medium text-xl text-[var(--text-primary)] mb-2">
                 Discover & Filter
               </h3>
-              <p className="text-xs sm:text-sm text-[var(--text-muted)] leading-[1.68]">
-                Explore verified specialist verticals across wedding planning, cinematography, Sufi ensembles, and fine dining with verified portfolios and transparent pricing models.
+              <p className="text-xs sm:text-sm text-[var(--text-muted)] leading-relaxed">
+                Explore verified specialist verticals across wedding planning, cinematography, Sufi ensembles, and fine dining with verified portfolios.
               </p>
             </div>
-            <div className="mt-6 pt-4 border-t border-[var(--border)] text-[11px] font-semibold uppercase tracking-wider text-[var(--text-muted)]">
+            <div className="mt-6 pt-4 border-t border-[var(--border)] text-xs text-[var(--text-muted)]">
               Curated Roster
             </div>
           </div>
 
-          {/* Step 02 */}
           <div className="bg-[var(--bg-surface)] border border-[var(--border)] rounded-2xl p-8 flex flex-col justify-between">
             <div>
-              <div className="font-heading font-semibold text-5xl md:text-6xl text-[var(--accent)]/30 mb-6 tracking-tight">
+              <div className="font-display font-light text-5xl text-[var(--accent)] opacity-40 mb-5">
                 02
               </div>
-              <h3 className="font-heading font-semibold text-xl text-[var(--text-primary)] mb-3">
-                Direct Enquiry & Proposals
+              <h3 className="font-display font-medium text-xl text-[var(--text-primary)] mb-2">
+                Direct Proposals
               </h3>
-              <p className="text-xs sm:text-sm text-[var(--text-muted)] leading-[1.68]">
-                Send your milestone timeline, guest count, and creative vision directly to the professional. Receive tailored proposals without middleman delays or undisclosed markups.
+              <p className="text-xs sm:text-sm text-[var(--text-muted)] leading-relaxed">
+                Send your milestone timeline, guest count, and creative vision directly to the professional. Receive tailored proposals without middleman fees.
               </p>
             </div>
-            <div className="mt-6 pt-4 border-t border-[var(--border)] text-[11px] font-semibold uppercase tracking-wider text-[var(--text-muted)]">
+            <div className="mt-6 pt-4 border-t border-[var(--border)] text-xs text-[var(--text-muted)]">
               Zero Platform Commission
             </div>
           </div>
 
-          {/* Step 03 */}
           <div className="bg-[var(--bg-surface)] border border-[var(--border)] rounded-2xl p-8 flex flex-col justify-between">
             <div>
-              <div className="font-heading font-semibold text-5xl md:text-6xl text-[var(--accent)]/30 mb-6 tracking-tight">
+              <div className="font-display font-light text-5xl text-[var(--accent)] opacity-40 mb-5">
                 03
               </div>
-              <h3 className="font-heading font-semibold text-xl text-[var(--text-primary)] mb-3">
+              <h3 className="font-display font-medium text-xl text-[var(--text-primary)] mb-2">
                 Milestone Execution
               </h3>
-              <p className="text-xs sm:text-sm text-[var(--text-muted)] leading-[1.68]">
-                Collaborate with verified contracts, guaranteed backstage coordination, punctual arrival protocols, and complete peace of mind on your grandest celebration day.
+              <p className="text-xs sm:text-sm text-[var(--text-muted)] leading-relaxed">
+                Collaborate with verified contracts, guaranteed backstage coordination, punctual arrival protocols, and complete peace of mind.
               </p>
             </div>
-            <div className="mt-6 pt-4 border-t border-[var(--border)] text-[11px] font-semibold uppercase tracking-wider text-[var(--text-muted)]">
+            <div className="mt-6 pt-4 border-t border-[var(--border)] text-xs text-[var(--text-muted)]">
               Guaranteed Reliability
             </div>
           </div>
         </div>
       </section>
 
+      {/* Abstract Botanical Divider */}
+      <BotanicalAccent variant="divider" />
+
       {/* =====================================================================
-          5. NEW: REVIEWS SECTION (INITIALS AVATARS, STAR POP, DPDP FORM)
+          5. REVIEWS & TESTIMONIALS
           ===================================================================== */}
-      <section id="reviews" className="py-20 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto border-t border-[var(--border)]">
-        <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-12">
+      <section id="reviews" className="py-16 md:py-20 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
+        <div className="flex flex-col md:flex-row md:items-end justify-between gap-4 mb-12">
           <div>
-            <span className="brand-pill mb-3">Verified Testimonials</span>
-            <h2 className="text-3xl sm:text-4xl font-heading font-semibold text-[var(--text-primary)] tracking-[-0.02em]">
-              Celebrated by <span className="font-signature font-normal text-[var(--accent)]">Couples & Hosts</span>
+            <h2 className="text-3xl sm:text-4xl font-display font-medium text-[var(--text-primary)] tracking-tight">
+              Celebrated by <span className="italic font-normal text-[var(--accent)]">couples & hosts</span>
             </h2>
-            <p className="text-sm text-[var(--text-muted)] mt-2 leading-[1.68]">
-              Genuine reviews from families and milestone hosts across India.
+            <p className="text-sm text-[var(--text-muted)] mt-2 font-normal">
+              Genuine experiences from families and event hosts across India.
             </p>
           </div>
           <button
+            type="button"
             onClick={() => setShowReviewModal(true)}
-            className="px-5 py-2.5 rounded-xl border border-[var(--accent)] text-[var(--accent)] hover:bg-[var(--accent)] hover:text-[var(--text-inverse)] text-xs font-semibold active:scale-[0.97] transition-all inline-flex items-center gap-2 self-start md:self-end"
+            className="px-4 py-2 rounded-full border border-[var(--accent)] text-[var(--accent)] hover:bg-[var(--accent)] hover:text-[var(--btn-primary-text)] text-xs font-medium active:scale-95 transition-all inline-flex items-center gap-1.5 self-start md:self-end"
           >
-            <Plus size={15} />
-            <span>Share Your Experience</span>
+            <Plus size={14} />
+            <span>Share Experience</span>
           </button>
         </div>
 
-        {/* Reviews Layout: Mobile Scroll-Snap Carousel, Desktop 3-Column Grid */}
-        <div className="flex overflow-x-auto snap-x snap-mandatory gap-5 pb-4 md:grid md:grid-cols-3 md:gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
           {reviews.map((rev) => (
             <div
               key={rev.id}
-              className="snap-start flex-shrink-0 w-[85vw] sm:w-[350px] md:w-auto bg-[var(--bg-surface)] border border-[var(--border)] rounded-2xl p-6 shadow-[0_4px_12px_rgba(0,0,0,0.06)] dark:shadow-[0_4px_12px_rgba(0,0,0,0.25)] flex flex-col justify-between"
+              className="bg-[var(--bg-surface)] border border-[var(--border)] rounded-2xl p-6 flex flex-col justify-between shadow-sm"
             >
               <div>
-                {/* Star Rating with Scale-Pop Animation */}
                 <div className="mb-4">
                   <StarRating rating={rev.rating} />
                 </div>
-
-                {/* Review Text */}
-                <p className="text-xs sm:text-sm text-[var(--text-primary)] leading-[1.68] mb-6 font-normal">
+                <p className="text-xs sm:text-sm text-[var(--text-primary)] leading-relaxed mb-6 font-normal">
                   &ldquo;{rev.comment}&rdquo;
                 </p>
               </div>
 
-              {/* Reviewer Footer: Auto-Generated Initials Avatar + Name + Relative Date */}
               <div className="pt-4 border-t border-[var(--border)] flex items-center justify-between gap-3">
                 <div className="flex items-center gap-3">
-                  <div className="w-10 h-10 rounded-full flex items-center justify-center font-heading font-semibold text-xs bg-[var(--accent-soft)] text-[var(--text-primary)] border border-[var(--border)] flex-shrink-0">
+                  <div className="w-9 h-9 rounded-full flex items-center justify-center font-display font-medium text-xs bg-[var(--accent-soft)] text-[var(--text-primary)] border border-[var(--border)] shrink-0">
                     {getInitials(rev.authorName)}
                   </div>
                   <div>
-                    <span className="font-heading font-semibold text-xs text-[var(--text-primary)] block">
+                    <span className="font-display font-medium text-xs text-[var(--text-primary)] block">
                       {rev.authorName}
                     </span>
                     <span className="text-[11px] text-[var(--text-muted)] block">
@@ -787,7 +771,7 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onNavigate }) => {
                 </div>
 
                 <div className="text-right">
-                  <span className="text-[10px] uppercase font-semibold tracking-wider text-[var(--accent)] block">
+                  <span className="text-[11px] text-[var(--accent)] font-medium block">
                     {rev.eventType}
                   </span>
                   <span className="text-[10px] text-[var(--text-muted)]">
@@ -800,22 +784,21 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onNavigate }) => {
         </div>
       </section>
 
-      {/* =====================================================================
-          DPDP-COMPLIANT REVIEW SUBMISSION MODAL
-          ===================================================================== */}
+      {/* Review Submission Modal (DPDP Compliant) */}
       {showReviewModal && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm animate-fade-in">
-          <div className="bg-[var(--bg-surface)] border border-[var(--border)] rounded-3xl p-6 sm:p-8 max-w-lg w-full shadow-2xl relative">
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm">
+          <div className="bg-[var(--bg-surface)] border border-[var(--border)] rounded-2xl p-6 sm:p-8 max-w-lg w-full shadow-lg relative">
             <div className="flex items-center justify-between mb-4">
               <div>
-                <span className="text-[10px] uppercase font-semibold tracking-wider text-[var(--accent)]">
-                  DPDP Compliant Feedback
-                </span>
-                <h3 className="font-heading font-semibold text-xl text-[var(--text-primary)]">
+                <h3 className="font-display font-medium text-xl text-[var(--text-primary)]">
                   Submit a Verified Review
                 </h3>
+                <p className="text-xs text-[var(--text-muted)] mt-0.5">
+                  DPDP Act 2023 Compliant Feedback
+                </p>
               </div>
               <button
+                type="button"
                 onClick={() => setShowReviewModal(false)}
                 className="p-1.5 rounded-full hover:bg-[var(--bg-base)] text-[var(--text-muted)] transition-colors"
                 aria-label="Close review modal"
@@ -826,12 +809,12 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onNavigate }) => {
 
             {submittedReviewSuccess ? (
               <div className="py-8 text-center space-y-3">
-                <CheckCircle2 size={42} className="mx-auto text-[var(--accent)]" />
-                <h4 className="font-heading font-semibold text-lg text-[var(--text-primary)]">
-                  Thank You for Your Feedback
+                <CheckCircle2 size={40} className="mx-auto text-[var(--accent)]" />
+                <h4 className="font-display font-medium text-lg text-[var(--text-primary)]">
+                  Thank You
                 </h4>
                 <p className="text-xs text-[var(--text-muted)]">
-                  Your review has been verified and added to the testimonials.
+                  Your review has been verified and added to our community testimonials.
                 </p>
               </div>
             ) : (
@@ -846,13 +829,13 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onNavigate }) => {
                     value={reviewForm.name}
                     onChange={(e) => setReviewForm({ ...reviewForm, name: e.target.value })}
                     placeholder="e.g. Radhika Sharma"
-                    className="w-full px-3.5 py-2.5 rounded-xl bg-[var(--bg-base)] border border-[var(--border)] text-sm text-[var(--text-primary)] placeholder-[var(--soft-taupe)] focus:outline-none focus:border-[var(--accent)]"
+                    className="w-full px-3.5 py-2.5 rounded-xl bg-[var(--bg-base)] border border-[var(--border)] text-sm text-[var(--text-primary)] placeholder:text-[var(--text-muted)] focus:outline-none focus:border-[var(--accent)]"
                   />
                 </div>
 
                 <div>
                   <label className="block text-xs font-medium text-[var(--text-muted)] mb-1">
-                    Email Address (For Verification Only)
+                    Email Address (Verification Only)
                   </label>
                   <input
                     type="email"
@@ -860,7 +843,7 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onNavigate }) => {
                     value={reviewForm.email}
                     onChange={(e) => setReviewForm({ ...reviewForm, email: e.target.value })}
                     placeholder="e.g. radhika@example.com"
-                    className="w-full px-3.5 py-2.5 rounded-xl bg-[var(--bg-base)] border border-[var(--border)] text-sm text-[var(--text-primary)] placeholder-[var(--soft-taupe)] focus:outline-none focus:border-[var(--accent)]"
+                    className="w-full px-3.5 py-2.5 rounded-xl bg-[var(--bg-base)] border border-[var(--border)] text-sm text-[var(--text-primary)] placeholder:text-[var(--text-muted)] focus:outline-none focus:border-[var(--accent)]"
                   />
                 </div>
 
@@ -881,7 +864,7 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onNavigate }) => {
                           className="p-1 text-[var(--accent)] transition-transform hover:scale-110"
                         >
                           <Star
-                            size={22}
+                            size={20}
                             className={
                               isFilled
                                 ? 'fill-[var(--accent)] text-[var(--accent)]'
@@ -904,14 +887,14 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onNavigate }) => {
                     value={reviewForm.reviewText}
                     onChange={(e) => setReviewForm({ ...reviewForm, reviewText: e.target.value })}
                     placeholder="Share your experience with the wedding planning, music, catering or cinematography..."
-                    className="w-full px-3.5 py-2.5 rounded-xl bg-[var(--bg-base)] border border-[var(--border)] text-sm text-[var(--text-primary)] placeholder-[var(--soft-taupe)] focus:outline-none focus:border-[var(--accent)] resize-none"
+                    className="w-full px-3.5 py-2.5 rounded-xl bg-[var(--bg-base)] border border-[var(--border)] text-sm text-[var(--text-primary)] placeholder:text-[var(--text-muted)] focus:outline-none focus:border-[var(--accent)] resize-none"
                   />
                 </div>
 
                 <div className="p-3 rounded-xl bg-[var(--bg-base)] border border-[var(--border)] flex items-start gap-2 text-[11px] text-[var(--text-muted)] leading-relaxed">
-                  <Lock size={14} className="flex-shrink-0 mt-0.5 text-[var(--accent)]" />
+                  <Lock size={13} className="shrink-0 mt-0.5 text-[var(--accent)]" />
                   <span>
-                    DPDP Act 2023 Compliant: We strictly collect your name and email to verify genuine service reviews. No demographic data or extraneous cookies are stored.
+                    DPDP Act 2023: We strictly collect your name and email to authenticate genuine feedback. No personal data is shared.
                   </span>
                 </div>
 
@@ -919,13 +902,13 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onNavigate }) => {
                   <button
                     type="button"
                     onClick={() => setShowReviewModal(false)}
-                    className="px-4 py-2.5 rounded-xl text-xs font-semibold text-[var(--text-muted)] hover:text-[var(--text-primary)] transition-colors"
+                    className="px-4 py-2 rounded-xl text-xs font-medium text-[var(--text-muted)] hover:text-[var(--text-primary)] transition-colors"
                   >
                     Cancel
                   </button>
                   <button
                     type="submit"
-                    className="px-6 py-2.5 rounded-xl border border-[var(--accent)] text-[var(--accent)] hover:bg-[var(--accent)] hover:text-[var(--text-inverse)] text-xs font-semibold active:scale-[0.97] transition-all"
+                    className="px-5 py-2 rounded-full bg-[var(--accent)] hover:bg-[var(--accent-hover)] text-[var(--btn-primary-text)] text-xs font-medium active:scale-95 transition-all"
                   >
                     Submit Review
                   </button>
@@ -937,39 +920,32 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onNavigate }) => {
       )}
 
       {/* =====================================================================
-          6. EDITORIAL CALL-TO-ACTION PANEL (TOKEN COMPLIANT — NO SIZED SATURATION)
+          6. REFINED EDITORIAL CTA BANNER
           ===================================================================== */}
-      <section className="py-20 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
-        <div className="rounded-3xl bg-[var(--bg-surface)] border border-[var(--border)] p-10 sm:p-16 text-center max-w-4xl mx-auto relative overflow-hidden shadow-sm">
-          <div className="relative z-10">
-            <span className="inline-block px-3 py-1 rounded-full text-[10px] font-semibold uppercase tracking-wider bg-[var(--accent-soft)] text-[var(--text-primary)] mb-4 border border-[var(--border)]">
-              Begin Your Journey
-            </span>
-            <h2 className="text-3xl sm:text-4xl md:text-5xl font-heading font-semibold tracking-[-0.02em] text-[var(--text-primary)] mb-4">
-              Ready to create your <span className="font-signature font-normal text-[var(--accent)]">milestone</span>?
-            </h2>
-            <p className="text-sm sm:text-base text-[var(--text-muted)] max-w-xl mx-auto mb-8 leading-[1.68]">
-              Explore India’s verified master planners, musicians, and culinary directors today.
-            </p>
-            <div className="flex flex-wrap items-center justify-center gap-3">
-              <Link
-                href="/categories/weddings-events"
-                className="px-6 py-3 rounded-xl border border-[var(--accent)] text-[var(--accent)] hover:bg-[var(--accent)] hover:text-[var(--text-inverse)] text-xs font-semibold active:scale-[0.97] transition-all inline-flex items-center gap-2"
-              >
-                <span>Browse All Categories</span>
-                <ArrowRight size={14} strokeWidth={2} />
-              </Link>
-              <Link
-                href="/contact"
-                className="px-6 py-3 rounded-xl bg-[var(--bg-base)] border border-[var(--border)] text-[var(--text-primary)] text-xs font-semibold hover:border-[var(--accent)] active:scale-[0.97] transition-all inline-flex items-center gap-2"
-              >
-                <span>Concierge Consultation</span>
-              </Link>
-            </div>
+      <section className="py-16 md:py-24 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
+        <div className="rounded-3xl bg-[var(--bg-surface)] border border-[var(--border)] p-10 sm:p-16 text-center max-w-3xl mx-auto shadow-sm">
+          <h2 className="text-3xl sm:text-4xl font-display font-medium text-[var(--text-primary)] tracking-tight mb-4">
+            Ready to plan your <span className="italic font-normal text-[var(--accent)]">milestone</span>?
+          </h2>
+          <p className="text-sm sm:text-base text-[var(--text-muted)] max-w-lg mx-auto mb-8 leading-relaxed font-normal">
+            Browse verified Indian event curators, compare rate cards, and connect directly with creative masters.
+          </p>
+          <div className="flex flex-wrap items-center justify-center gap-3">
+            <Link
+              href="/categories/weddings-events"
+              className="px-6 py-2.5 rounded-full bg-[var(--accent)] hover:bg-[var(--accent-hover)] text-[var(--btn-primary-text)] text-sm font-medium active:scale-95 transition-all shadow-sm"
+            >
+              Browse All Categories
+            </Link>
+            <Link
+              href="/contact"
+              className="px-6 py-2.5 rounded-full bg-[var(--bg-base)] border border-[var(--border)] text-[var(--text-primary)] text-sm font-medium hover:border-[var(--accent)] active:scale-95 transition-all"
+            >
+              Concierge Consultation
+            </Link>
           </div>
         </div>
       </section>
     </div>
   );
 };
-

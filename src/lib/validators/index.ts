@@ -87,6 +87,15 @@ export const createReviewSchema = z.object({
   comment: z.string().trim().min(3, 'Review comment must be at least 3 characters').max(1000),
 });
 
+// ============================================================================
+// FEEDBACK & REPORT VALIDATORS
+// ============================================================================
+export const createFeedbackSchema = z.object({
+  email: z.string().trim().email('Valid email address is required'),
+  message: z.string().trim().min(5, 'Feedback message must be at least 5 characters').max(2000),
+  category: z.enum(['general', 'suggestion', 'bug', 'report', 'other']).default('general'),
+});
+
 export type SignupInput = z.infer<typeof signupSchema>;
 export type LoginInput = z.infer<typeof loginSchema>;
 export type CreateEnquiryInput = z.infer<typeof createEnquirySchema>;
@@ -95,3 +104,4 @@ export type QueryProfessionalsInput = z.infer<typeof queryProfessionalsSchema>;
 export type UpdateProfessionalInput = z.infer<typeof updateProfessionalSchema>;
 export type PortfolioItemInput = z.infer<typeof portfolioItemSchema>;
 export type CreateReviewInput = z.infer<typeof createReviewSchema>;
+export type CreateFeedbackInput = z.infer<typeof createFeedbackSchema>;

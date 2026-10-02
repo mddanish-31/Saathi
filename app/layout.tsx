@@ -10,7 +10,7 @@ const fraunces = Fraunces({
   subsets: ['latin'],
   variable: '--font-fraunces',
   display: 'swap',
-  style: ['italic'],
+  style: ['normal', 'italic'],
   fallback: ['serif'],
   preload: false,
 });
@@ -28,12 +28,12 @@ export const metadata: Metadata = {
   description:
     'Saathi is India’s editorial marketplace connecting couples and event hosts with verified wedding planners, entertainers, caterers, and milestone specialists.',
   icons: {
-    icon: "data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='8' fill='%235B3A4A'/><text x='16' y='22' text-anchor='middle' font-family='serif' font-size='18' font-weight='bold' fill='%23FBF6F3'>S∞</text></svg>",
+    icon: "data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='8' fill='%23171412'/><text x='16' y='22' text-anchor='middle' font-family='serif' font-size='18' font-weight='600' fill='%23F7F6F3'>S</text></svg>",
   },
 };
 
 export const viewport: Viewport = {
-  themeColor: '#5B3A4A',
+  themeColor: '#F7F6F3',
   width: 'device-width',
   initialScale: 1,
 };
@@ -46,6 +46,8 @@ export default function RootLayout({
   return (
     <html lang="en" className={`${fraunces.variable} ${generalSans.variable}`}>
       <head>
+        <link rel="preconnect" href="https://images.unsplash.com" />
+        <link rel="dns-prefetch" href="https://images.unsplash.com" />
         <script
           dangerouslySetInnerHTML={{
             __html: `(function(){try{var t=localStorage.getItem('saathi_theme_preference');if(t==='dark'||(!t&&window.matchMedia('(prefers-color-scheme: dark)').matches)){document.documentElement.setAttribute('data-theme','dark');document.documentElement.classList.add('dark');}else{document.documentElement.setAttribute('data-theme','light');document.documentElement.classList.remove('dark');}}catch(e){}})();`,

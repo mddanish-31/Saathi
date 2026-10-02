@@ -128,7 +128,7 @@ export const CookieBanner: React.FC = () => {
           <div className="flex gap-2 pt-2">
             <button
               onClick={handleSavePreferences}
-              className="flex-1 py-1.5 px-3 bg-[var(--accent)] text-[var(--text-inverse)] rounded-lg text-xs font-medium hover:opacity-90 transition-opacity flex items-center justify-center gap-1"
+              className="flex-1 py-1.5 px-3 bg-[var(--accent)] text-[var(--accent-foreground)] rounded-lg text-xs font-medium hover:opacity-90 transition-opacity flex items-center justify-center gap-1"
             >
               <Check size={14} strokeWidth={2} /> Save Preferences
             </button>
@@ -144,7 +144,7 @@ export const CookieBanner: React.FC = () => {
         <div className="flex flex-wrap items-center gap-2 pt-1">
           <button
             onClick={handleAcceptAll}
-            className="flex-1 py-2 px-3 bg-[var(--accent)] text-[var(--text-inverse)] rounded-xl text-xs font-semibold hover:opacity-95 transition-all text-center"
+            className="flex-1 py-2 px-3 bg-[var(--accent)] text-[var(--accent-foreground)] rounded-xl text-xs font-semibold hover:opacity-95 transition-all text-center"
           >
             Accept All
           </button>

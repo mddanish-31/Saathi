@@ -233,6 +233,22 @@ export const notifications = pgTable(
   ]
 );
 
+// 10. Feedback Table
+export const feedback = pgTable(
+  'feedback',
+  {
+    id: uuid('id').defaultRandom().primaryKey(),
+    userId: uuid('user_id').references(() => users.id, { onDelete: 'set null' }),
+    email: text('email').notNull(),
+    message: text('message').notNull(),
+    category: text('category').default('general'),
+    createdAt: timestamp('created_at', { withTimezone: true }).defaultNow().notNull(),
+  },
+  (table) => [
+    index('idx_feedback_created_at').on(table.createdAt),
+  ]
+);
+
 // Drizzle Relations
 export const usersRelations = relations(users, ({ many, one }) => ({
   professional: one(professionals, {

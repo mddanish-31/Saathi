@@ -45,6 +45,10 @@ export const Footer: React.FC<FooterProps> = ({ onNavigate, variant = 'full' }) 
                 Cookie Policy
               </Link>
               <span>•</span>
+              <Link href="/feedback" className="hover:text-[var(--text-primary)] transition-colors">
+                Feedback & Reports
+              </Link>
+              <span>•</span>
               <Link href="/contact" className="hover:text-[var(--text-primary)] transition-colors">
                 Concierge Support
               </Link>
@@ -79,7 +83,7 @@ export const Footer: React.FC<FooterProps> = ({ onNavigate, variant = 'full' }) 
             <div className="pt-2 text-xs text-[var(--text-muted)] space-y-1">
               <div className="flex items-center gap-2">
                 <MapPin size={13} strokeWidth={1.75} className="text-[var(--accent)] flex-shrink-0" />
-                <span>Bandra Kurla Complex (BKC), Mumbai, MH 400051</span>
+                <span>123 Example Street, Placeholder City, 000000</span>
               </div>
               <div className="flex items-center gap-2">
                 <Mail size={13} strokeWidth={1.75} className="text-[var(--accent)] flex-shrink-0" />
@@ -98,22 +102,22 @@ export const Footer: React.FC<FooterProps> = ({ onNavigate, variant = 'full' }) 
             <ul className="space-y-2 text-xs text-[var(--text-muted)]">
               <li>
                 <Link href="/categories/weddings-events/planning" className="hover:text-[var(--accent)] transition-colors">
-                  Wedding Planning & Coordination (A1)
+                  Wedding Planning & Coordination
                 </Link>
               </li>
               <li>
                 <Link href="/categories/weddings-events/photography" className="hover:text-[var(--accent)] transition-colors">
-                  Photography & Videography (A2)
+                  Photography & Videography
                 </Link>
               </li>
               <li>
                 <Link href="/categories/weddings-events/entertainment" className="hover:text-[var(--accent)] transition-colors">
-                  Music & Entertainment (A3)
+                  Music & Live Entertainment
                 </Link>
               </li>
               <li>
                 <Link href="/categories/weddings-events/catering-food-desserts" className="hover:text-[var(--accent)] transition-colors">
-                  Catering, Food & Desserts (A5)
+                  Catering, Food & Desserts
                 </Link>
               </li>
               <li>
@@ -133,6 +137,11 @@ export const Footer: React.FC<FooterProps> = ({ onNavigate, variant = 'full' }) 
               <li>
                 <Link href="/#categories" className="hover:text-[var(--accent)] transition-colors">
                   Explore Verticals
+                </Link>
+              </li>
+              <li>
+                <Link href="/feedback" className="hover:text-[var(--accent)] transition-colors">
+                  Feedback & Reports
                 </Link>
               </li>
               <li>
