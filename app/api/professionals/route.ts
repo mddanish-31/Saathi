@@ -39,94 +39,98 @@ export async function GET(req: NextRequest) {
     const page = parsedQuery.page;
     const offset = (page - 1) * limit;
 
-    const supabase = createClient();
-    let query = supabase
-      .from('professionals')
-      .select('*, portfolio_items(*), reviews(*)', { count: 'exact' });
+    try {
+      const supabase = createClient();
+      let query = supabase
+        .from('professionals')
+        .select('*, portfolio_items(*), reviews(*)', { count: 'exact' });
 
-    if (parsedQuery.category) {
-      query = query.eq('category', parsedQuery.category);
+      if (parsedQuery.category) {
+        query = query.eq('category', parsedQuery.category);
+      }
+      if (parsedQuery.city) {
+        query = query.contains('cities_served', [parsedQuery.city]);
+      }
+      if (parsedQuery.search) {
+        const term = `%${parsedQuery.search}%`;
+        query = query.or(`name.ilike.${term},brand_name.ilike.${term},about.ilike.${term}`);
+      }
+
+      query = query.range(offset, offset + limit - 1).order('rating', { ascending: false });
+
+      const { data, count, error } = await query;
+
+      if (!error && data) {
+        const professionals = data.map((pro) => ({
+          id: pro.id,
+          name: pro.name,
+          brandName: pro.brand_name,
+          tagline: pro.tagline,
+          businessType: pro.business_type,
+          avatarUrl: pro.avatar_url,
+          coverImageUrl: pro.cover_image_url,
+          location: pro.location,
+          citiesServed: pro.cities_served || [],
+          rating: parseFloat(pro.rating) || 0,
+          reviewCount: pro.review_count,
+          experienceYears: pro.experience_years,
+          eventsCompleted: pro.events_completed,
+          startingPrice: pro.starting_price,
+          priceRange: pro.price_range,
+          priceModel: pro.price_model,
+          servicesOffered: pro.services_offered || [],
+          about: pro.about,
+          specialties: pro.specialties || [],
+          availability: pro.availability,
+          verified: pro.verified,
+          portfolio: (pro.portfolio_items || []).map((item: Record<string, unknown>) => ({
+            id: item.id,
+            title: item.title,
+            category: item.category,
+            location: item.location,
+            imageUrl: item.image_url,
+            description: item.description,
+            tags: item.tags || [],
+            type: item.type || 'image',
+          })),
+          reviews: (pro.reviews || []).map((rev: Record<string, unknown>) => ({
+            id: rev.id,
+            authorName: rev.author_name,
+            rating: parseFloat(rev.rating as string) || 0,
+            date: rev.date,
+            eventType: rev.event_type,
+            location: rev.location,
+            comment: rev.comment,
+            verified: rev.verified,
+          })),
+          performanceType: pro.performance_type,
+          genres: pro.genres,
+          eventTypes: pro.event_types,
+          performanceDuration: pro.performance_duration,
+          teamSize: pro.team_size,
+          equipmentProvided: pro.equipment_provided,
+        }));
+
+        const total = count ?? professionals.length;
+        const responseData = {
+          professionals,
+          total,
+          page,
+          limit,
+          totalPages: Math.ceil(total / limit),
+        };
+        professionalsCache.set(cacheKey, { data: responseData, timestamp: Date.now() });
+
+        return jsonResponse(responseData, 200, {
+          'Cache-Control': 'public, s-maxage=60, stale-while-revalidate=300',
+          'X-Cache': 'MISS',
+        });
+      }
+    } catch {
+      // Supabase unconfigured or connection error - continue to canonical fallback
     }
-    if (parsedQuery.city) {
-      query = query.contains('cities_served', [parsedQuery.city]);
-    }
-    if (parsedQuery.search) {
-      const term = `%${parsedQuery.search}%`;
-      query = query.or(`name.ilike.${term},brand_name.ilike.${term},about.ilike.${term}`);
-    }
 
-    query = query.range(offset, offset + limit - 1).order('rating', { ascending: false });
-
-    const { data, count, error } = await query;
-
-    if (!error && data) {
-      const professionals = data.map((pro) => ({
-        id: pro.id,
-        name: pro.name,
-        brandName: pro.brand_name,
-        tagline: pro.tagline,
-        businessType: pro.business_type,
-        avatarUrl: pro.avatar_url,
-        coverImageUrl: pro.cover_image_url,
-        location: pro.location,
-        citiesServed: pro.cities_served || [],
-        rating: parseFloat(pro.rating) || 0,
-        reviewCount: pro.review_count,
-        experienceYears: pro.experience_years,
-        eventsCompleted: pro.events_completed,
-        startingPrice: pro.starting_price,
-        priceRange: pro.price_range,
-        priceModel: pro.price_model,
-        servicesOffered: pro.services_offered || [],
-        about: pro.about,
-        specialties: pro.specialties || [],
-        availability: pro.availability,
-        verified: pro.verified,
-        portfolio: (pro.portfolio_items || []).map((item: Record<string, unknown>) => ({
-          id: item.id,
-          title: item.title,
-          category: item.category,
-          location: item.location,
-          imageUrl: item.image_url,
-          description: item.description,
-          tags: item.tags || [],
-          type: item.type || 'image',
-        })),
-        reviews: (pro.reviews || []).map((rev: Record<string, unknown>) => ({
-          id: rev.id,
-          authorName: rev.author_name,
-          rating: parseFloat(rev.rating as string) || 0,
-          date: rev.date,
-          eventType: rev.event_type,
-          location: rev.location,
-          comment: rev.comment,
-          verified: rev.verified,
-        })),
-        performanceType: pro.performance_type,
-        genres: pro.genres,
-        eventTypes: pro.event_types,
-        performanceDuration: pro.performance_duration,
-        teamSize: pro.team_size,
-        equipmentProvided: pro.equipment_provided,
-      }));
-
-      const total = count ?? professionals.length;
-      const responseData = {
-        professionals,
-        total,
-        page,
-        limit,
-        totalPages: Math.ceil(total / limit),
-      };
-      professionalsCache.set(cacheKey, { data: responseData, timestamp: Date.now() });
-
-      return jsonResponse(responseData, 200, {
-        'Cache-Control': 'public, s-maxage=60, stale-while-revalidate=300',
-        'X-Cache': 'MISS',
-      });
-    }
-
-    // Fallback to in-memory mock data (only on DB error)
+    // Fallback to canonical data (when DB is unseeded/unconfigured)
     let filtered = ALL_PROFESSIONALS;
     if (parsedQuery.category) {
       if (parsedQuery.category === 'music-entertainment') {

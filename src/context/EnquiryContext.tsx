@@ -1,6 +1,6 @@
 "use client";
 
-import React, { createContext, useContext, useState, useEffect, useCallback } from 'react';
+import React, { createContext, useContext, useState, useEffect, useCallback, useMemo } from 'react';
 import { EnquiryData, EnquiryContextType } from '../types';
 import { useAuth } from './AuthContext';
 import { createClient } from '../lib/supabase/client';
@@ -50,7 +50,7 @@ export const EnquiryProvider: React.FC<{ children: React.ReactNode }> = ({ child
   const { user, isAuthenticated } = useAuth();
   const [enquiries, setEnquiries] = useState<EnquiryData[]>(INITIAL_DEMO_ENQUIRIES);
   const [unreadNotificationCount, setUnreadNotificationCount] = useState<number>(0);
-  const supabase = createClient();
+  const supabase = useMemo(() => createClient(), []);
 
   // Fetch enquiries from backend
   const fetchEnquiries = useCallback(async () => {
@@ -70,7 +70,7 @@ export const EnquiryProvider: React.FC<{ children: React.ReactNode }> = ({ child
 
   // Fetch initial notifications
   const fetchNotifications = useCallback(async () => {
-    if (!user) return;
+    if (!user || !supabase) return;
     try {
       const { count, error } = await supabase
         .from('notifications')
@@ -93,7 +93,7 @@ export const EnquiryProvider: React.FC<{ children: React.ReactNode }> = ({ child
 
   // Realtime Subscriptions
   useEffect(() => {
-    if (!user) return;
+    if (!user || !supabase) return;
 
     // 1. Channel for Enquiries
     // Professional gets updates where professional_id = their profile id (or broadcast)

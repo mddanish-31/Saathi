@@ -12,37 +12,41 @@ export async function GET(req: NextRequest) {
     const category = searchParams.get('category');
     const sub = searchParams.get('sub');
 
-    const supabase = createClient();
-    let query = supabase.from('services').select('*');
+    try {
+      const supabase = createClient();
+      let query = supabase.from('services').select('*');
 
-    if (category) {
-      query = query.eq('category_slug', category);
-    }
-    if (sub) {
-      query = query.eq('subcategory_slug', sub);
-    }
+      if (category) {
+        query = query.eq('category_slug', category);
+      }
+      if (sub) {
+        query = query.eq('subcategory_slug', sub);
+      }
 
-    const { data, error } = await query;
+      const { data, error } = await query;
 
-    if (!error && data && data.length > 0) {
-      const services = data.map((srv) => ({
-        id: srv.id,
-        slug: srv.slug,
-        title: srv.title,
-        shortDescription: srv.short_description,
-        fullDescription: srv.full_description,
-        startingPrice: srv.starting_price,
-        priceModel: srv.price_model,
-        categorySlug: srv.category_slug,
-        subcategorySlug: srv.subcategory_slug,
-        features: srv.features,
-        typicalTimeline: srv.typical_timeline,
-        idealFor: srv.ideal_for,
-      }));
+      if (!error && data && data.length > 0) {
+        const services = data.map((srv) => ({
+          id: srv.id,
+          slug: srv.slug,
+          title: srv.title,
+          shortDescription: srv.short_description,
+          fullDescription: srv.full_description,
+          startingPrice: srv.starting_price,
+          priceModel: srv.price_model,
+          categorySlug: srv.category_slug,
+          subcategorySlug: srv.subcategory_slug,
+          features: srv.features,
+          typicalTimeline: srv.typical_timeline,
+          idealFor: srv.ideal_for,
+        }));
 
-      return jsonResponse(services, 200, {
-        'Cache-Control': 'public, s-maxage=60, stale-while-revalidate=300',
-      });
+        return jsonResponse(services, 200, {
+          'Cache-Control': 'public, s-maxage=60, stale-while-revalidate=300',
+        });
+      }
+    } catch {
+      // Supabase unconfigured or connection error - continue to fallback
     }
 
     // Fallback filter

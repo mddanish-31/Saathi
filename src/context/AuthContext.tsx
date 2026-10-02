@@ -1,6 +1,6 @@
 "use client";
 
-import React, { createContext, useContext, useState, useEffect } from 'react';
+import React, { createContext, useContext, useState, useEffect, useMemo } from 'react';
 import { AuthUser, AuthContextType, UserRole } from '../types';
 import { createClient } from '../lib/supabase/client';
 import { User } from '@supabase/supabase-js';
@@ -23,20 +23,33 @@ function mapSupabaseUser(sbUser: User): AuthUser {
 export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [user, setUser] = useState<AuthUser | null>(null);
   const [isLoading, setIsLoading] = useState<boolean>(true);
-  const supabase = createClient();
+  const supabase = useMemo(() => createClient(), []);
 
   useEffect(() => {
+    if (!supabase) {
+      setIsLoading(false);
+      return;
+    }
+
     let mounted = true;
 
     // Check active session on initial load
-    supabase.auth.getSession().then(({ data: { session } }) => {
+    supabase.auth.getSession().then(({ data: { session }, error }) => {
       if (!mounted) return;
+      if (error) {
+        console.error('Supabase session retrieval error:', error.message);
+      }
       if (session?.user) {
         setUser(mapSupabaseUser(session.user));
       } else {
         setUser(null);
       }
       setIsLoading(false);
+    }).catch((err) => {
+      if (mounted) {
+        console.error('Failed to get session:', err);
+        setIsLoading(false);
+      }
     });
 
     // Listen to auth state transitions
@@ -54,7 +67,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
 
     return () => {
       mounted = false;
-      subscription.unsubscribe();
+      subscription?.unsubscribe();
     };
   }, [supabase]);
 
@@ -64,6 +77,10 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     roleOrName?: UserRole | string,
     _name?: string
   ): Promise<{ error?: string } | void> => {
+    if (!supabase) {
+      return { error: 'Authentication service is not configured (missing Supabase credentials).' };
+    }
+
     setIsLoading(true);
     try {
       // Determine if 2nd param is password or role
@@ -108,6 +125,10 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     businessName?: string;
     password?: string;
   }): Promise<{ error?: string } | void> => {
+    if (!supabase) {
+      return { error: 'Authentication service is not configured (missing Supabase credentials).' };
+    }
+
     setIsLoading(true);
     try {
       const password = userData.password || 'Password123!';
@@ -140,9 +161,17 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   };
 
   const logout = async () => {
+    if (!supabase) {
+      setUser(null);
+      return;
+    }
+
     setIsLoading(true);
     try {
-      await supabase.auth.signOut();
+      const { error } = await supabase.auth.signOut();
+      if (error) {
+        console.error('Supabase sign out error:', error.message);
+      }
       setUser(null);
     } catch (err) {
       console.error('Logout error:', err);

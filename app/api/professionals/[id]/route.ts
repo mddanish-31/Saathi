@@ -10,66 +10,71 @@ export async function GET(
 ) {
   try {
     const { id } = params;
-    const supabase = createClient();
 
-    const { data: pro, error } = await supabase
-      .from('professionals')
-      .select('*, portfolio_items(*), reviews(*)')
-      .eq('id', id)
-      .single();
+    try {
+      const supabase = createClient();
 
-    if (!error && pro) {
-      const professional = {
-        id: pro.id,
-        name: pro.name,
-        brandName: pro.brand_name,
-        tagline: pro.tagline,
-        businessType: pro.business_type,
-        avatarUrl: pro.avatar_url,
-        coverImageUrl: pro.cover_image_url,
-        location: pro.location,
-        citiesServed: pro.cities_served || [],
-        rating: parseFloat(pro.rating) || 0,
-        reviewCount: pro.review_count,
-        experienceYears: pro.experience_years,
-        eventsCompleted: pro.events_completed,
-        startingPrice: pro.starting_price,
-        priceRange: pro.price_range,
-        priceModel: pro.price_model,
-        servicesOffered: pro.services_offered || [],
-        about: pro.about,
-        specialties: pro.specialties || [],
-        availability: pro.availability,
-        verified: pro.verified,
-        portfolio: (pro.portfolio_items || []).map((item: Record<string, unknown>) => ({
-          id: item.id,
-          title: item.title,
-          category: item.category,
-          location: item.location,
-          imageUrl: item.image_url,
-          description: item.description,
-          tags: item.tags || [],
-          type: item.type || 'image',
-        })),
-        reviews: (pro.reviews || []).map((rev: Record<string, unknown>) => ({
-          id: rev.id,
-          authorName: rev.author_name,
-          rating: parseFloat(rev.rating as string) || 0,
-          date: rev.date,
-          eventType: rev.event_type,
-          location: rev.location,
-          comment: rev.comment,
-          verified: rev.verified,
-        })),
-        performanceType: pro.performance_type,
-        genres: pro.genres,
-        eventTypes: pro.event_types,
-        performanceDuration: pro.performance_duration,
-        teamSize: pro.team_size,
-        equipmentProvided: pro.equipment_provided,
-      };
+      const { data: pro, error } = await supabase
+        .from('professionals')
+        .select('*, portfolio_items(*), reviews(*)')
+        .eq('id', id)
+        .single();
 
-      return jsonResponse(professional);
+      if (!error && pro) {
+        const professional = {
+          id: pro.id,
+          name: pro.name,
+          brandName: pro.brand_name,
+          tagline: pro.tagline,
+          businessType: pro.business_type,
+          avatarUrl: pro.avatar_url,
+          coverImageUrl: pro.cover_image_url,
+          location: pro.location,
+          citiesServed: pro.cities_served || [],
+          rating: parseFloat(pro.rating) || 0,
+          reviewCount: pro.review_count,
+          experienceYears: pro.experience_years,
+          eventsCompleted: pro.events_completed,
+          startingPrice: pro.starting_price,
+          priceRange: pro.price_range,
+          priceModel: pro.price_model,
+          servicesOffered: pro.services_offered || [],
+          about: pro.about,
+          specialties: pro.specialties || [],
+          availability: pro.availability,
+          verified: pro.verified,
+          portfolio: (pro.portfolio_items || []).map((item: Record<string, unknown>) => ({
+            id: item.id,
+            title: item.title,
+            category: item.category,
+            location: item.location,
+            imageUrl: item.image_url,
+            description: item.description,
+            tags: item.tags || [],
+            type: item.type || 'image',
+          })),
+          reviews: (pro.reviews || []).map((rev: Record<string, unknown>) => ({
+            id: rev.id,
+            authorName: rev.author_name,
+            rating: parseFloat(rev.rating as string) || 0,
+            date: rev.date,
+            eventType: rev.event_type,
+            location: rev.location,
+            comment: rev.comment,
+            verified: rev.verified,
+          })),
+          performanceType: pro.performance_type,
+          genres: pro.genres,
+          eventTypes: pro.event_types,
+          performanceDuration: pro.performance_duration,
+          teamSize: pro.team_size,
+          equipmentProvided: pro.equipment_provided,
+        };
+
+        return jsonResponse(professional);
+      }
+    } catch {
+      // Supabase unconfigured or connection error - continue to fallback
     }
 
     // Fallback to in-memory directory

@@ -7,11 +7,18 @@ import { cookies } from 'next/headers';
  * respecting Supabase Row Level Security (RLS) policies for the authenticated user.
  */
 export function createClient() {
+  const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
+  const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY;
+
+  if (!supabaseUrl || !supabaseAnonKey) {
+    throw new Error('Supabase environment variables (NEXT_PUBLIC_SUPABASE_URL, NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY) are missing.');
+  }
+
   const cookieStore = cookies();
 
   return createServerClient(
-    process.env.NEXT_PUBLIC_SUPABASE_URL!,
-    process.env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY!,
+    supabaseUrl,
+    supabaseAnonKey,
     {
       cookies: {
         getAll() {
@@ -38,11 +45,11 @@ export function createClient() {
  * NEVER expose this or invoke it with untrusted client-supplied permissions.
  */
 export function createAdminClient() {
-  const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL!;
+  const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
   const secretKey = (process.env.SUPABASE_SECRET_KEY || '').trim();
 
-  if (!secretKey) {
-    throw new Error('SUPABASE_SECRET_KEY is missing from environment variables.');
+  if (!supabaseUrl || !secretKey) {
+    throw new Error('SUPABASE_SECRET_KEY or NEXT_PUBLIC_SUPABASE_URL is missing from environment variables.');
   }
 
   return createSupabaseClient(supabaseUrl, secretKey, {
